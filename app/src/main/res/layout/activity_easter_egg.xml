@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  彩蛋页。
+  刻意做成"一片空白"：除了一个表情和一句话，什么都没有。
+  真正的玩法藏在点击里（见 EasterEggActivity）。
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/eggRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground"
+    android:clickable="true"
+    android:focusable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingHorizontal="36dp">
+
+        <!-- 搞怪表情 -->
+        <TextView
+            android:id="@+id/tvEggEmoji"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🙃"
+            android:textSize="88sp" />
+
+        <!-- 那句话 -->
+        <TextView
+            android:id="@+id/tvEggMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:gravity="center"
+            android:lineSpacingExtra="6dp"
+            android:text="@string/egg_message"
+            android:textAppearance="?attr/textAppearanceBodyLarge"
+            android:textColor="?attr/colorOnSurfaceVariant" />
+
+        <!-- 通关后才会淡入的出口 -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnEggLeave"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="@string/egg_back"
+            android:visibility="gone"
+            app:icon="@drawable/ic_arrow_back" />
+
+    </LinearLayout>
+
+</FrameLayout>

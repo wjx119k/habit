@@ -1,0 +1,7 @@
+<resources>
+    <!--
+      这里不需要单独定义深色主题的具体颜色：
+      因为 values/themes.xml 里的父主题是 Theme.Material3.DayNight，
+      系统会在深色模式下自动切换到深色的调色板。
+    -->
+</resources>

@@ -1,0 +1,49 @@
+<resources>
+    <!--
+      主题：Material 3（Material You）
+      "Theme.Material3.DayNight.NoActionBar" 三个词分别是什么意思：
+        · Material3   = 谷歌最新设计规范，会自动取用系统壁纸的颜色（原生系统配色）
+        · DayNight    = 跟随手机深色/浅色模式自动切换
+        · NoActionBar = 不要系统自带的标题栏（界面完全由我们自己画）
+    -->
+    <style name="Theme.Habit" parent="Theme.Material3.DayNight.NoActionBar" />
+
+    <!--
+      冬天彩蛋专用主题：
+        · 纯黑窗口背景（动画开始前那一瞬间不能闪白）
+        · 状态栏/导航栏透明，由代码把它们藏起来
+        · 不加任何转场动画，进场就是黑场
+    -->
+    <style name="Theme.Habit.Winter" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowBackground">@android:color/black</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
+    <!-- ============ 底部抽屉（Bottom Sheet）的样式 ============ -->
+
+    <!--
+      ThemeOverlay.Material3.BottomSheetDialog 是 Material 官方的"底部抽屉"主题，
+      自带"从屏幕下方滑上来"的动画。
+      我们只改两件事：背景色用系统 surface 色、四个角只在上面两个角变圆。
+    -->
+    <style name="Theme.Habit.BottomSheet" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Widget.Habit.BottomSheet</item>
+    </style>
+
+    <style name="Widget.Habit.BottomSheet" parent="Widget.Material3.BottomSheet.Modal">
+        <!-- 使用系统原生表面色，深色/浅色模式自动适配 -->
+        <item name="backgroundTint">?attr/colorSurfaceContainerLow</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Habit.Sheet</item>
+    </style>
+
+    <style name="ShapeAppearance.Habit.Sheet" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">28dp</item>
+        <item name="cornerSizeTopRight">28dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
+</resources>

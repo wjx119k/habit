@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:name=".HabitApp"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:localeConfig="@xml/locales_config"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Habit">
+
+        <!-- 启动页：桌面图标直接指向它（"隐藏图标"功能已移除） -->
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Habit">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- 主界面 -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+
+        <!-- 个人主页（全屏，从右侧滑入） -->
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+
+        <!-- 登录界面（从底部滑入） -->
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- 注册界面（从底部滑入） -->
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- 设置 -->
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AppSettingsActivity"
+            android:exported="false" />
+
+        <!-- 成就页 -->
+        <activity
+            android:name=".AchievementsActivity"
+            android:exported="false" />
+
+        <!-- 关于页 -->
+        <activity
+            android:name=".AboutActivity"
+            android:exported="false" />
+
+        <!-- 开发者详情 -->
+        <activity
+            android:name=".DeveloperDetailActivity"
+            android:exported="false" />
+
+        <!-- 用户协议 / 隐私政策 -->
+        <activity
+            android:name=".LegalActivity"
+            android:exported="false" />
+
+        <!-- 彩蛋 -->
+        <activity
+            android:name=".EasterEggActivity"
+            android:exported="false" />
+
+        <!-- 冬天彩蛋（整屏动画） -->
+        <activity
+            android:name=".WinterActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:exported="false"
+            android:theme="@style/Theme.Habit.Winter" />
+
+        <!-- 让 AppCompat 自动保存用户选择的语言（Android 12 及以下需要） -->
+        <service
+            android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
+            android:enabled="false"
+            android:exported="false">
+            <meta-data
+                android:name="autoStoreLocales"
+                android:value="true" />
+        </service>
+
+    </application>
+
+</manifest>

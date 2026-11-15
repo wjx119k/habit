@@ -1,0 +1,28 @@
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+# ---- 下面这些是后来补的 ----
+# 签名密钥：绝对不能提交到公开仓库
+/habit-release.jks
+*.jks
+*.keystore
+
+# Kotlin 2.x 的会话缓存
+/.kotlin
+
+# 打包产物
+/app/build
+/app/release

@@ -1,0 +1,255 @@
+<resources>
+    <string name="app_name">Habit</string>
+
+    <!-- 启动页 -->
+    <string name="splash_tagline">A good habit builds everything</string>
+
+    <!-- 底部导航 -->
+    <string name="tab_project">计划</string>
+    <string name="tab_me">我的</string>
+
+    <!-- Project 页面 -->
+    <string name="project_empty">你还没有创建你的计划</string>
+    <string name="add_project">新建计划</string>
+    <string name="total_points">%1$d</string>
+
+    <!-- 新建 / 编辑项目：底部抽屉 -->
+    <string name="sheet_title">新建习惯计划</string>
+    <string name="sheet_title_edit">编辑习惯计划</string>
+    <string name="sheet_subtitle">慢慢填，这是你和自己的约定</string>
+    <string name="hint_habit">请输入您要养成的习惯</string>
+    <string name="hint_belief">请输入您的信念</string>
+    <string name="hint_reason">请输入您的契机</string>
+    <string name="hint_reward">一次的加分</string>
+    <string name="hint_penalty">一次的减分</string>
+    <string name="date_label">选择您计划的起始日期</string>
+    <string name="date_not_set">未选择</string>
+    <string name="action_cancel">取消</string>
+    <string name="action_save">保存</string>
+    <string name="action_save_edit">保存修改</string>
+    <string name="action_delete">删除</string>
+    <string name="action_clear">清空</string>
+    <string name="error_habit_empty">习惯名称不能为空</string>
+    <string name="toast_saved">已保存「%1$s」</string>
+    <string name="toast_updated">已保存修改</string>
+    <string name="toast_cleared">已清空「%1$s」的积分</string>
+    <string name="toast_deleted">已删除「%1$s」</string>
+
+    <!-- 两个小问号的解释 -->
+    <string name="help_reward">请输入您该习惯实现一次获得的积分</string>
+    <string name="help_penalty">请输入您违背该习惯扣除的积分</string>
+
+    <!-- 项目卡片 -->
+    <string name="belief_empty">还没有写下信念</string>
+    <string name="points_reward">+%1$d 分</string>
+    <string name="points_penalty">−%1$d 分</string>
+    <string name="card_points">累计 %1$d 分</string>
+    <string name="action_edit">编辑</string>
+    <string name="action_add_point">加分</string>
+    <string name="action_minus_point">减分</string>
+
+    <!-- 确认弹窗 -->
+    <string name="dialog_delete_title">注意</string>
+    <string name="dialog_delete_message">删除计划后该计划积分会清空，确认删除该计划？</string>
+    <string name="dialog_add_title">确认您已经完成</string>
+    <string name="dialog_add_message">这次记录会增加 %1$d 分</string>
+    <string name="dialog_minus_title">确认记录一次未完成</string>
+    <string name="dialog_minus_message">这次记录会扣除 %1$d 分</string>
+    <string name="action_confirm">确认</string>
+
+    <!-- 鼓励 / 安慰 -->
+    <string name="cheer_done">恭喜你，走出了计划的一步</string>
+    <string name="cheer_miss">别气馁，继续努力</string>
+
+    <!-- Me 页面 -->
+    <string name="me_user_name">Habit 用户</string>
+    <string name="me_login_hint">您还没有登录，点击登录</string>
+    <string name="me_achievement">成就</string>
+    <string name="me_history">历史</string>
+    <string name="me_about">关于</string>
+    <string name="me_settings">设置</string>
+    <string name="coming_soon">%1$s 功能开发中</string>
+    <string name="login_coming_soon">登录功能开发中</string>
+
+    <!-- 个人主页（全屏） -->
+    <string name="profile_title">个人主页</string>
+    <string name="profile_back">返回</string>
+    <string name="profile_points_label">我的积分</string>
+    <string name="profile_login_button">登录 / 注册</string>
+    <string name="profile_placeholder">登录后可以同步数据、跨设备使用</string>
+    <!-- Store 栏目（功能后续补充） -->
+    <string name="tab_store">商店</string>
+    <string name="store_placeholder">Store 功能开发中</string>
+    <string name="store_hint">这里以后会放积分商城、兑换和更多玩法</string>
+
+    <!-- 登录界面 -->
+    <string name="login_title">欢迎回来</string>
+    <string name="login_subtitle">登录后可以同步你的习惯与积分</string>
+    <string name="login_username">用户名</string>
+    <string name="login_password">密码</string>
+    <string name="login_action">登录</string>
+    <string name="login_go_register">还没有账户？点击注册</string>
+    <string name="login_no_server">该应用目前未接入服务器，请稍等</string>
+    <string name="login_other_ways">其他登录方式</string>
+    <string name="login_with_google">以 Google 继续</string>
+    <string name="login_with_qq">以 QQ 继续</string>
+    <string name="login_with_wechat">以微信继续</string>
+    <string name="login_with_github">以 GitHub 继续</string>
+    <string name="login_back">返回</string>
+    <string name="login_register_coming">注册功能开发中</string>
+    <string name="login_error_username">请输入用户名</string>
+    <string name="login_error_password">请输入密码</string>
+    <!-- 注册界面 -->
+    <string name="register_title">创建账户</string>
+    <string name="register_subtitle">注册后可以同步你的习惯与积分</string>
+    <string name="register_confirm_password">确认密码</string>
+    <string name="register_action">注册</string>
+    <string name="register_go_login">已有账户？去登录</string>
+    <string name="register_terms">注册即表示同意《用户协议》与《隐私政策》</string>
+    <string name="register_error_confirm">两次输入的密码不一致</string>
+    <string name="register_error_username_short">用户名至少 2 个字符</string>
+    <string name="register_error_password_short">密码至少 6 位</string>
+    <!-- 设置页 -->
+    <string name="settings_title">设置</string>
+    <string name="settings_app">应用</string>
+    <string name="settings_app_desc">语言、外观、隐藏图标</string>
+    <string name="settings_notifications">通知</string>
+    <string name="settings_notifications_desc">提醒时间与推送</string>
+    <string name="settings_privacy">隐私</string>
+    <string name="settings_privacy_desc">数据与权限</string>
+    <string name="settings_about">关于</string>
+    <string name="settings_about_desc">版本信息</string>
+
+    <!-- 应用设置 -->
+    <string name="setting_language">语言</string>
+    <string name="setting_theme">界面</string>
+    <string name="setting_hide_icon">隐藏应用图标</string>
+    <string name="setting_hide_icon_hint">可以在拨号盘中输入 *#*#114514*#*# 恢复</string>
+    <string name="theme_light">浅色（全白）</string>
+    <string name="theme_dark">深色（全黑）</string>
+    <string name="theme_follow_system">跟随系统</string>
+    <string name="theme_dialog_title">界面模式</string>
+    <string name="language_dialog_title">选择语言</string>
+    <string name="hide_icon_title">隐藏应用图标</string>
+    <string name="hide_icon_message">隐藏后桌面图标会消失。\n需要恢复时，在拨号盘输入 *#*#114514*#*#</string>
+    <string name="hide_icon_on">已隐藏，桌面图标已移除</string>
+    <string name="hide_icon_off">已恢复桌面图标</string>
+    <string name="app_version">版本 %1$s</string>
+    <!-- 成就页 -->
+    <string name="achievements_title">成就</string>
+    <string name="achievements_summary">已解锁 %1$d / %2$d</string>
+    <string name="ach_novice_title">小试牛刀</string>
+    <string name="ach_novice_desc">单个计划连续加分 10 次</string>
+    <string name="ach_expert_title">自律专家</string>
+    <string name="ach_expert_desc">单个计划连续加分 100 次</string>
+    <string name="ach_master_title">自律大师</string>
+    <string name="ach_master_desc">单个计划连续加分 1000 次</string>
+    <string name="ach_progress">最佳连续 %1$d / %2$d</string>
+    <string name="ach_done">已达成</string>
+    <string name="ach_unlocked_toast">解锁成就：%1$s</string>
+    <string name="ach_rule_hint">中途减分会重新计数</string>
+    <!-- 隐藏图标的急救通知 -->
+    <string name="notif_channel_hidden">图标隐藏保护</string>
+    <string name="notif_hidden_title">应用图标已隐藏</string>
+    <string name="notif_hidden_text">点「恢复图标」可以把桌面图标找回来</string>
+    <string name="notif_action_restore">恢复图标</string>
+    <string name="hide_icon_no_notif_title">无法显示恢复通知</string>
+    <string name="hide_icon_no_notif_message">你没有允许通知，隐藏图标后将无法从通知栏恢复。确定继续吗？</string>
+    <string name="hide_icon_still_hide">仍然隐藏</string>
+    <string name="ach_grandmaster_title">自律大神</string>
+    <string name="ach_grandmaster_desc">所有计划累计连续加分 5000 次</string>
+    <string name="ach_progress_total">累计 %1$d / %2$d</string>
+    <string name="ach_clear">清空成就</string>
+    <string name="ach_clear_confirm">确定清空成就？所有计划的连续记录也会一并重置。</string>
+    <string name="ach_cleared">成就已清空</string>
+    <!-- 关于页 -->
+    <string name="about_title">关于</string>
+    <string name="about_version">版本</string>
+    <string name="about_developer">开发者</string>
+    <string name="about_developer_name">Wan</string>
+    <string name="about_slogan">一个好习惯，成就一切</string>
+    <string name="about_description">Habit 是一款帮助你养成好习惯的小工具。\n\n创建你的习惯计划，写下信念与契机；每次完成就加分，每次违背就减分。用最直观的方式，看见自己的坚持。</string>
+    <string name="about_licenses">开源许可</string>
+    <string name="about_terms">用户协议</string>
+    <string name="about_privacy">隐私政策</string>
+    <string name="about_licenses_text">《Habit 开源许可》\n更新日期：2026 年 11 月 15 日\n\n本应用基于以下开源项目构建，感谢它们的作者。\n\n一、AndroidX\n许可：Apache License 2.0\n用途：应用基础组件，如界面兼容库、核心工具、列表控件等。\n主页：https://developer.android.com/jetpack/androidx\n\n二、Material Components for Android\n许可：Apache License 2.0\n用途：Material Design 界面组件，如按钮、输入框、底部抽屉、标签等。\n主页：https://github.com/material-components/material-components-android\n\n三、Kotlin 标准库\n许可：Apache License 2.0\n用途：Kotlin 语言的运行时支持。\n主页：https://kotlinlang.org\n\n四、构建期依赖\nAndroid Gradle Plugin、Gradle 与 Kotlin 编译器仅在构建阶段使用，不会随应用分发给用户。\n\n五、关于 Apache License 2.0\n上述组件均采用 Apache License 2.0 授权。你可以在 https://www.apache.org/licenses/LICENSE-2.0 查看完整条款。该许可允许自由使用、修改与分发，但需保留原始的版权声明与许可声明。\n\n六、本应用自身\nHabit 的界面设计、图标与业务代码由开发者 Wan 编写，未经许可不得用于商业用途。\n\n七、字体与素材\n应用内使用的系统手写体来自操作系统自带字体，未内嵌任何第三方商用字体。</string>
+    <string name="about_terms_text">用户协议内容仍在编写中。\n\n目前本应用不需要注册即可使用全部功能，也不收集任何个人信息。</string>
+    <string name="about_privacy_text">隐私政策：\n\n本应用目前不联网、不收集任何个人信息。\n你的习惯、积分与打卡记录全部保存在手机本地，卸载应用即会删除。</string>
+    <string name="about_copyright">© 2026 Wan · Habit</string>
+    <string name="about_follow">关注与联系</string>
+    <string name="about_bilibili">哔哩哔哩</string>
+    <string name="about_youtube">YouTube</string>
+    <string name="about_email">邮箱</string>
+    <string name="about_bilibili_desc">开发者主页</string>
+    <string name="about_youtube_desc">视频频道</string>
+    <string name="about_email_desc">商务合作</string>
+    <string name="about_cannot_open">没有找到可以打开它的应用</string>
+    <string name="about_developers">开发者</string>
+    <string name="role_founder">创始人 · 开发者</string>
+    <string name="role_ai_assistant">AI 开发助手</string>
+    <string name="about_website">官网</string>
+    <string name="about_contact">联系方式</string>
+    <string name="dev_bio_wan">独立开发者，喜欢折腾各种小工具。\n\nHabit 是我从零开始学 Android 的第一个完整项目——从搭环境、写第一行 Kotlin，到把它装进手机里跑起来。希望这个小工具能真的帮到你。</string>
+    <string name="dev_bio_deepseek">由 DeepSeek 驱动的 AI 编程助手。\n\n在本项目里负责从环境搭建、代码编写到每次构建与真机验证的全部工程工作，和 Wan 一起把想法变成了能跑起来的 App。</string>
+    <string name="dev_detail">开发者详情</string>
+    <string name="dev_joined">%1$d 年 %2$d 月加入</string>
+    <string name="dev_focus">参与模块</string>
+    <string name="focus_product">产品设计</string>
+    <string name="focus_ui">界面设计</string>
+    <string name="focus_founder">项目发起</string>
+    <string name="focus_env">环境搭建</string>
+    <string name="focus_code">代码编写</string>
+    <string name="focus_build">构建与验证</string>
+    <string name="action_copy_email">复制邮箱</string>
+    <string name="toast_email_copied">邮箱已复制</string>
+    <string name="terms_body">《Habit 用户协议》\n更新日期：2026 年 11 月 15 日\n\n一、协议的接受\n欢迎使用 Habit（以下简称"本应用"）。本应用由个人开发者 Wan 开发并维护。你下载、安装或使用本应用，即表示你已阅读并同意本协议的全部内容。如果你不同意本协议的任何内容，请停止使用本应用。\n\n二、服务内容\n2.1 本应用是一款帮助你记录和养成习惯的本地工具，功能包括：创建习惯计划、记录完成与违背、累计积分、解锁成就等。\n2.2 当前版本不需要注册即可使用全部功能，也不提供账号体系与云端同步。\n\n三、数据与存储\n3.1 你的习惯、积分、成就等数据全部保存在你自己的手机本地。\n3.2 本应用不会将上述数据上传到任何服务器，也不会收集你的个人信息。\n3.3 卸载本应用、清除应用数据或更换设备，相关数据将被删除且无法恢复，请自行留意。\n\n四、积分与成就\n4.1 积分与成就是本应用内的虚拟记录，仅用于自我激励。\n4.2 积分不具有任何货币价值，不能兑换现金、实物或任何形式的权益。\n4.3 你可以随时在应用内清空成就或删除自己创建的计划。\n\n五、使用规范\n5.1 你应当合法、合理地使用本应用。\n5.2 不得对本应用进行反向工程、破解、修改或用于任何违法用途。\n5.3 不得利用本应用从事侵犯他人合法权益的行为。\n\n六、知识产权\n6.1 本应用的界面设计、图标与源代码归开发者所有。\n6.2 本应用使用的开源组件遵循其各自的开源许可协议，详见"关于 - 开源许可"。\n\n七、免责声明\n7.1 本应用按"现状"提供，开发者不对其完全无错误作出保证。\n7.2 因设备故障、系统更新、误操作或卸载导致的数据丢失，开发者不承担责任。\n7.3 本应用不能替代任何专业建议（包括医疗、心理、财务等）。\n\n八、协议的变更\n开发者可能不定期更新本协议。更新后的协议会在应用内展示，你继续使用即视为接受新版本。\n\n九、联系我们\n如对本协议有任何疑问，可通过 wan.business@qq.com 与开发者联系。邮箱如有变更，以"关于"页面公示为准。\n\n十、其他\n本协议未尽事宜，双方应本着诚实信用原则协商解决。</string>
+    <string name="privacy_body">《Habit 隐私政策》\n更新日期：2026 年 11 月 15 日\n\n一、我们收集什么\n本应用目前不收集任何个人信息。使用全部功能无需注册，也不需要提供手机号或邮箱。\n\n二、你的数据存在哪里\n习惯、积分、成就等数据全部保存在你的手机本地（应用私有目录），不会上传到任何服务器。\n\n三、网络与第三方组件\n3.1 本应用不包含任何统计、广告或崩溃上报 SDK。\n3.2 唯一的外部访问是"关于"页面里的开发者联系方式，只有你主动点击时，才会打开浏览器或邮件应用。\n\n四、权限说明\n本应用目前不申请任何敏感权限。\n\n五、数据删除\n卸载应用，或在系统设置中清除本应用的数据，全部记录将被永久删除，开发者无法恢复。\n\n六、儿童隐私\n本应用不面向儿童收集任何信息。\n\n七、政策变更\n若未来接入服务器或登录功能，本政策会同步更新，并在应用内展示。\n\n八、联系方式\n如对隐私问题有疑问，可发送邮件至 wan.business@qq.com。</string>
+    <!-- 积分商城 -->
+    <string name="store_title">积分商城</string>
+    <string name="store_available">可用积分</string>
+    <string name="store_summary">累计获得 %1$d · 已兑换 %2$d</string>
+    <string name="store_rewards">兑换奖励</string>
+    <string name="store_recent">最近兑换</string>
+    <string name="store_no_record">还没有兑换记录</string>
+    <string name="store_cost">%1$d 分</string>
+    <string name="store_redeem">兑换</string>
+    <string name="store_not_enough">积分不足</string>
+    <string name="store_confirm_title">确认兑换</string>
+    <string name="store_confirm_message">用 %1$d 积分兑换「%2$s」？</string>
+    <string name="store_toast_done">已兑换「%1$s」</string>
+    <string name="store_item_rest">休息一下</string>
+    <string name="store_item_rest_desc">今天可以少做一个计划</string>
+    <string name="store_item_dessert">一份甜点</string>
+    <string name="store_item_dessert_desc">允许自己吃一次甜品</string>
+    <string name="store_item_drama">看一集剧</string>
+    <string name="store_item_drama_desc">追一集喜欢的剧</string>
+    <string name="store_item_sleepin">一天的懒觉</string>
+    <string name="store_item_sleepin_desc">周末睡到自然醒</string>
+    <string name="store_item_wish">一件小愿望</string>
+    <string name="store_item_wish_desc">攒够就去做一件一直想做的事</string>
+    <string name="store_add">添加奖励</string>
+    <string name="store_edit_title">编辑奖励</string>
+    <string name="store_add_title">新建奖励</string>
+    <string name="store_add_subtitle">设置你想兑换什么，以及需要多少积分</string>
+    <string name="store_hint_name">奖励名称，例如：看一集剧</string>
+    <string name="store_hint_desc">描述（可选）</string>
+    <string name="store_hint_cost">需要多少积分</string>
+    <string name="store_empty">还没有奖励\n点右上角 + 添加一个</string>
+    <string name="store_error_name">请输入奖励名称</string>
+    <string name="store_error_cost">积分必须大于 0</string>
+    <string name="store_delete_confirm">确定删除这个奖励？已兑换的记录会保留。</string>
+    <string name="store_saved">已保存</string>
+    <string name="store_deleted">已删除</string>
+    <string name="clear_points">清空积分</string>
+    <string name="clear_points_confirm">确定清空全部积分？\n\n所有计划的积分都会归零，兑换记录也会一并清空。\n此操作不可撤销。</string>
+    <string name="clear_points_done">积分已清空</string>
+    <string name="me_easter_egg">彩蛋</string>
+    <string name="egg_message">你瞅啥呢，这里没有你想要的东西</string>
+    <string name="egg_message_found">行吧，你赢了。\n……真的没有更多了。</string>
+    <string name="egg_back">走了走了</string>
+    <string name="egg_changed">某些地方似乎发生了变化</string>
+    <string name="winter_line_1">冬天到了</string>
+    <string name="winter_line_2">雪花飘扬</string>
+    <string name="winter_line_3">我的所爱</string>
+    <string name="winter_line_4">你在哪里</string>
+</resources>

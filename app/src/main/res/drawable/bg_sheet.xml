@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  底部抽屉自己的背景：不透明的系统表面色 + 上方两个圆角。
+  为什么要单独给内容加背景？
+  因为 Material 的 BottomSheet 容器背景在部分版本上会被渲染成透明的，
+  自己兜一层，保证不管什么机型都是"实心"的面板。
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="?attr/colorSurfaceContainerHigh" />
+    <corners
+        android:topLeftRadius="28dp"
+        android:topRightRadius="28dp" />
+</shape>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  主界面骨架：上面是内容区，下面是底部导航栏。
+  LinearLayout(vertical) = 竖着排列：先内容区，再导航栏。
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--
+      内容区：layout_weight="1" + height="0dp" 是安卓里"占满剩余空间"的标准写法。
+      里面叠了两页，同一时刻只显示其中一个（另一页用代码设成 GONE）。
+    -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <include
+            android:id="@+id/pageProject"
+            layout="@layout/page_project" />
+
+        <include
+            android:id="@+id/pageStore"
+            layout="@layout/page_store" />
+
+        <include
+            android:id="@+id/pageMe"
+            layout="@layout/page_me" />
+
+    </FrameLayout>
+
+    <!-- 底部导航栏：谷歌 Material 组件库提供的标准控件 -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:menu="@menu/bottom_nav" />
+
+</LinearLayout>

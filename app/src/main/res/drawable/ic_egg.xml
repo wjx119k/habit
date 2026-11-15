@@ -1,0 +1,14 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- 一枚蛋：上窄下圆 -->
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M12,2C8.13,2 5.2,6.36 5.2,11.4C5.2,16.3 8.24,20 12,20s6.8,-3.7 6.8,-8.6C18.8,6.36 15.87,2 12,2zM12,4c2.54,0 4.8,3.24 4.8,7.4c0,3.9 -2.29,6.6 -4.8,6.6s-4.8,-2.7 -4.8,-6.6C7.2,7.24 9.46,4 12,4z" />
+    <!-- 蛋上的裂纹 -->
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M9.6,9.4l2.1,2.1l-1.5,1.5l2.4,2.4l1.8,-1.8l-1.2,-1.2l1.2,-1.2l-2.6,-2.6z" />
+</vector>

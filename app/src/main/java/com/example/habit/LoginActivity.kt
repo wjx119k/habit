@@ -1,0 +1,93 @@
+package com.example.habit
+
+import android.os.Bundle
+import android.view.View
+import android.view.WindowManager
+import android.widget.ImageButton
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
+
+/**
+ * 登录界面。
+ *
+ * 现在还没有服务器，所以：
+ *   · 登录 / 注册 / 四个社交登录 都只弹一句"该应用目前未接入服务器，请稍等"
+ *   · 等以后接了后端，只需要把 showNoServer() 换成真正的网络请求即可
+ */
+class LoginActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_login)
+
+        val root = findViewById<View>(R.id.loginRoot)
+        ViewCompat.setOnApplyWindowInsetsListener(root) { view, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(bars.left, bars.top, bars.right, bars.bottom)
+            insets
+        }
+        // 键盘弹出时不要遮住输入框
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+
+        val layoutUsername = findViewById<TextInputLayout>(R.id.layoutUsername)
+        val layoutPassword = findViewById<TextInputLayout>(R.id.layoutPassword)
+        val editUsername = findViewById<TextInputEditText>(R.id.editUsername)
+        val editPassword = findViewById<TextInputEditText>(R.id.editPassword)
+
+        findViewById<ImageButton>(R.id.btnLoginBack).setOnClickListener {
+            finish()
+            @Suppress("DEPRECATION")
+            overridePendingTransition(android.R.anim.fade_in, R.anim.slide_out_down)
+        }
+
+        // 登录
+        findViewById<MaterialButton>(R.id.btnLoginSubmit).setOnClickListener {
+            val name = editUsername.text?.toString()?.trim().orEmpty()
+            val pwd = editPassword.text?.toString()?.trim().orEmpty()
+
+            if (name.isEmpty()) {
+                layoutUsername.error = getString(R.string.login_error_username)
+                editUsername.requestFocus()
+                return@setOnClickListener
+            }
+            layoutUsername.error = null
+
+            if (pwd.isEmpty()) {
+                layoutPassword.error = getString(R.string.login_error_password)
+                editPassword.requestFocus()
+                return@setOnClickListener
+            }
+            layoutPassword.error = null
+
+            showNoServer()
+        }
+
+        // 注册
+        findViewById<TextView>(R.id.tvGoRegister).setOnClickListener {
+            startActivity(android.content.Intent(this, RegisterActivity::class.java))
+            @Suppress("DEPRECATION")
+            overridePendingTransition(R.anim.slide_in_up, android.R.anim.fade_out)
+        }
+
+        // 四个社交登录入口
+        val providers = listOf(R.id.btnGoogle, R.id.btnQQ, R.id.btnWechat, R.id.btnGithub)
+        providers.forEach { id ->
+            findViewById<View>(id).setOnClickListener { showNoServer() }
+        }
+    }
+
+    /** 统一的"还没有服务器"提示 */
+    private fun showNoServer() {
+        MaterialAlertDialogBuilder(this)
+            .setMessage(R.string.login_no_server)
+            .setPositiveButton(android.R.string.ok, null)
+            .show()
+    }
+}
