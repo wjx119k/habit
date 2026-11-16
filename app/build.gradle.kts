@@ -30,6 +30,12 @@ android {
     }
 
     buildTypes {
+        debug {
+            // 调试包也用发布密钥签名。
+            // 好处：debug 包能直接覆盖安装正式版，手机上已有的数据不会丢。
+            // 代价：debug 包和正式包签名相同，不能装在同一台机器上共存。
+            signingConfig = signingConfigs.getByName("release")
+        }
         release {
             signingConfig = signingConfigs.getByName("release")
             // 之前开了包级优化（optimization.enable = true），
