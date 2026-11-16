@@ -113,10 +113,12 @@ class MainActivity : AppCompatActivity() {
         setupMePage()
         refreshAccountUi()
 
-        // 右上角小头像：切到 Me 栏目
+        // 右上角小头像：直接进「个人主页」
         findViewById<View>(R.id.btnAvatarTop).setOnClickListener { view ->
             view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
-            bottomNav.selectedItemId = R.id.nav_me
+            startActivity(Intent(this, ProfileActivity::class.java))
+            @Suppress("DEPRECATION")
+            overridePendingTransition(R.anim.slide_in_right, android.R.anim.fade_out)
         }
 
         bottomNav.setOnItemSelectedListener { item ->

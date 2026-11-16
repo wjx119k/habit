@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
         <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".HabitApp"
@@ -17,6 +19,16 @@
         android:theme="@style/Theme.Habit">
 
         <!-- 启动页：桌面图标直接指向它（"隐藏图标"功能已移除） -->
+        <activity
+            android:name=".NotificationsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Habit" />
+
+        <activity
+            android:name=".PrivacyActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Habit" />
+
         <activity
             android:name=".SplashActivity"
             android:exported="true"
@@ -119,6 +131,18 @@
                 android:name="autoStoreLocales"
                 android:value="true" />
         </service>
+
+        <receiver
+            android:name=".ReminderReceiver"
+            android:exported="false" />
+
+        <receiver
+            android:name=".ReminderBootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
     </application>
 

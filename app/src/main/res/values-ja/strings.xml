@@ -283,4 +283,38 @@
     <string name="profile_deleted">削除しました：クラウドと端末のデータを消去しました</string>
     <string name="profile_delete_offline">端末データは消去しました。クラウドは未削除（通信エラー）。オンラインで再試行してください。</string>
     <string name="ach_popup_label">実績解除</string>
+    <string name="profile_avatar">ユーザーアイコン</string>
+    <string name="privacy_summary_title">ひとことで言うと</string>
+    <string name="privacy_summary_body">Habit はデータを売らず、広告も出さず、プロファイリングもしません。ログインしなければ、すべてのデータはこの端末内だけに保存されます。ログインすると、あなた自身のクラウド領域に安全に転送されます。</string>
+    <string name="privacy_local_title">1. 端末内に保存されるもの</string>
+    <string name="privacy_local_body">習慣プラン、ポイント履歴、ストアのご褒美、実績、言語とテーマ。アプリ専用領域に保存され、他のアプリからは読めません。アンインストールで削除されます。</string>
+    <string name="privacy_cloud_title">2. クラウドに送られるもの</string>
+    <string name="privacy_cloud_body">ログインしたときだけ、上記のデータをまとめてあなたの Supabase 領域へ同期します。行レベルセキュリティ（RLS）により、公開キーを持っていても他人はあなたの記録を読めません。</string>
+    <string name="privacy_not_collected_title">3. 取得しないもの</string>
+    <string name="privacy_not_collected_body">連絡先・写真・位置情報・SMS・通話履歴は読みません。端末識別子・IMEI・MAC アドレスも取得しません。解析・クラッシュ報告・広告 SDK はありません。外部サービスは同期用の Supabase のみです。</string>
+    <string name="privacy_permission_title">4. 使用する権限</string>
+    <string name="privacy_permission_body">INTERNET のみ。ログイン・登録・同期のときだけ使います。オフラインでも記録や履歴はすべて動作します。</string>
+    <string name="privacy_rights_title">5. できること</string>
+    <string name="privacy_rights_body">・バックアップ書き出し：設定 → データとバックアップ
+・アカウント削除：プロフィール → ログアウト → アカウント削除（クラウドと端末の両方）
+・アカウントなしでも全機能を利用可能</string>
+    <string name="privacy_contact">ご質問・完全削除のご依頼：wan.business@qq.com</string>
+    <string name="reminder_title">毎日のリマインダー</string>
+    <string name="reminder_subtitle">記録のタイミングでお知らせ</string>
+    <string name="reminder_time_label">通知する時刻</string>
+    <string name="reminder_test">テスト通知を送る</string>
+    <string name="reminder_test_sent">送信しました。通知バーをご確認ください</string>
+    <string name="reminder_enabled">オン：毎日お知らせします</string>
+    <string name="reminder_enable_first">先に「毎日のリマインダー」をオンにしてください</string>
+    <string name="reminder_permission_denied">通知権限がないためリマインダーを届けられません</string>
+    <string name="reminder_note">リマインダーは端末内だけで動作します：通信・送信・追跡はありません。オフにすれば完全に停止します。省電力設定により数分ずれることがあります。</string>
+    <string name="reminder_channel_name">毎日のリマインダー</string>
+    <string name="reminder_channel_desc">今日の習慣を記録するお知らせ</string>
+    <string name="reminder_notification_title">あと1件です</string>
+    <string name="reminder_notification_body">10秒で今日の習慣を記録しましょう</string>
+    <string name="terms_dialog_title">利用規約とプライバシー</string>
+    <string name="terms_dialog_message">Habit をご利用になる前に、以下をご確認ください：\n\n· ログインしない場合、プラン・ポイント・履歴はこの端末内だけに保存されます\n· ログインすると、それらはご自身のクラウド領域（Supabase）に同期されます\n· 連絡先・写真・位置情報は読み取りません。広告も解析もありません\n· データの書き出し、プロフィールからのアカウント削除がいつでも可能です\n\n「同意して続行」を押すと、利用規約とプライバシーポリシーに同意したものとみなします。</string>
+    <string name="terms_dialog_agree">同意して続行</string>
+    <string name="terms_dialog_disagree">同意しない</string>
+    <string name="terms_dialog_detail">詳細を見る</string>
 </resources>

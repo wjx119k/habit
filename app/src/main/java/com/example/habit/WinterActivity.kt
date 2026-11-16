@@ -56,10 +56,24 @@ class WinterActivity : AppCompatActivity() {
             view.onFinished = { finish() }
             view.start()
             scene = view
+
+            // 画面一起，钢琴声就进来（生成失败也不会影响画面）
+            PianoMusic.start()
         } catch (e: Throwable) {
             // 万一出错，把原因直接写在屏幕上（这种页面没有日志可看）
             showError(e)
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        // 退到后台就停，别让用户切走后还有音乐
+        PianoMusic.stop()
+    }
+
+    override fun onDestroy() {
+        PianoMusic.stop()
+        super.onDestroy()
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {

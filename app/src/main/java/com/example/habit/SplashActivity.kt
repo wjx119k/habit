@@ -8,6 +8,7 @@ import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 /**
  * 启动页（Splash）。
@@ -31,8 +32,10 @@ class SplashActivity : AppCompatActivity() {
 
         playIntroAnimation()
 
-        // 2000 毫秒 = 2 秒后跳转到主界面
-        handler.postDelayed({ goToMain() }, 2000L)
+        // 2000 毫秒 = 2 秒后：首次启动先问协议，否则直接进主界面
+        handler.postDelayed({
+            if (SettingsStore.hasAgreedTerms(this)) goToMain() else showTermsDialog()
+        }, 2000L)
     }
 
     /**
@@ -76,6 +79,40 @@ class SplashActivity : AppCompatActivity() {
             .setStartDelay(300)
             .setInterpolator(DecelerateInterpolator())
             .start()
+    }
+
+    /**
+     * 首次启动的用户协议弹窗。
+     *
+     * 规则：
+     *   · 只能点「同意」或「不同意」，点外面和返回键都关不掉（这是合规要求）
+     *   · 同意后写进 Preferences，以后不再打扰
+     *   · 不同意就直接退出应用
+     */
+    private fun showTermsDialog() {
+        val dialog = MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.terms_dialog_title)
+            .setMessage(R.string.terms_dialog_message)
+            .setCancelable(false)
+            .setPositiveButton(R.string.terms_dialog_agree) { _, _ ->
+                SettingsStore.setAgreedTerms(this)
+                goToMain()
+            }
+            .setNegativeButton(R.string.terms_dialog_disagree) { _, _ ->
+                finishAffinity()
+            }
+            .setNeutralButton(R.string.terms_dialog_detail) { _, _ ->
+                startActivity(Intent(this, LegalActivity::class.java))
+            }
+            .create()
+
+        dialog.setOnShowListener {
+            // 三个按钮都改成立即关闭的行为：点"详情"后弹窗会被关掉，所以重新打开
+            dialog.getButton(android.app.AlertDialog.BUTTON_NEUTRAL).setOnClickListener {
+                startActivity(Intent(this, LegalActivity::class.java))
+            }
+        }
+        dialog.show()
     }
 
     private fun goToMain() {

@@ -287,4 +287,38 @@
     <string name="profile_deleted">Deleted: cloud and local data cleared</string>
     <string name="profile_delete_offline">Local data cleared; cloud data was not deleted (network). Try again online.</string>
     <string name="ach_popup_label">Achievement unlocked</string>
+    <string name="profile_avatar">User avatar</string>
+    <string name="privacy_summary_title">In one sentence</string>
+    <string name="privacy_summary_body">Habit does not sell data, show ads, or profile you. Without signing in, everything stays on this phone. After signing in, your data is transferred securely and stored in your own cloud space.</string>
+    <string name="privacy_local_title">1. What stays on the phone</string>
+    <string name="privacy_local_body">Habit plans, point history, store rewards, achievements, language and theme. Stored in the app\'s private directory — unreadable by other apps, deleted on uninstall.</string>
+    <string name="privacy_cloud_title">2. What goes to the cloud</string>
+    <string name="privacy_cloud_body">Only after you sign in, and only that same data, uploaded to your own Supabase space. Row Level Security isolates every record by login identity, so even with the public key others cannot read your rows.</string>
+    <string name="privacy_not_collected_title">3. What we never touch</string>
+    <string name="privacy_not_collected_body">No contacts, photos, location, SMS or call logs; no device identifiers, IMEI or MAC address; no analytics, no crash reporting, no ad SDKs. One third-party service is used, for sync only: Supabase.</string>
+    <string name="privacy_permission_title">4. Permissions</string>
+    <string name="privacy_permission_body">Only INTERNET, used solely for sign-in, registration and sync. Everything else works offline.</string>
+    <string name="privacy_rights_title">5. What you can do</string>
+    <string name="privacy_rights_body">· Export a backup: Settings → Data &amp; backup
+· Delete your account: Profile → Sign out → Delete account (cloud and local data removed)
+· Use the app fully without an account</string>
+    <string name="privacy_contact">Questions or full data removal: wan.business@qq.com</string>
+    <string name="reminder_title">Daily reminder</string>
+    <string name="reminder_subtitle">A nudge to log your day</string>
+    <string name="reminder_time_label">Reminder time</string>
+    <string name="reminder_test">Send a test notification</string>
+    <string name="reminder_test_sent">Sent — check your notification shade</string>
+    <string name="reminder_enabled">On — we will remind you daily</string>
+    <string name="reminder_enable_first">Turn on the daily reminder first</string>
+    <string name="reminder_permission_denied">Without notification permission the reminder cannot arrive</string>
+    <string name="reminder_note">The reminder runs entirely on this device: no network, no upload, no tracking. Turning the switch off stops it completely. Battery optimisation may delay it by a few minutes — that is normal.</string>
+    <string name="reminder_channel_name">Daily reminder</string>
+    <string name="reminder_channel_desc">Reminds you to log today&#8217;s habits</string>
+    <string name="reminder_notification_title">One entry to go</string>
+    <string name="reminder_notification_body">Take 10 seconds to score today&#8217;s habits</string>
+    <string name="terms_dialog_title">Terms &amp; Privacy</string>
+    <string name="terms_dialog_message">Before using Habit, please note:\n\n· Without signing in, your plans, points and history stay on this phone only\n· After signing in, that data syncs to your own cloud space (Supabase)\n· No contacts, photos or location access; no ads and no analytics\n· You can export your data anytime, or delete everything from your profile\n\nTapping "Agree and continue" means you accept the Terms of Service and Privacy Policy.</string>
+    <string name="terms_dialog_agree">Agree and continue</string>
+    <string name="terms_dialog_disagree">Disagree</string>
+    <string name="terms_dialog_detail">Details</string>
 </resources>

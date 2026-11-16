@@ -39,8 +39,10 @@ class SettingsActivity : AppCompatActivity() {
             @Suppress("DEPRECATION")
             overridePendingTransition(R.anim.slide_in_right, android.R.anim.fade_out)
         }
-        bindRow(R.id.rowNotifications, R.drawable.ic_reason, R.string.settings_notifications, R.string.settings_notifications_desc) {
-            Toast.makeText(this, getString(R.string.coming_soon, getString(R.string.settings_notifications)), Toast.LENGTH_SHORT).show()
+        bindRow(R.id.rowNotifications, R.drawable.ic_notification, R.string.settings_notifications, R.string.settings_notifications_desc) {
+            startActivity(Intent(this, NotificationsActivity::class.java))
+            @Suppress("DEPRECATION")
+            overridePendingTransition(R.anim.slide_in_right, android.R.anim.fade_out)
         }
         bindRow(R.id.rowBackup, R.drawable.ic_share, R.string.settings_backup, R.string.settings_backup_desc) {
             startActivity(Intent(this, BackupActivity::class.java))
@@ -48,13 +50,11 @@ class SettingsActivity : AppCompatActivity() {
             overridePendingTransition(R.anim.slide_in_right, android.R.anim.fade_out)
         }
         bindRow(R.id.rowPrivacy, R.drawable.ic_lock, R.string.settings_privacy, R.string.settings_privacy_desc) {
-            Toast.makeText(this, getString(R.string.coming_soon, getString(R.string.settings_privacy)), Toast.LENGTH_SHORT).show()
-        }
-        bindRow(R.id.rowAbout, R.drawable.ic_info, R.string.settings_about, R.string.settings_about_desc) {
-            startActivity(Intent(this, AboutActivity::class.java))
+            startActivity(Intent(this, PrivacyActivity::class.java))
             @Suppress("DEPRECATION")
             overridePendingTransition(R.anim.slide_in_right, android.R.anim.fade_out)
         }
+        // "关于"已从设置里移除：Me 页已有一个独立入口
     }
 
     private fun bindRow(rowId: Int, iconRes: Int, titleRes: Int, subtitleRes: Int, onClick: () -> Unit) {

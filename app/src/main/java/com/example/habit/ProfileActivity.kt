@@ -88,7 +88,9 @@ class ProfileActivity : AppCompatActivity() {
         val tvHint = findViewById<TextView>(R.id.tvProfileHint)
         val user = SupabaseAuth.displayName(this)
 
+        val tvName = findViewById<TextView>(R.id.tvProfileName)
         if (user == null) {
+            tvName.setText(R.string.me_user_name)
             tvHint.setText(R.string.me_login_hint)
             btnLogin.setText(R.string.profile_login_button)
             btnLogin.setOnClickListener {
@@ -97,7 +99,8 @@ class ProfileActivity : AppCompatActivity() {
                 overridePendingTransition(R.anim.slide_in_up, android.R.anim.fade_out)
             }
         } else {
-            tvHint.text = getString(R.string.profile_logged_in) + " · " + user
+            tvName.text = user
+            tvHint.text = getString(R.string.profile_logged_in)
             btnLogin.setText(R.string.profile_logout)
             btnLogin.setOnClickListener {
                 MaterialAlertDialogBuilder(this)

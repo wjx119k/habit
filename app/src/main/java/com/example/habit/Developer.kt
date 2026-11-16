@@ -47,7 +47,8 @@ object Developers {
      *
      * 以后加人只需要在这里追加一项：
      *   Developer("名字", R.string.role_xxx, R.string.bio_xxx, 2026, 11,
-     *             focusRes = listOf(...), avatarRes = ..., contacts = listOf(...))
+     *             avatarRes = R.drawable.avatar_wan,
+            focusRes = listOf(...), avatarRes = ..., contacts = listOf(...))
      * 不填 avatarRes 就用名字首字母当头像。
      */
     val ALL: List<Developer> = listOf(
@@ -57,6 +58,7 @@ object Developers {
             bioRes = R.string.dev_bio_wan,
             joinedYear = 2026,
             joinedMonth = 11,
+            avatarRes = R.drawable.avatar_wan,
             focusRes = listOf(
                 R.string.focus_product,
                 R.string.focus_ui,

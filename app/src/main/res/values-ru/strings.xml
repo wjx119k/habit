@@ -283,4 +283,38 @@
     <string name="profile_deleted">Удалено: облачные и локальные данные очищены</string>
     <string name="profile_delete_offline">Локальные данные очищены; облачные не удалены (сеть). Повторите онлайн.</string>
     <string name="ach_popup_label">Достижение получено</string>
+    <string name="profile_avatar">Аватар пользователя</string>
+    <string name="privacy_summary_title">Одной фразой</string>
+    <string name="privacy_summary_body">Habit не продаёт данные, не показывает рекламу и не строит профили. Без входа всё хранится только на этом телефоне. После входа данные передаются по защищённому каналу в ваше собственное облачное пространство.</string>
+    <string name="privacy_local_title">1. Что остаётся на телефоне</string>
+    <string name="privacy_local_body">Планы, история баллов, награды магазина, достижения, язык и тема. Хранятся в приватном каталоге приложения: другие приложения не имеют доступа, при удалении всё стирается.</string>
+    <string name="privacy_cloud_title">2. Что уходит в облако</string>
+    <string name="privacy_cloud_body">Только после входа и только эти данные — в ваше пространство Supabase. Благодаря Row Level Security записи изолированы по пользователю: даже с публичным ключом чужие строки не прочитать.</string>
+    <string name="privacy_not_collected_title">3. Что мы не собираем</string>
+    <string name="privacy_not_collected_body">Не читаем контакты, фото, геолокацию, SMS и журнал звонков; не собираем идентификаторы устройства, IMEI, MAC-адрес; нет аналитики, отчётов о сбоях и рекламных SDK. Единственный внешний сервис — Supabase, только для синхронизации.</string>
+    <string name="privacy_permission_title">4. Разрешения</string>
+    <string name="privacy_permission_body">Только INTERNET — для входа, регистрации и синхронизации. Всё остальное работает офлайн.</string>
+    <string name="privacy_rights_title">5. Что вы можете сделать</string>
+    <string name="privacy_rights_body">· Экспорт резервной копии: Настройки → Данные и резервное копирование
+· Удаление аккаунта: Профиль → Выйти → Удалить аккаунт (облако и устройство)
+· Полноценная работа без аккаунта</string>
+    <string name="privacy_contact">Вопросы и полное удаление данных: wan.business@qq.com</string>
+    <string name="reminder_title">Ежедневное напоминание</string>
+    <string name="reminder_subtitle">Напоминание записать день</string>
+    <string name="reminder_time_label">Время напоминания</string>
+    <string name="reminder_test">Отправить тестовое уведомление</string>
+    <string name="reminder_test_sent">Отправлено — проверьте шторку уведомлений</string>
+    <string name="reminder_enabled">Включено — напомним каждый день</string>
+    <string name="reminder_enable_first">Сначала включите ежедневное напоминание</string>
+    <string name="reminder_permission_denied">Без разрешения на уведомления напоминание не придёт</string>
+    <string name="reminder_note">Напоминание работает только на устройстве: без сети, без отправки, без трекинга. Выключите переключатель — и оно полностью остановится. Оптимизация батареи может сдвинуть время на несколько минут.</string>
+    <string name="reminder_channel_name">Ежедневное напоминание</string>
+    <string name="reminder_channel_desc">Напоминает записать привычки</string>
+    <string name="reminder_notification_title">Осталась одна запись</string>
+    <string name="reminder_notification_body">10 секунд, чтобы оценить привычки за день</string>
+    <string name="terms_dialog_title">Условия и конфиденциальность</string>
+    <string name="terms_dialog_message">Перед использованием Habit обратите внимание:\n\n· Без входа планы, баллы и история хранятся только на этом телефоне\n· После входа эти данные синхронизируются в ваше облако (Supabase)\n· Контакты, фото и геолокация не читаются; рекламы и аналитики нет\n· Вы можете экспортировать данные или удалить аккаунт в профиле\n\nНажимая «Согласен и продолжить», вы принимаете Условия и Политику конфиденциальности.</string>
+    <string name="terms_dialog_agree">Согласен и продолжить</string>
+    <string name="terms_dialog_disagree">Не согласен</string>
+    <string name="terms_dialog_detail">Подробнее</string>
 </resources>
