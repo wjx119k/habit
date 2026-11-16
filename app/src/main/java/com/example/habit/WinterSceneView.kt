@@ -127,6 +127,15 @@ class WinterSceneView @JvmOverloads constructor(
 
         val t = (SystemClock.elapsedRealtime() - startAt) / 1000f
 
+        // 镜头：随着剧情推进缓慢推近小屋（1.0 → 1.85 倍）
+        val zoom = cameraZoom(t)
+        canvas.save()
+        val pivotX = w * 0.50f
+        val pivotY = h * 0.72f
+        canvas.translate(pivotX, pivotY)
+        canvas.scale(zoom, zoom)
+        canvas.translate(-pivotX, -pivotY)
+
         drawSky(canvas)
         drawStars(canvas, t)
         drawMoon(canvas)
@@ -135,6 +144,11 @@ class WinterSceneView @JvmOverloads constructor(
         drawGround(canvas)
         drawCabin(canvas, t)
         drawSnow(canvas, t)
+        drawWalker(canvas, t)
+
+        canvas.restore()
+
+        // 文字和淡入淡出固定在屏幕上，不跟着镜头缩放
         drawPoem(canvas, t)
         drawSeal(canvas, t)
         drawVignette(canvas)
@@ -146,6 +160,20 @@ class WinterSceneView @JvmOverloads constructor(
             finished = true
             onFinished?.invoke()
         }
+    }
+
+    /**
+     * 镜头推近曲线。
+     * 前 3 秒保持原样（让观众先看清全景），之后用 ease-in-out 慢慢推近，
+     * 结尾停在 1.85 倍——小屋占满画面，人物刚好在门前。
+     */
+    private fun cameraZoom(t: Float): Float {
+        val start = 3.0f
+        if (t <= start) return 1f
+        val p = ((t - start) / (END_TIME - start - 1.5f)).coerceIn(0f, 1f)
+        // smoothstep：两端都平滑，不会突然开始/停住
+        val eased = p * p * (3f - 2f * p)
+        return 1f + 0.85f * eased
     }
 
     // ---------- 天空 ----------
@@ -368,13 +396,34 @@ class WinterSceneView @JvmOverloads constructor(
         canvas.drawRect(rect.centerX() - 1.2f, rect.top, rect.centerX() + 1.2f, rect.bottom, paint)
         canvas.drawRect(rect.left, rect.centerY() - 1.2f, rect.right, rect.centerY() + 1.2f, paint)
 
-        // 门
+        // 门：会打开、会关上
+        val doorLeft = cx + bodyW * 0.10f
+        val doorRight = cx + bodyW * 0.32f
+        val doorTop = baseY - bodyH * 0.58f
+        val open = doorOpenAmount(t)
+
+        if (open > 0.01f) {
+            // 门洞里透出的暖光
+            paint.color = 0xFFFFC46B.toInt()
+            paint.alpha = (open * 235).toInt()
+            canvas.drawRect(doorLeft, doorTop, doorRight, baseY, paint)
+            paint.alpha = 255
+
+            // 光洒在门前的雪地上
+            paint.shader = RadialGradient(
+                (doorLeft + doorRight) / 2f, baseY, bodyW * 0.42f,
+                intArrayOf((0x55FFC46B * open).toInt(), 0x00FFC46B),
+                null,
+                Shader.TileMode.CLAMP
+            )
+            canvas.drawCircle((doorLeft + doorRight) / 2f, baseY, bodyW * 0.42f, paint)
+            paint.shader = null
+        }
+
+        // 门板：关上时是整块，打开时向左侧收窄（透视上的"转开"）
+        val panelRight = doorRight - (doorRight - doorLeft) * open * 0.82f
         paint.color = 0xFF31241B.toInt()
-        rect.set(
-            cx + bodyW * 0.10f, baseY - bodyH * 0.58f,
-            cx + bodyW * 0.32f, baseY
-        )
-        canvas.drawRect(rect, paint)
+        canvas.drawRect(doorLeft, doorTop, panelRight, baseY, paint)
 
         // 门前积雪
         paint.color = 0xFFF7FAFF.toInt()
@@ -399,6 +448,111 @@ class WinterSceneView @JvmOverloads constructor(
             paint.alpha = ((1f - progress) * 120).toInt().coerceIn(0, 120)
             canvas.drawCircle(sx, sy, w * (0.008f + progress * 0.014f), paint)
         }
+        paint.alpha = 255
+    }
+
+
+    // ---------- 门的状态 ----------
+
+    /** 0 = 全关，1 = 全开。开 0.8 秒，关 0.6 秒 */
+    private fun doorOpenAmount(t: Float): Float {
+        return when {
+            t < DOOR_OPEN_AT -> 0f
+            t < DOOR_OPEN_AT + 0.8f -> ((t - DOOR_OPEN_AT) / 0.8f).coerceIn(0f, 1f)
+            t < DOOR_CLOSE_AT -> 1f
+            t < DOOR_CLOSE_AT + 0.6f -> (1f - (t - DOOR_CLOSE_AT) / 0.6f).coerceIn(0f, 1f)
+            else -> 0f
+        }
+    }
+
+    // ---------- 风雪中的小人 ----------
+
+    /**
+     * 一个穿着厚大衣的人，低头、缩肩、一步一步挪向小屋。
+     *
+     * 怎么表现"情绪低落"：
+     *   · 身体前倾（不是挺胸走）
+     *   · 头低着、肩膀塌下来
+     *   · 步子小、节奏慢，每步还有一点停顿感
+     */
+    private fun drawWalker(canvas: Canvas, t: Float) {
+        if (t < WALK_START) return
+
+        val cx = w * 0.50f
+        val baseY = h * 0.782f
+        val bodyW = w * 0.26f
+        val doorX = cx + bodyW * 0.21f
+        val stopX = doorX - bodyW * 0.17f   // 停在门外一点，剪影才看得见
+
+        val startX = -w * 0.08f
+        val walkP = ((t - WALK_START) / (WALK_END - WALK_START)).coerceIn(0f, 1f)
+        // ease-out：快到门口时脚步放慢，像走得很累了
+        val eased = 1f - (1f - walkP) * (1f - walkP)
+        var x = startX + (stopX - startX) * eased
+        var groundY = baseY + h * 0.004f
+        var scale = 1f
+        var alpha = 255
+
+        // 走进门里：缩小 + 淡出
+        if (t > ENTER_START) {
+            val ep = ((t - ENTER_START) / (ENTER_END - ENTER_START)).coerceIn(0f, 1f)
+            x = stopX + (doorX - stopX) * ep
+            groundY = baseY - h * 0.010f * ep
+            scale = 1f - 0.45f * ep
+            alpha = (255 * (1f - ep)).toInt().coerceIn(0, 255)
+        }
+        if (t > ENTER_END) return
+
+        // 走路时的上下起伏（进入门里就不抖了）
+        val walking = t < ENTER_START
+        val bob = if (walking) kotlin.math.abs(sin(t * 4.2f)) * h * 0.0035f else 0f
+        val sway = if (walking) sin(t * 4.2f) * 1.5f else 0f
+
+        val height = h * 0.078f * scale
+        val headR = height * 0.15f
+
+        paint.alpha = alpha
+        paint.color = 0xFF232838.toInt()   // 深色大衣（比门稍亮，否则糊成一片）
+
+        // 脚下的影子
+        paint.color = 0x33000000
+        canvas.drawOval(x - height * 0.22f, groundY - height * 0.035f,
+            x + height * 0.22f, groundY + height * 0.02f, paint)
+        paint.color = 0xFF232838.toInt()
+
+        // 大衣：上窄下宽的梯形，略微前倾
+        val topY = groundY - height + bob
+        val coatTop = topY + headR * 1.9f
+        val halfTop = height * 0.145f
+        val halfBottom = height * 0.215f
+        path.reset()
+        path.moveTo(x - halfTop + sway, coatTop)
+        path.lineTo(x + halfTop + sway, coatTop)
+        path.lineTo(x + halfBottom, groundY - height * 0.10f + bob)
+        path.lineTo(x - halfBottom, groundY - height * 0.10f + bob)
+        path.close()
+        canvas.drawPath(path, paint)
+
+        // 腿：两条细线交替迈步
+        if (walking) {
+            val legSwing = sin(t * 4.2f) * height * 0.16f
+            paint.strokeWidth = height * 0.055f
+            paint.style = Paint.Style.STROKE
+            canvas.drawLine(x - halfBottom * 0.4f, groundY - height * 0.12f + bob,
+                x - halfBottom * 0.4f - legSwing, groundY + bob, paint)
+            canvas.drawLine(x + halfBottom * 0.4f, groundY - height * 0.12f + bob,
+                x + halfBottom * 0.4f + legSwing, groundY + bob, paint)
+            paint.style = Paint.Style.FILL
+        }
+
+        // 头：低着，微微前探
+        val headY = topY + headR * 1.05f
+        canvas.drawCircle(x + sway + headR * 0.25f, headY, headR, paint)
+
+        // 帽子（雪帽），让轮廓更像"裹得厚厚的人"
+        paint.color = 0xFF2A3140.toInt()
+        canvas.drawCircle(x + sway + headR * 0.25f, headY - headR * 0.45f, headR * 0.72f, paint)
+
         paint.alpha = 255
     }
 
@@ -543,7 +697,18 @@ class WinterSceneView @JvmOverloads constructor(
 
         /** 单个字的显现时长 */
         private const val CHAR_FADE = 0.55f
-        private const val FADE_START = 15.5f
-        private const val END_TIME = 18.5f
+        private const val FADE_START = 24.0f
+        private const val END_TIME = 27.5f
+
+        // 小人走路的时间轴（秒）
+        private const val WALK_START = 5.0f
+        private const val WALK_END = 15.0f
+
+        private const val ENTER_START = 15.4f
+        private const val ENTER_END = 17.2f
+
+        /** 开门 / 关门的时间点（WinterActivity 用它对齐音效） */
+        const val DOOR_OPEN_AT = 15.0f
+        const val DOOR_CLOSE_AT = 17.6f
     }
 }

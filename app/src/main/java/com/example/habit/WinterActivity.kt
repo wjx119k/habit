@@ -23,6 +23,9 @@ class WinterActivity : AppCompatActivity() {
 
     private var scene: WinterSceneView? = null
 
+    /** 用来对齐音效的定时器 */
+    private val handler = android.os.Handler(android.os.Looper.getMainLooper())
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -57,8 +60,15 @@ class WinterActivity : AppCompatActivity() {
             view.start()
             scene = view
 
-            // 画面一起，钢琴声就进来（生成失败也不会影响画面）
+            // 画面一起，钢琴声和风声就进来（生成失败也不会影响画面）
             PianoMusic.start()
+            WinterAudio.startWind()
+
+            // 到点播放开关门音效（时间点和画面里的小人保持一致）
+            val openAt = (WinterSceneView.DOOR_OPEN_AT * 1000).toLong()
+            val closeAt = (WinterSceneView.DOOR_CLOSE_AT * 1000).toLong()
+            handler.postDelayed({ WinterAudio.playDoorOpen() }, openAt)
+            handler.postDelayed({ WinterAudio.playDoorClose() }, closeAt)
         } catch (e: Throwable) {
             // 万一出错，把原因直接写在屏幕上（这种页面没有日志可看）
             showError(e)
@@ -67,12 +77,15 @@ class WinterActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        // 退到后台就停，别让用户切走后还有音乐
+        // 退到后台就停，别让用户切走后还有声音
         PianoMusic.stop()
+        WinterAudio.stopAll()
     }
 
     override fun onDestroy() {
+        handler.removeCallbacksAndMessages(null)
         PianoMusic.stop()
+        WinterAudio.stopAll()
         super.onDestroy()
     }
 
