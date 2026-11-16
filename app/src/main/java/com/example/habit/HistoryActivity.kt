@@ -116,7 +116,7 @@ class HistoryActivity : AppCompatActivity() {
         }
 
         // ---------- 曲线 ----------
-        val chartPoints: List<Pair<Long, Int>> = if (selectedPlan == null) {
+        val chartPoints: List<Pair<Long, Double>> = if (selectedPlan == null) {
             allRecords.map { it.time to it.total }
         } else {
             records.filter { it.projectPoints >= 0 }.map { it.time to it.projectPoints }
@@ -125,11 +125,11 @@ class HistoryActivity : AppCompatActivity() {
 
         // 头部数字：全部看当前总积分，计划看该计划当前积分
         val headline = if (selectedPlan == null) {
-            plans.sumOf { it.points } - StoreStore.spentPoints(this)
+            Points.round(plans.sumOf { it.points } - StoreStore.spentPoints(this))
         } else {
             selectedPlan.points
         }
-        tvChartTotal.text = headline.toString()
+        tvChartTotal.text = Points.format(headline)
 
         tvChartSubtitle.text = if (selectedPlan == null) {
             getString(R.string.history_chart_subtitle)
@@ -164,10 +164,10 @@ class HistoryActivity : AppCompatActivity() {
             row.findViewById<TextView>(R.id.tvRecordLabel).text = record.label
             row.findViewById<TextView>(R.id.tvRecordTime).text =
                 timeFormat.format(Date(record.time)) +
-                    " · " + getString(R.string.history_total_after, record.total)
+                    " · " + getString(R.string.history_total_after, Points.format(record.total))
 
             val deltaView = row.findViewById<TextView>(R.id.tvRecordDelta)
-            deltaView.text = if (record.delta > 0) "+${record.delta}" else "${record.delta}"
+            deltaView.text = Points.formatSigned(record.delta)
             val color = if (record.delta > 0) {
                 MaterialColors.getColor(deltaView, com.google.android.material.R.attr.colorPrimary)
             } else {

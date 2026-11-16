@@ -41,9 +41,9 @@
 
     <!-- 项目卡片 -->
     <string name="belief_empty">还没有写下信念</string>
-    <string name="points_reward">+%1$d 分</string>
-    <string name="points_penalty">−%1$d 分</string>
-    <string name="card_points">累计 %1$d 分</string>
+    <string name="points_reward">+%1$s 分</string>
+    <string name="points_penalty">−%1$s 分</string>
+    <string name="card_points">累计 %1$s 分</string>
     <string name="action_edit">编辑</string>
     <string name="action_add_point">加分</string>
     <string name="action_minus_point">减分</string>
@@ -52,9 +52,9 @@
     <string name="dialog_delete_title">注意</string>
     <string name="dialog_delete_message">删除计划后该计划积分会清空，确认删除该计划？</string>
     <string name="dialog_add_title">确认您已经完成</string>
-    <string name="dialog_add_message">这次记录会增加 %1$d 分</string>
+    <string name="dialog_add_message">这次记录会增加 %1$s 分</string>
     <string name="dialog_minus_title">确认记录一次未完成</string>
-    <string name="dialog_minus_message">这次记录会扣除 %1$d 分</string>
+    <string name="dialog_minus_message">这次记录会扣除 %1$s 分</string>
     <string name="action_confirm">确认</string>
 
     <!-- 鼓励 / 安慰 -->
@@ -207,15 +207,15 @@
     <!-- 积分商城 -->
     <string name="store_title">积分商城</string>
     <string name="store_available">可用积分</string>
-    <string name="store_summary">累计获得 %1$d · 已兑换 %2$d</string>
+    <string name="store_summary">累计获得 %1$s · 已兑换 %2$s</string>
     <string name="store_rewards">兑换奖励</string>
     <string name="store_recent">最近兑换</string>
     <string name="store_no_record">还没有兑换记录</string>
-    <string name="store_cost">%1$d 分</string>
+    <string name="store_cost">%1$s 分</string>
     <string name="store_redeem">兑换</string>
     <string name="store_not_enough">积分不足</string>
     <string name="store_confirm_title">确认兑换</string>
-    <string name="store_confirm_message">用 %1$d 积分兑换「%2$s」？</string>
+    <string name="store_confirm_message">用 %1$s 积分兑换「%2$s」？</string>
     <string name="store_toast_done">已兑换「%1$s」</string>
     <string name="store_item_rest">休息一下</string>
     <string name="store_item_rest_desc">今天可以少做一个计划</string>
@@ -256,7 +256,7 @@
     <string name="history_chart_range">%1$s — %2$s</string>
     <string name="history_records">积分明细</string>
     <string name="history_empty">还没有记录\n加分或减分之后，这里就会出现</string>
-    <string name="history_total_after">累计 %1$d</string>
+    <string name="history_total_after">累计 %1$s</string>
     <string name="chart_need_more">再变动几次就能看到曲线了</string>
     <string name="history_redeem">兑换 %1$s</string>
     <string name="history_clear_points">清空积分</string>
@@ -279,10 +279,12 @@
     <string name="backup_import_done">导入成功，正在重新加载…</string>
     <string name="store_revoke">撤销</string>
     <string name="store_revoke_title">撤销兑换</string>
-    <string name="store_revoke_message">撤销「%1$s」，退回 %2$d 积分？</string>
-    <string name="store_revoke_done">已撤销，退回 %1$d 积分</string>
+    <string name="store_revoke_message">撤销「%1$s」，退回 %2$s 积分？</string>
+    <string name="store_revoke_done">已撤销，退回 %1$s 积分</string>
     <string name="history_revoke">撤销兑换 %1$s</string>
     <string name="history_all">全部</string>
     <string name="history_plan_subtitle">%1$s 的积分变化</string>
     <string name="history_plan_empty">这个计划还没有记录</string>
+    <string name="error_points_range">请输入 %1$s ~ %2$s 之间的数字（最多一位小数）</string>
+    <string name="error_cost_range">价格需在 %1$s ~ %2$s 之间（最多一位小数）</string>
 </resources>

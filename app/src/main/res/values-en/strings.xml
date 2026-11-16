@@ -36,9 +36,9 @@
     <string name="help_penalty">Points deducted each time you break this habit</string>
 
     <string name="belief_empty">No belief written yet</string>
-    <string name="points_reward">+%1$d</string>
-    <string name="points_penalty">−%1$d</string>
-    <string name="card_points">%1$d pts total</string>
+    <string name="points_reward">+%1$s</string>
+    <string name="points_penalty">−%1$s</string>
+    <string name="card_points">%1$s pts total</string>
     <string name="action_edit">Edit</string>
     <string name="action_add_point">Add</string>
     <string name="action_minus_point">Deduct</string>
@@ -46,9 +46,9 @@
     <string name="dialog_delete_title">Warning</string>
     <string name="dialog_delete_message">Deleting this plan will also clear its points. Delete it?</string>
     <string name="dialog_add_title">Confirm you have completed it</string>
-    <string name="dialog_add_message">This entry will add %1$d points</string>
+    <string name="dialog_add_message">This entry will add %1$s points</string>
     <string name="dialog_minus_title">Confirm a missed check-in</string>
-    <string name="dialog_minus_message">This entry will deduct %1$d points</string>
+    <string name="dialog_minus_message">This entry will deduct %1$s points</string>
     <string name="action_confirm">Confirm</string>
 
     <string name="cheer_done">Well done! One step further on your plan.</string>
@@ -191,15 +191,15 @@
     <string name="privacy_body">Habit Privacy Policy\nLast updated: November 15, 2026\n\n1. What we collect\nThe App currently collects no personal information. All features work without registration, a phone number or an email address.\n\n2. Where your data lives\nHabits, points and achievements are stored only in the App private folder on your phone and are never uploaded to any server.\n\n3. Network and third parties\n3.1 The App contains no analytics, advertising or crash-reporting SDK.\n3.2 The only external access is the developer contact links on the About page, which open a browser or mail app only when you tap them.\n\n4. Permissions\nThe App does not request any sensitive permission at the moment.\n\n5. Deleting data\nUninstalling the App or clearing its data in system settings permanently deletes all records. The developer cannot recover them.\n\n6. Children privacy\nThe App does not collect any information from children.\n\n7. Changes\nIf a server or sign-in feature is added in the future, this policy will be updated and shown inside the App.\n\n8. Contact\nQuestions about privacy: wan.business@qq.com.</string>
     <string name="store_title">Points store</string>
     <string name="store_available">Available points</string>
-    <string name="store_summary">Earned %1$d · Redeemed %2$d</string>
+    <string name="store_summary">Earned %1$s · Redeemed %2$s</string>
     <string name="store_rewards">Rewards</string>
     <string name="store_recent">Recent redemptions</string>
     <string name="store_no_record">No redemptions yet</string>
-    <string name="store_cost">%1$d pts</string>
+    <string name="store_cost">%1$s pts</string>
     <string name="store_redeem">Redeem</string>
     <string name="store_not_enough">Not enough points</string>
     <string name="store_confirm_title">Confirm redemption</string>
-    <string name="store_confirm_message">Redeem “%2$s” for %1$d points?</string>
+    <string name="store_confirm_message">Redeem “%2$s” for %1$s points?</string>
     <string name="store_toast_done">Redeemed “%1$s”</string>
     <string name="store_item_rest">Take a break</string>
     <string name="store_item_rest_desc">Skip one plan today</string>
@@ -240,7 +240,7 @@
     <string name="history_chart_range">%1$s — %2$s</string>
     <string name="history_records">Point events</string>
     <string name="history_empty">No records yet\nThey will appear here after you add or deduct points</string>
-    <string name="history_total_after">Balance %1$d</string>
+    <string name="history_total_after">Balance %1$s</string>
     <string name="chart_need_more">A few more changes and the curve will appear</string>
     <string name="history_redeem">Redeemed %1$s</string>
     <string name="history_clear_points">Points cleared</string>
@@ -263,10 +263,12 @@
     <string name="backup_import_done">Imported. Reloading…</string>
     <string name="store_revoke">Undo</string>
     <string name="store_revoke_title">Undo redemption</string>
-    <string name="store_revoke_message">Undo “%1$s” and get %2$d points back?</string>
-    <string name="store_revoke_done">Undone, %1$d points refunded</string>
+    <string name="store_revoke_message">Undo “%1$s” and get %2$s points back?</string>
+    <string name="store_revoke_done">Undone, %1$s points refunded</string>
     <string name="history_revoke">Undid redemption %1$s</string>
     <string name="history_all">All</string>
     <string name="history_plan_subtitle">Points of %1$s</string>
     <string name="history_plan_empty">No records for this plan yet</string>
+    <string name="error_points_range">Enter a number from %1$s to %2$s (one decimal at most)</string>
+    <string name="error_cost_range">Cost must be between %1$s and %2$s (one decimal at most)</string>
 </resources>

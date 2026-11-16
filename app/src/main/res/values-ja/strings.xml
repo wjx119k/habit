@@ -29,9 +29,9 @@
     <string name="help_penalty">この習慣を破ったときに引かれるポイント</string>
 
     <string name="belief_empty">まだ信念が書かれていません</string>
-    <string name="points_reward">+%1$d</string>
-    <string name="points_penalty">−%1$d</string>
-    <string name="card_points">累計 %1$d pt</string>
+    <string name="points_reward">+%1$s</string>
+    <string name="points_penalty">−%1$s</string>
+    <string name="card_points">累計 %1$s pt</string>
     <string name="action_edit">編集</string>
     <string name="action_add_point">加算</string>
     <string name="action_minus_point">減算</string>
@@ -39,9 +39,9 @@
     <string name="dialog_delete_title">注意</string>
     <string name="dialog_delete_message">削除するとこのプランのポイントも消えます。削除しますか？</string>
     <string name="dialog_add_title">達成したことを確認</string>
-    <string name="dialog_add_message">今回の記録で %1$d ポイント加算されます</string>
+    <string name="dialog_add_message">今回の記録で %1$s ポイント加算されます</string>
     <string name="dialog_minus_title">未達成として記録</string>
-    <string name="dialog_minus_message">今回の記録で %1$d ポイント減算されます</string>
+    <string name="dialog_minus_message">今回の記録で %1$s ポイント減算されます</string>
     <string name="action_confirm">確認</string>
 
     <string name="cheer_done">おめでとう！計画の一歩を踏み出しました</string>
@@ -184,15 +184,15 @@
     <string name="privacy_body">Habit プライバシーポリシー\n最終更新日：2026年11月15日\n\n1. 収集する情報\n本アプリは現在、個人情報を一切収集していません。すべての機能は登録なしで利用でき、電話番号やメールアドレスも不要です。\n\n2. データの保存場所\n習慣・ポイント・実績などのデータは、お使いの端末内のアプリ専用領域にのみ保存され、サーバーへ送信されることはありません。\n\n3. 通信と第三者\n3.1 本アプリには解析・広告・クラッシュレポートの SDK は含まれていません。\n3.2 外部アクセスは「このアプリについて」ページの連絡先のみで、タップした時だけブラウザまたはメールアプリが開きます。\n\n4. 権限について\n本アプリは現在、重要な権限を要求しません。\n\n5. データの削除\nアプリを削除するか、端末の設定でアプリデータを消去すると、すべての記録が完全に削除され、開発者も復元できません。\n\n6. 子どものプライバシー\n本アプリは子どもから情報を収集しません。\n\n7. ポリシーの変更\n将来サーバーやログイン機能を追加する場合は、本ポリシーを更新しアプリ内に表示します。\n\n8. 連絡先\nプライバシーに関するご質問：wan.business@qq.com</string>
     <string name="store_title">ポイントストア</string>
     <string name="store_available">利用可能ポイント</string>
-    <string name="store_summary">累計獲得 %1$d ・ 交換済み %2$d</string>
+    <string name="store_summary">累計獲得 %1$s ・ 交換済み %2$s</string>
     <string name="store_rewards">ごほうびと交換</string>
     <string name="store_recent">最近の交換</string>
     <string name="store_no_record">まだ交換履歴はありません</string>
-    <string name="store_cost">%1$d pt</string>
+    <string name="store_cost">%1$s pt</string>
     <string name="store_redeem">交換</string>
     <string name="store_not_enough">ポイントが足りません</string>
     <string name="store_confirm_title">交換の確認</string>
-    <string name="store_confirm_message">%1$d ポイントで「%2$s」と交換しますか？</string>
+    <string name="store_confirm_message">%1$s ポイントで「%2$s」と交換しますか？</string>
     <string name="store_toast_done">「%1$s」と交換しました</string>
     <string name="store_item_rest">ひと休み</string>
     <string name="store_item_rest_desc">今日は1つサボってもいい</string>
@@ -236,7 +236,7 @@
     <string name="history_chart_range">%1$s — %2$s</string>
     <string name="history_records">ポイント履歴</string>
     <string name="history_empty">まだ記録がありません\n加点・減点するとここに表示されます</string>
-    <string name="history_total_after">累計 %1$d</string>
+    <string name="history_total_after">累計 %1$s</string>
     <string name="chart_need_more">あと数回変動するとグラフが出ます</string>
     <string name="history_redeem">%1$s と交換</string>
     <string name="history_clear_points">ポイントをリセット</string>
@@ -259,10 +259,12 @@
     <string name="backup_import_done">読み込みました。再読み込み中…</string>
     <string name="store_revoke">取り消し</string>
     <string name="store_revoke_title">交換を取り消す</string>
-    <string name="store_revoke_message">「%1$s」を取り消して %2$d ポイント戻しますか？</string>
-    <string name="store_revoke_done">取り消しました。%1$d ポイント戻しました</string>
+    <string name="store_revoke_message">「%1$s」を取り消して %2$s ポイント戻しますか？</string>
+    <string name="store_revoke_done">取り消しました。%1$s ポイント戻しました</string>
     <string name="history_revoke">交換を取り消し %1$s</string>
     <string name="history_all">すべて</string>
     <string name="history_plan_subtitle">%1$s のポイント推移</string>
     <string name="history_plan_empty">このプランの記録はまだありません</string>
+    <string name="error_points_range">%1$s 〜 %2$s の数値を入力してください（小数は1桁まで）</string>
+    <string name="error_cost_range">価格は %1$s 〜 %2$s の範囲で入力してください（小数は1桁まで）</string>
 </resources>

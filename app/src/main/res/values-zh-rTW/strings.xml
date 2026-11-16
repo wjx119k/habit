@@ -29,9 +29,9 @@
     <string name="help_penalty">請輸入您違背該習慣扣除的積分</string>
 
     <string name="belief_empty">還沒有寫下信念</string>
-    <string name="points_reward">+%1$d 分</string>
-    <string name="points_penalty">−%1$d 分</string>
-    <string name="card_points">累計 %1$d 分</string>
+    <string name="points_reward">+%1$s 分</string>
+    <string name="points_penalty">−%1$s 分</string>
+    <string name="card_points">累計 %1$s 分</string>
     <string name="action_edit">編輯</string>
     <string name="action_add_point">加分</string>
     <string name="action_minus_point">減分</string>
@@ -39,9 +39,9 @@
     <string name="dialog_delete_title">注意</string>
     <string name="dialog_delete_message">刪除計畫後該計畫積分會清除，確認刪除該計畫？</string>
     <string name="dialog_add_title">確認您已經完成</string>
-    <string name="dialog_add_message">這次記錄會增加 %1$d 分</string>
+    <string name="dialog_add_message">這次記錄會增加 %1$s 分</string>
     <string name="dialog_minus_title">確認記錄一次未完成</string>
-    <string name="dialog_minus_message">這次記錄會扣除 %1$d 分</string>
+    <string name="dialog_minus_message">這次記錄會扣除 %1$s 分</string>
     <string name="action_confirm">確認</string>
 
     <string name="cheer_done">恭喜你，走出了計畫的一步</string>
@@ -184,15 +184,15 @@
     <string name="privacy_body">《Habit 隱私政策》\n更新日期：2026 年 11 月 15 日\n\n一、我們蒐集什麼\n本應用目前不蒐集任何個人資訊。使用全部功能無需註冊，也不需要提供手機號碼或電子郵件。\n\n二、你的資料存在哪裡\n習慣、積分、成就等資料全部保存在你的手機本機（應用程式私有目錄），不會上傳到任何伺服器。\n\n三、網路與第三方元件\n3.1 本應用不包含任何統計、廣告或當機回報 SDK。\n3.2 唯一的外部存取是「關於」頁面裡的開發者聯絡方式，只有你主動點擊時，才會開啟瀏覽器或郵件應用程式。\n\n四、權限說明\n本應用目前不申請任何敏感權限。\n\n五、資料刪除\n解除安裝應用程式，或在系統設定中清除本應用程式的資料，全部紀錄將被永久刪除，開發者無法復原。\n\n六、兒童隱私\n本應用不蒐集兒童的任何資訊。\n\n七、政策變更\n若未來接入伺服器或登入功能，本政策會同步更新，並在應用程式內顯示。\n\n八、聯絡方式\n如對隱私問題有疑問，可寄送電子郵件至 wan.business@qq.com。</string>
     <string name="store_title">積分商城</string>
     <string name="store_available">可用積分</string>
-    <string name="store_summary">累計獲得 %1$d · 已兌換 %2$d</string>
+    <string name="store_summary">累計獲得 %1$s · 已兌換 %2$s</string>
     <string name="store_rewards">兌換獎勵</string>
     <string name="store_recent">最近兌換</string>
     <string name="store_no_record">還沒有兌換紀錄</string>
-    <string name="store_cost">%1$d 分</string>
+    <string name="store_cost">%1$s 分</string>
     <string name="store_redeem">兌換</string>
     <string name="store_not_enough">積分不足</string>
     <string name="store_confirm_title">確認兌換</string>
-    <string name="store_confirm_message">用 %1$d 積分兌換「%2$s」？</string>
+    <string name="store_confirm_message">用 %1$s 積分兌換「%2$s」？</string>
     <string name="store_toast_done">已兌換「%1$s」</string>
     <string name="store_item_rest">休息一下</string>
     <string name="store_item_rest_desc">今天可以少做一個計畫</string>
@@ -236,7 +236,7 @@
     <string name="history_chart_range">%1$s — %2$s</string>
     <string name="history_records">積分明細</string>
     <string name="history_empty">還沒有紀錄\n加分或減分之後，這裡就會出現</string>
-    <string name="history_total_after">累計 %1$d</string>
+    <string name="history_total_after">累計 %1$s</string>
     <string name="chart_need_more">再變動幾次就能看到曲線了</string>
     <string name="history_redeem">兌換 %1$s</string>
     <string name="history_clear_points">清空積分</string>
@@ -259,10 +259,12 @@
     <string name="backup_import_done">匯入成功，正在重新載入…</string>
     <string name="store_revoke">撤銷</string>
     <string name="store_revoke_title">撤銷兌換</string>
-    <string name="store_revoke_message">撤銷「%1$s」，退回 %2$d 積分？</string>
-    <string name="store_revoke_done">已撤銷，退回 %1$d 積分</string>
+    <string name="store_revoke_message">撤銷「%1$s」，退回 %2$s 積分？</string>
+    <string name="store_revoke_done">已撤銷，退回 %1$s 積分</string>
     <string name="history_revoke">撤銷兌換 %1$s</string>
     <string name="history_all">全部</string>
     <string name="history_plan_subtitle">%1$s 的積分變化</string>
     <string name="history_plan_empty">這個計畫還沒有紀錄</string>
+    <string name="error_points_range">請輸入 %1$s ~ %2$s 之間的數字（最多一位小數）</string>
+    <string name="error_cost_range">價格需在 %1$s ~ %2$s 之間（最多一位小數）</string>
 </resources>

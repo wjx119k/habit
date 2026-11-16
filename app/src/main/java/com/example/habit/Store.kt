@@ -18,7 +18,7 @@ import java.util.UUID
 /** 用户自己创建的奖励 */
 data class StoreItem(
     val title: String,
-    val cost: Int,
+    val cost: Double,
     val desc: String = "",
     val id: String = UUID.randomUUID().toString()
 ) {
@@ -32,7 +32,7 @@ data class StoreItem(
     companion object {
         fun fromJson(o: JSONObject) = StoreItem(
             title = o.optString("title"),
-            cost = o.optInt("cost"),
+            cost = o.optDouble("cost", 0.0),
             desc = o.optString("desc"),
             id = o.optString("id").ifBlank { UUID.randomUUID().toString() }
         )
@@ -43,7 +43,7 @@ data class StoreItem(
 data class Redemption(
     val itemId: String,
     val title: String,
-    val cost: Int,
+    val cost: Double,
     val time: Long
 )
 
@@ -109,7 +109,7 @@ object StoreStore {
                     Redemption(
                         itemId = o.optString("itemId"),
                         title = o.optString("title"),
-                        cost = o.optInt("cost"),
+                        cost = o.optDouble("cost", 0.0),
                         time = o.optLong("time")
                     )
                 )
@@ -119,10 +119,10 @@ object StoreStore {
     }
 
     /** 已经兑换掉的积分总额 */
-    fun spentPoints(context: Context): Int = redemptions(context).sumOf { it.cost }
+    fun spentPoints(context: Context): Double = Points.round(redemptions(context).sumOf { it.cost })
 
     /** 兑换：积分不足返回 false */
-    fun redeem(context: Context, item: StoreItem, available: Int): Boolean {
+    fun redeem(context: Context, item: StoreItem, available: Double): Boolean {
         if (available < item.cost) return false
 
         val list = redemptions(context)

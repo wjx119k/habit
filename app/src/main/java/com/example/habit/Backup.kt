@@ -162,7 +162,7 @@ object Backup {
                     Redemption(
                         itemId = o.optString("itemId"),
                         title = o.optString("title"),
-                        cost = o.optInt("cost"),
+                        cost = o.optDouble("cost", 0.0),
                         time = o.optLong("time")
                     )
                 )
@@ -179,8 +179,8 @@ object Backup {
                     HistoryRecord(
                         time = o.optLong("time"),
                         label = o.optString("label"),
-                        delta = o.optInt("delta"),
-                        total = o.optInt("total"),
+                        delta = o.optDouble("delta", 0.0),
+                        total = o.optDouble("total", 0.0),
                         projectId = o.optString("projectId")
                     )
                 )

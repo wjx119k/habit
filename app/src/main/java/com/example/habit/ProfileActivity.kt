@@ -30,9 +30,12 @@ class ProfileActivity : AppCompatActivity() {
             insets
         }
 
-        // 总积分 = 所有项目积分之和
-        val total = ProjectStore.load(this).sumOf { it.points }
-        findViewById<TextView>(R.id.tvProfilePoints).text = total.toString()
+        // 总积分 = 所有项目积分之和 − 已兑换积分
+        // （以前这里没减已兑换，导致在商店买东西后个人主页的数字不变）
+        val total = Points.round(
+            ProjectStore.load(this).sumOf { it.points } - StoreStore.spentPoints(this)
+        )
+        findViewById<TextView>(R.id.tvProfilePoints).text = Points.format(total)
 
         findViewById<ImageButton>(R.id.btnBack).setOnClickListener {
             finish()

@@ -29,9 +29,9 @@
     <string name="help_penalty">Баллы, которые списываются за каждый пропуск</string>
 
     <string name="belief_empty">Установка пока не записана</string>
-    <string name="points_reward">+%1$d</string>
-    <string name="points_penalty">−%1$d</string>
-    <string name="card_points">Всего %1$d балл.</string>
+    <string name="points_reward">+%1$s</string>
+    <string name="points_penalty">−%1$s</string>
+    <string name="card_points">Всего %1$s балл.</string>
     <string name="action_edit">Изменить</string>
     <string name="action_add_point">Плюс</string>
     <string name="action_minus_point">Минус</string>
@@ -39,9 +39,9 @@
     <string name="dialog_delete_title">Внимание</string>
     <string name="dialog_delete_message">При удалении баллы этого плана тоже исчезнут. Удалить?</string>
     <string name="dialog_add_title">Подтвердите выполнение</string>
-    <string name="dialog_add_message">Запись добавит %1$d балл.</string>
+    <string name="dialog_add_message">Запись добавит %1$s балл.</string>
     <string name="dialog_minus_title">Подтвердите пропуск</string>
-    <string name="dialog_minus_message">Запись спишет %1$d балл.</string>
+    <string name="dialog_minus_message">Запись спишет %1$s балл.</string>
     <string name="action_confirm">Подтвердить</string>
 
     <string name="cheer_done">Отлично! Ещё один шаг к цели.</string>
@@ -184,15 +184,15 @@
     <string name="privacy_body">Политика конфиденциальности Habit\nОбновлено: 15 ноября 2026 г.\n\n1. Какие данные мы собираем\nПриложение не собирает персональные данные. Все функции доступны без регистрации, номера телефона или почты.\n\n2. Где хранятся данные\nПривычки, баллы и достижения хранятся только в приватной папке приложения на вашем телефоне и не передаются на серверы.\n\n3. Сеть и сторонние компоненты\n3.1 В приложении нет SDK аналитики, рекламы или отчётов о сбоях.\n3.2 Единственный внешний переход — контакты разработчика на странице «О приложении»; браузер или почта открываются только по вашему нажатию.\n\n4. Разрешения\nСейчас приложение не запрашивает чувствительных разрешений.\n\n5. Удаление данных\nУдаление приложения или очистка его данных в настройках системы безвозвратно удаляет все записи; разработчик не может их восстановить.\n\n6. Конфиденциальность детей\nПриложение не собирает данные детей.\n\n7. Изменения\nЕсли появится сервер или вход в аккаунт, политика будет обновлена и показана в приложении.\n\n8. Контакты\nВопросы о конфиденциальности: wan.business@qq.com</string>
     <string name="store_title">Магазин баллов</string>
     <string name="store_available">Доступно баллов</string>
-    <string name="store_summary">Начислено %1$d · Потрачено %2$d</string>
+    <string name="store_summary">Начислено %1$s · Потрачено %2$s</string>
     <string name="store_rewards">Награды</string>
     <string name="store_recent">Последние обмены</string>
     <string name="store_no_record">Обменов ещё не было</string>
-    <string name="store_cost">%1$d балл.</string>
+    <string name="store_cost">%1$s балл.</string>
     <string name="store_redeem">Обменять</string>
     <string name="store_not_enough">Недостаточно баллов</string>
     <string name="store_confirm_title">Подтвердите обмен</string>
-    <string name="store_confirm_message">Обменять «%2$s» за %1$d баллов?</string>
+    <string name="store_confirm_message">Обменять «%2$s» за %1$s баллов?</string>
     <string name="store_toast_done">Получено «%1$s»</string>
     <string name="store_item_rest">Отдохнуть</string>
     <string name="store_item_rest_desc">Сегодня можно пропустить один план</string>
@@ -236,7 +236,7 @@
     <string name="history_chart_range">%1$s — %2$s</string>
     <string name="history_records">История баллов</string>
     <string name="history_empty">Записей пока нет\nОни появятся после начисления или списания</string>
-    <string name="history_total_after">Итого %1$d</string>
+    <string name="history_total_after">Итого %1$s</string>
     <string name="chart_need_more">Ещё несколько изменений — и появится график</string>
     <string name="history_redeem">Обмен: %1$s</string>
     <string name="history_clear_points">Баллы сброшены</string>
@@ -259,10 +259,12 @@
     <string name="backup_import_done">Импортировано. Перезагрузка…</string>
     <string name="store_revoke">Отменить</string>
     <string name="store_revoke_title">Отменить обмен</string>
-    <string name="store_revoke_message">Отменить «%1$s» и вернуть %2$d баллов?</string>
-    <string name="store_revoke_done">Отменено, возвращено %1$d баллов</string>
+    <string name="store_revoke_message">Отменить «%1$s» и вернуть %2$s баллов?</string>
+    <string name="store_revoke_done">Отменено, возвращено %1$s баллов</string>
     <string name="history_revoke">Отмена обмена %1$s</string>
     <string name="history_all">Все</string>
     <string name="history_plan_subtitle">Баллы плана %1$s</string>
     <string name="history_plan_empty">У этого плана пока нет записей</string>
+    <string name="error_points_range">Введите число от %1$s до %2$s (не более одного знака после запятой)</string>
+    <string name="error_cost_range">Цена должна быть от %1$s до %2$s (не более одного знака после запятой)</string>
 </resources>

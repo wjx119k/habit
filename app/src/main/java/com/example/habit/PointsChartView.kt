@@ -24,7 +24,7 @@ class PointsChartView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     /** (时间戳, 那一刻的总积分) */
-    private var data: List<Pair<Long, Int>> = emptyList()
+    private var data: List<Pair<Long, Double>> = emptyList()
 
     private val density = resources.displayMetrics.density
 
@@ -48,7 +48,7 @@ class PointsChartView @JvmOverloads constructor(
     private val linePath = Path()
     private val fillPath = Path()
 
-    fun setData(points: List<Pair<Long, Int>>) {
+    fun setData(points: List<Pair<Long, Double>>) {
         data = points
         invalidate()
     }
@@ -95,8 +95,8 @@ class PointsChartView @JvmOverloads constructor(
         }
 
         val values = data.map { it.second }
-        val maxV = max(values.maxOrNull() ?: 0, 0)
-        val minV = minOf(values.minOrNull() ?: 0, 0)
+        val maxV = max(values.maxOrNull() ?: 0.0, 0.0)
+        val minV = minOf(values.minOrNull() ?: 0.0, 0.0)
         // 上下留 12% 余量，曲线不会贴边
         val span = max((maxV - minV).toFloat(), 1f)
         val top = maxV + span * 0.12f
@@ -112,7 +112,7 @@ class PointsChartView @JvmOverloads constructor(
             return padLeft + chartW * ratio
         }
 
-        fun yOf(v: Int): Float = padTop + chartH * (1f - (v - bottom) / range)
+        fun yOf(v: Double): Float = padTop + chartH * (1f - ((v - bottom) / range).toFloat())
 
         // 三条横向网格
         for (i in 0..2) {
@@ -161,9 +161,9 @@ class PointsChartView @JvmOverloads constructor(
         // 极值标注
         textPaint.textAlign = Paint.Align.LEFT
         textPaint.color = colorOnSurface(150)
-        canvas.drawText(maxV.toString(), padLeft + 3f * density, padTop + textPaint.textSize, textPaint)
+        canvas.drawText(Points.format(maxV.toDouble()), padLeft + 3f * density, padTop + textPaint.textSize, textPaint)
         canvas.drawText(
-            minV.toString(),
+            Points.format(minV.toDouble()),
             padLeft + 3f * density,
             padTop + chartH - 3f * density,
             textPaint

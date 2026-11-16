@@ -125,8 +125,8 @@
             android:textColor="?android:attr/textColorSecondary"
             android:textSize="16sp" />
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/scrollProjects"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/projectList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
@@ -134,15 +134,7 @@
             android:paddingTop="8dp"
             android:paddingBottom="16dp"
             android:scrollbars="none"
-            android:visibility="gone">
-
-            <LinearLayout
-                android:id="@+id/projectList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
-
-        </androidx.core.widget.NestedScrollView>
+            android:visibility="gone" />
 
     </FrameLayout>
 

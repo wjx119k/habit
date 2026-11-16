@@ -23,6 +23,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
@@ -41,9 +43,9 @@ class MainActivity : AppCompatActivity() {
 
     private val projects = mutableListOf<Project>()
 
-    private lateinit var projectList: LinearLayout
+    private lateinit var projectList: androidx.recyclerview.widget.RecyclerView
+    private lateinit var projectAdapter: ProjectAdapter
     private lateinit var emptyHint: TextView
-    private lateinit var scrollProjects: View
     private lateinit var tvTotalPoints: TextView
     private lateinit var tvAvailablePoints: TextView
     private lateinit var tvStoreSummary: TextView
@@ -77,8 +79,15 @@ class MainActivity : AppCompatActivity() {
         pageMe = findViewById(R.id.pageMe)
 
         projectList = findViewById(R.id.projectList)
+        projectAdapter = ProjectAdapter(
+            onEdit = { index -> showProjectSheet(existing = projects[index], index = index) },
+            onAdd = { index -> onAddPoint(index) },
+            onMinus = { index -> onMinusPoint(index) }
+        )
+        projectList.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
+        projectList.adapter = projectAdapter
+        setupDragSort()
         emptyHint = findViewById(R.id.tvEmpty)
-        scrollProjects = findViewById(R.id.scrollProjects)
         tvTotalPoints = findViewById(R.id.tvTotalPoints)
 
         tvAvailablePoints = findViewById(R.id.tvAvailablePoints)
@@ -173,6 +182,8 @@ class MainActivity : AppCompatActivity() {
         val editReason = content.findViewById<TextInputEditText>(R.id.editReason)
         val editReward = content.findViewById<TextInputEditText>(R.id.editReward)
         val editPenalty = content.findViewById<TextInputEditText>(R.id.editPenalty)
+        val layoutReward = content.findViewById<TextInputLayout>(R.id.layoutReward)
+        val layoutPenalty = content.findViewById<TextInputLayout>(R.id.layoutPenalty)
         val tvSheetTitle = content.findViewById<TextView>(R.id.tvSheetTitle)
         val btnSave = content.findViewById<MaterialButton>(R.id.btnSave)
         val rangeDanger = content.findViewById<View>(R.id.sectionDanger)
@@ -186,8 +197,8 @@ class MainActivity : AppCompatActivity() {
             editHabit.setText(existing!!.name)
             editBelief.setText(existing.belief)
             editReason.setText(existing.reason)
-            if (existing.rewardPoints != 0) editReward.setText(existing.rewardPoints.toString())
-            if (existing.penaltyPoints != 0) editPenalty.setText(existing.penaltyPoints.toString())
+            if (existing.rewardPoints != 0.0) editReward.setText(Points.format(existing.rewardPoints))
+            if (existing.penaltyPoints != 0.0) editPenalty.setText(Points.format(existing.penaltyPoints))
         } else {
             rangeDanger.visibility = View.GONE
         }
@@ -240,8 +251,25 @@ class MainActivity : AppCompatActivity() {
 
             val belief = editBelief.text?.toString()?.trim().orEmpty()
             val reason = editReason.text?.toString()?.trim().orEmpty()
-            val reward = editReward.text?.toString()?.trim()?.toIntOrNull() ?: 0
-            val penalty = editPenalty.text?.toString()?.trim()?.toIntOrNull() ?: 0
+            // 加分/减分：支持一位小数，且有上下限（防止填 1000000000000 这种）
+            val rewardValue = Points.parseInput(editReward.text?.toString())
+            if (rewardValue == null || !Points.isValidPerAction(rewardValue)) {
+                layoutReward.error = getString(R.string.error_points_range, Points.MIN_PER_ACTION, Points.MAX_PER_ACTION)
+                editReward.requestFocus()
+                return@setOnClickListener
+            }
+            layoutReward.error = null
+
+            val penaltyValue = Points.parseInput(editPenalty.text?.toString()) ?: 0.0
+            if (penaltyValue != 0.0 && !Points.isValidPerAction(penaltyValue)) {
+                layoutPenalty.error = getString(R.string.error_points_range, Points.MIN_PER_ACTION, Points.MAX_PER_ACTION)
+                editPenalty.requestFocus()
+                return@setOnClickListener
+            }
+            layoutPenalty.error = null
+
+            val reward = Points.round(rewardValue)
+            val penalty = Points.round(penaltyValue)
 
             if (isEdit) {
                 projects[index] = existing!!.copy(
@@ -295,13 +323,13 @@ class MainActivity : AppCompatActivity() {
         // ---- 清空该项目积分 ----
         content.findViewById<MaterialButton>(R.id.btnClear).setOnClickListener {
             if (!isEdit) return@setOnClickListener
-            projects[index] = existing!!.copy(points = 0)
+            projects[index] = existing!!.copy(points = 0.0)
             ProjectStore.save(this, projects)
             recordHistory(
                 getString(R.string.history_delete_plan, existing.name),
                 -existing.points,
                 existing.id,
-                0
+                0.0
             )
             renderProjects(animate = false)
             Toast.makeText(this, getString(R.string.toast_cleared, existing.name), Toast.LENGTH_SHORT).show()
@@ -319,20 +347,20 @@ class MainActivity : AppCompatActivity() {
         val project = projects[index]
         confirmDialog(
             titleRes = R.string.dialog_add_title,
-            message = getString(R.string.dialog_add_message, project.rewardPoints)
+            message = getString(R.string.dialog_add_message, Points.format(project.rewardPoints))
         ) {
             val newStreak = project.streak + 1
             projects[index] = project.copy(
-                points = project.points + project.rewardPoints,
+                points = Points.round(project.points + project.rewardPoints),
                 streak = newStreak,
                 bestStreak = maxOf(project.bestStreak, newStreak)
             )
             ProjectStore.save(this, projects)
             recordHistory(
-                label = "${project.name} +${project.rewardPoints}",
+                label = "${project.name} +${Points.format(project.rewardPoints)}",
                 delta = project.rewardPoints,
                 projectId = project.id,
-                projectPoints = project.points + project.rewardPoints
+                projectPoints = projects[index].points
             )
             renderProjects(animate = false)
             checkAchievements()
@@ -344,19 +372,19 @@ class MainActivity : AppCompatActivity() {
         val project = projects[index]
         confirmDialog(
             titleRes = R.string.dialog_minus_title,
-            message = getString(R.string.dialog_minus_message, project.penaltyPoints)
+            message = getString(R.string.dialog_minus_message, Points.format(project.penaltyPoints))
         ) {
             // 减分：积分扣掉，连续次数清零（"中途减分直接重来"）
             projects[index] = project.copy(
-                points = project.points - project.penaltyPoints,
+                points = Points.round(project.points - project.penaltyPoints),
                 streak = 0
             )
             ProjectStore.save(this, projects)
             recordHistory(
-                label = "${project.name} −${project.penaltyPoints}",
+                label = "${project.name} −${Points.format(project.penaltyPoints)}",
                 delta = -project.penaltyPoints,
                 projectId = project.id,
-                projectPoints = project.points - project.penaltyPoints
+                projectPoints = projects[index].points
             )
             renderProjects(animate = false)
             showCheer("💪", getString(R.string.cheer_miss), isPositive = false)
@@ -545,59 +573,86 @@ class MainActivity : AppCompatActivity() {
     // ============================================================
 
     private fun renderProjects(animate: Boolean) {
-        projectList.removeAllViews()
-
         // 商品能否兑换也跟着积分变，顺手刷新一下商城
         renderStore()
 
         // 顶部总积分 = 所有项目积分之和 − 已兑换积分
-        tvTotalPoints.text = availablePoints().toString()
+        tvTotalPoints.text = Points.format(availablePoints())
 
         // 只有在真的存在积分时，才显示"清空积分"
         btnClearPoints.visibility =
-            if (projects.any { it.points != 0 }) View.VISIBLE else View.GONE
+            if (projects.any { it.points != 0.0 }) View.VISIBLE else View.GONE
 
         if (projects.isEmpty()) {
             emptyHint.visibility = View.VISIBLE
-            scrollProjects.visibility = View.GONE
+            projectList.visibility = View.GONE
             return
         }
 
         emptyHint.visibility = View.GONE
-        scrollProjects.visibility = View.VISIBLE
+        projectList.visibility = View.VISIBLE
 
-        projects.forEachIndexed { index, project ->
-            val item = layoutInflater.inflate(R.layout.item_project, projectList, false)
+        projectAdapter.submit(projects.toList(), animate)
+    }
 
-            item.findViewById<TextView>(R.id.tvName).text = project.name
-            item.findViewById<TextView>(R.id.tvBelief).text =
-                project.belief.ifBlank { getString(R.string.belief_empty) }
-            item.findViewById<TextView>(R.id.tvCardPoints).text =
-                getString(R.string.card_points, project.points)
-            item.findViewById<TextView>(R.id.tvReward).text =
-                getString(R.string.points_reward, project.rewardPoints)
-            item.findViewById<TextView>(R.id.tvPenalty).text =
-                getString(R.string.points_penalty, project.penaltyPoints)
+    // ============================================================
+    //  长按拖动排序
+    // ============================================================
 
-            item.findViewById<View>(R.id.btnEdit).setOnClickListener {
-                showProjectSheet(existing = projects[index], index = index)
-            }
-            item.findViewById<View>(R.id.btnAddPoint).setOnClickListener { onAddPoint(index) }
-            item.findViewById<View>(R.id.btnMinusPoint).setOnClickListener { onMinusPoint(index) }
+    private fun setupDragSort() {
+        val callback = object : ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            0
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                val from = viewHolder.adapterPosition
+                val to = target.adapterPosition
+                if (from == RecyclerView.NO_POSITION || to == RecyclerView.NO_POSITION) return false
 
-            if (animate) {
-                item.alpha = 0f
-                item.translationY = 24f
-                item.animate()
-                    .alpha(1f)
-                    .translationY(0f)
-                    .setDuration(260)
-                    .setStartDelay((index * 45).toLong())
-                    .start()
+                // 适配器和内存里的 projects 一起换位置，保证后面对得上
+                projectAdapter.moveItem(from, to)
+                val moved = projects.removeAt(from)
+                projects.add(to, moved)
+                return true
             }
 
-            projectList.addView(item)
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) = Unit
+
+            override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
+                super.onSelectedChanged(viewHolder, actionState)
+                if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+                    // 手指按住的那一刻震一下
+                    viewHolder?.itemView?.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+                    viewHolder?.itemView?.let {
+                        it.elevation = 12f * resources.displayMetrics.density
+                        it.alpha = 0.95f
+                        it.scaleX = 1.02f
+                        it.scaleY = 1.02f
+                    }
+                }
+            }
+
+            override fun clearView(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder
+            ) {
+                super.clearView(recyclerView, viewHolder)
+                viewHolder.itemView.elevation = 0f
+                viewHolder.itemView.alpha = 1f
+                viewHolder.itemView.scaleX = 1f
+                viewHolder.itemView.scaleY = 1f
+
+                // 松手后把顺序存下来
+                ProjectStore.save(this@MainActivity, projects)
+                tvTotalPoints.text = Points.format(availablePoints())
+            }
         }
+
+        ItemTouchHelper(callback).attachToRecyclerView(projectList)
     }
 
     // ============================================================
@@ -613,7 +668,7 @@ class MainActivity : AppCompatActivity() {
                 val before = availablePoints()
                 // 所有项目的积分归零（用 copy，Project 的字段都是 val）
                 for (i in projects.indices) {
-                    projects[i] = projects[i].copy(points = 0)
+                    projects[i] = projects[i].copy(points = 0.0)
                 }
                 ProjectStore.save(this, projects)
 
@@ -639,8 +694,8 @@ class MainActivity : AppCompatActivity() {
     )
 
     /** 可用积分 = 所有项目累计 − 已兑换 */
-    private fun availablePoints(): Int =
-        projects.sumOf { it.points } - StoreStore.spentPoints(this)
+    private fun availablePoints(): Double =
+        Points.round(projects.sumOf { it.points } - StoreStore.spentPoints(this))
 
     /**
      * 记一条积分变动历史。
@@ -648,9 +703,9 @@ class MainActivity : AppCompatActivity() {
      */
     private fun recordHistory(
         label: String,
-        delta: Int,
+        delta: Double,
         projectId: String = "",
-        projectPoints: Int = -1
+        projectPoints: Double = -1.0
     ) {
         HistoryStore.add(
             this,
@@ -670,8 +725,12 @@ class MainActivity : AppCompatActivity() {
         val spent = StoreStore.spentPoints(this)
         val available = earned - spent
 
-        tvAvailablePoints.text = available.toString()
-        tvStoreSummary.text = getString(R.string.store_summary, earned, spent)
+        tvAvailablePoints.text = Points.format(available)
+        tvStoreSummary.text = getString(
+            R.string.store_summary,
+            Points.format(earned),
+            Points.format(spent)
+        )
 
         // 奖励清单（用户自己创建的）
         val items = StoreStore.items(this)
@@ -698,7 +757,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             card.findViewById<TextView>(R.id.tvItemCost).text =
-                getString(R.string.store_cost, item.cost)
+                getString(R.string.store_cost, Points.format(item.cost))
 
             val button = card.findViewById<MaterialButton>(R.id.btnRedeem)
             val enough = available >= item.cost
@@ -731,7 +790,7 @@ class MainActivity : AppCompatActivity() {
             row.findViewById<TextView>(R.id.tvRedemptionTitle).text = record.title
             row.findViewById<TextView>(R.id.tvRedemptionTime).text = timeFormat.format(Date(record.time))
             row.findViewById<TextView>(R.id.tvRedemptionCost).text =
-                getString(R.string.points_penalty, record.cost)
+                getString(R.string.points_penalty, Points.format(record.cost))
             row.findViewById<MaterialButton>(R.id.btnRevoke).setOnClickListener {
                 confirmRevoke(record)
             }
@@ -743,7 +802,7 @@ class MainActivity : AppCompatActivity() {
     private fun confirmRevoke(record: Redemption) {
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.store_revoke_title)
-            .setMessage(getString(R.string.store_revoke_message, record.title, record.cost))
+            .setMessage(getString(R.string.store_revoke_message, record.title, Points.format(record.cost)))
             .setNegativeButton(R.string.action_cancel, null)
             .setPositiveButton(R.string.action_confirm) { _, _ ->
                 val ok = StoreStore.revoke(this, record)
@@ -751,7 +810,7 @@ class MainActivity : AppCompatActivity() {
                     recordHistory(getString(R.string.history_revoke, record.title), record.cost)
                     Toast.makeText(
                         this,
-                        getString(R.string.store_revoke_done, record.cost),
+                        getString(R.string.store_revoke_done, Points.format(record.cost)),
                         Toast.LENGTH_SHORT
                     ).show()
                     renderStore()
@@ -771,7 +830,7 @@ class MainActivity : AppCompatActivity() {
 
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.store_confirm_title)
-            .setMessage(getString(R.string.store_confirm_message, item.cost, item.title))
+            .setMessage(getString(R.string.store_confirm_message, Points.format(item.cost), item.title))
             .setNegativeButton(R.string.action_cancel, null)
             .setPositiveButton(R.string.action_confirm) { _, _ ->
                 val ok = StoreStore.redeem(this, item, available)
@@ -829,7 +888,7 @@ class MainActivity : AppCompatActivity() {
         content.findViewById<MaterialButton>(R.id.btnStoreSave).setOnClickListener {
             val title = editName.text?.toString()?.trim().orEmpty()
             val desc = editDesc.text?.toString()?.trim().orEmpty()
-            val cost = editCost.text?.toString()?.trim()?.toIntOrNull() ?: 0
+            val cost = Points.parseInput(editCost.text?.toString()) ?: 0.0
 
             if (title.isEmpty()) {
                 layoutName.error = getString(R.string.store_error_name)
@@ -838,8 +897,12 @@ class MainActivity : AppCompatActivity() {
             }
             layoutName.error = null
 
-            if (cost <= 0) {
-                layoutCost.error = getString(R.string.store_error_cost)
+            if (cost <= 0.0 || !Points.isValidCost(cost)) {
+                layoutCost.error = getString(
+                    R.string.error_cost_range,
+                    Points.MIN_COST,
+                    Points.MAX_COST
+                )
                 editCost.requestFocus()
                 return@setOnClickListener
             }

@@ -24,10 +24,10 @@ data class Project(
     val id: String = UUID.randomUUID().toString(),
     val belief: String = "",
     val reason: String = "",
-    val rewardPoints: Int = 0,
-    val penaltyPoints: Int = 0,
+    val rewardPoints: Double = 0.0,
+    val penaltyPoints: Double = 0.0,
     val startDate: String = "",
-    val points: Int = 0,
+    val points: Double = 0.0,
     val streak: Int = 0,
     val bestStreak: Int = 0
 ) {
@@ -52,10 +52,10 @@ data class Project(
             id = json.optString("id").ifBlank { UUID.randomUUID().toString() },
             belief = json.optString("belief"),
             reason = json.optString("reason"),
-            rewardPoints = json.optInt("reward"),
-            penaltyPoints = json.optInt("penalty"),
+            rewardPoints = json.optDouble("reward", 0.0),
+            penaltyPoints = json.optDouble("penalty", 0.0),
             startDate = json.optString("startDate"),
-            points = json.optInt("points"),
+            points = json.optDouble("points", 0.0),
             streak = json.optInt("streak"),
             bestStreak = json.optInt("bestStreak")
         )
