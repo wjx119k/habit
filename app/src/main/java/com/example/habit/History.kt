@@ -16,7 +16,13 @@ data class HistoryRecord(
     val label: String,       // 说明，如"喝水 +1"、"兑换 麦当劳一次"
     val delta: Int,          // 本次变化量（兑换是负数）
     val total: Int,          // 变化之后的总积分
-    val projectId: String = ""
+    val projectId: String = "",
+    /**
+     * 变化之后"这个计划自己"的积分。
+     * -1 表示不属于任何计划（兑换、清空积分这类全局操作）。
+     * 有这个字段，历史页才能画出单个计划的曲线。
+     */
+    val projectPoints: Int = -1
 )
 
 object HistoryStore {
@@ -43,7 +49,8 @@ object HistoryStore {
                         label = o.optString("label"),
                         delta = o.optInt("delta"),
                         total = o.optInt("total"),
-                        projectId = o.optString("projectId")
+                        projectId = o.optString("projectId"),
+                        projectPoints = o.optInt("projectPoints", -1)
                     )
                 )
             }
@@ -81,6 +88,7 @@ object HistoryStore {
                     put("delta", it.delta)
                     put("total", it.total)
                     put("projectId", it.projectId)
+                    put("projectPoints", it.projectPoints)
                 }
             )
         }

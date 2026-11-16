@@ -257,4 +257,12 @@
     <string name="backup_export_failed">書き出し失敗：%1$s</string>
     <string name="backup_import_failed">読み込み失敗：このファイルを開けません</string>
     <string name="backup_import_done">読み込みました。再読み込み中…</string>
+    <string name="store_revoke">取り消し</string>
+    <string name="store_revoke_title">交換を取り消す</string>
+    <string name="store_revoke_message">「%1$s」を取り消して %2$d ポイント戻しますか？</string>
+    <string name="store_revoke_done">取り消しました。%1$d ポイント戻しました</string>
+    <string name="history_revoke">交換を取り消し %1$s</string>
+    <string name="history_all">すべて</string>
+    <string name="history_plan_subtitle">%1$s のポイント推移</string>
+    <string name="history_plan_empty">このプランの記録はまだありません</string>
 </resources>

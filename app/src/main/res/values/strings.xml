@@ -277,4 +277,12 @@
     <string name="backup_export_failed">导出失败：%1$s</string>
     <string name="backup_import_failed">导入失败：读不了这个文件</string>
     <string name="backup_import_done">导入成功，正在重新加载…</string>
+    <string name="store_revoke">撤销</string>
+    <string name="store_revoke_title">撤销兑换</string>
+    <string name="store_revoke_message">撤销「%1$s」，退回 %2$d 积分？</string>
+    <string name="store_revoke_done">已撤销，退回 %1$d 积分</string>
+    <string name="history_revoke">撤销兑换 %1$s</string>
+    <string name="history_all">全部</string>
+    <string name="history_plan_subtitle">%1$s 的积分变化</string>
+    <string name="history_plan_empty">这个计划还没有记录</string>
 </resources>

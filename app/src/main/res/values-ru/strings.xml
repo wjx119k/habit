@@ -257,4 +257,12 @@
     <string name="backup_export_failed">Ошибка экспорта: %1$s</string>
     <string name="backup_import_failed">Ошибка импорта: не удалось прочитать файл</string>
     <string name="backup_import_done">Импортировано. Перезагрузка…</string>
+    <string name="store_revoke">Отменить</string>
+    <string name="store_revoke_title">Отменить обмен</string>
+    <string name="store_revoke_message">Отменить «%1$s» и вернуть %2$d баллов?</string>
+    <string name="store_revoke_done">Отменено, возвращено %1$d баллов</string>
+    <string name="history_revoke">Отмена обмена %1$s</string>
+    <string name="history_all">Все</string>
+    <string name="history_plan_subtitle">Баллы плана %1$s</string>
+    <string name="history_plan_empty">У этого плана пока нет записей</string>
 </resources>

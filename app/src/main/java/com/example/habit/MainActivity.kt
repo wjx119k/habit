@@ -300,7 +300,8 @@ class MainActivity : AppCompatActivity() {
             recordHistory(
                 getString(R.string.history_delete_plan, existing.name),
                 -existing.points,
-                existing.id
+                existing.id,
+                0
             )
             renderProjects(animate = false)
             Toast.makeText(this, getString(R.string.toast_cleared, existing.name), Toast.LENGTH_SHORT).show()
@@ -330,7 +331,8 @@ class MainActivity : AppCompatActivity() {
             recordHistory(
                 label = "${project.name} +${project.rewardPoints}",
                 delta = project.rewardPoints,
-                projectId = project.id
+                projectId = project.id,
+                projectPoints = project.points + project.rewardPoints
             )
             renderProjects(animate = false)
             checkAchievements()
@@ -353,7 +355,8 @@ class MainActivity : AppCompatActivity() {
             recordHistory(
                 label = "${project.name} −${project.penaltyPoints}",
                 delta = -project.penaltyPoints,
-                projectId = project.id
+                projectId = project.id,
+                projectPoints = project.points - project.penaltyPoints
             )
             renderProjects(animate = false)
             showCheer("💪", getString(R.string.cheer_miss), isPositive = false)
@@ -643,7 +646,12 @@ class MainActivity : AppCompatActivity() {
      * 记一条积分变动历史。
      * 必须在 projects / 兑换记录都改完之后调用——它要用变动后的总积分。
      */
-    private fun recordHistory(label: String, delta: Int, projectId: String = "") {
+    private fun recordHistory(
+        label: String,
+        delta: Int,
+        projectId: String = "",
+        projectPoints: Int = -1
+    ) {
         HistoryStore.add(
             this,
             HistoryRecord(
@@ -651,7 +659,8 @@ class MainActivity : AppCompatActivity() {
                 label = label,
                 delta = delta,
                 total = availablePoints(),
-                projectId = projectId
+                projectId = projectId,
+                projectPoints = projectPoints
             )
         )
     }
@@ -723,8 +732,33 @@ class MainActivity : AppCompatActivity() {
             row.findViewById<TextView>(R.id.tvRedemptionTime).text = timeFormat.format(Date(record.time))
             row.findViewById<TextView>(R.id.tvRedemptionCost).text =
                 getString(R.string.points_penalty, record.cost)
+            row.findViewById<MaterialButton>(R.id.btnRevoke).setOnClickListener {
+                confirmRevoke(record)
+            }
             redemptionList.addView(row)
         }
+    }
+
+    /** 撤销一次兑换：删掉记录，积分原路退回 */
+    private fun confirmRevoke(record: Redemption) {
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.store_revoke_title)
+            .setMessage(getString(R.string.store_revoke_message, record.title, record.cost))
+            .setNegativeButton(R.string.action_cancel, null)
+            .setPositiveButton(R.string.action_confirm) { _, _ ->
+                val ok = StoreStore.revoke(this, record)
+                if (ok) {
+                    recordHistory(getString(R.string.history_revoke, record.title), record.cost)
+                    Toast.makeText(
+                        this,
+                        getString(R.string.store_revoke_done, record.cost),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    renderStore()
+                    renderProjects(animate = false)
+                }
+            }
+            .show()
     }
 
     private fun onRedeem(item: StoreItem) {

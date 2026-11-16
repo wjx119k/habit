@@ -257,4 +257,12 @@
     <string name="backup_export_failed">匯出失敗：%1$s</string>
     <string name="backup_import_failed">匯入失敗：讀不了這個檔案</string>
     <string name="backup_import_done">匯入成功，正在重新載入…</string>
+    <string name="store_revoke">撤銷</string>
+    <string name="store_revoke_title">撤銷兌換</string>
+    <string name="store_revoke_message">撤銷「%1$s」，退回 %2$d 積分？</string>
+    <string name="store_revoke_done">已撤銷，退回 %1$d 積分</string>
+    <string name="history_revoke">撤銷兌換 %1$s</string>
+    <string name="history_all">全部</string>
+    <string name="history_plan_subtitle">%1$s 的積分變化</string>
+    <string name="history_plan_empty">這個計畫還沒有紀錄</string>
 </resources>

@@ -143,7 +143,7 @@ object StoreStore {
         return true
     }
 
-    /** 整体覆盖兑换记录（导入备份时用） */
+    /** 整体覆盖兑换记录（导入备份、撤销兑换时用） */
     fun saveRedemptions(context: Context, list: List<Redemption>) {
         val array = JSONArray()
         list.forEach {
@@ -157,6 +157,21 @@ object StoreStore {
             )
         }
         prefs(context).edit().putString(KEY_REDEMPTIONS, array.toString()).apply()
+    }
+
+    /**
+     * 撤销一条兑换：把记录删掉，积分自然就退回来了（可用积分 = 累计 − 已兑换）。
+     * @return 是否真的删掉了
+     */
+    fun revoke(context: Context, target: Redemption): Boolean {
+        val list = redemptions(context)
+        val index = list.indexOfFirst {
+            it.time == target.time && it.title == target.title && it.cost == target.cost
+        }
+        if (index < 0) return false
+        list.removeAt(index)
+        saveRedemptions(context, list)
+        return true
     }
 
     /** 清空兑换记录（"清空积分"时一起重置，避免可用积分变成负数） */

@@ -261,4 +261,12 @@
     <string name="backup_export_failed">Export failed: %1$s</string>
     <string name="backup_import_failed">Import failed: cannot read this file</string>
     <string name="backup_import_done">Imported. Reloading…</string>
+    <string name="store_revoke">Undo</string>
+    <string name="store_revoke_title">Undo redemption</string>
+    <string name="store_revoke_message">Undo “%1$s” and get %2$d points back?</string>
+    <string name="store_revoke_done">Undone, %1$d points refunded</string>
+    <string name="history_revoke">Undid redemption %1$s</string>
+    <string name="history_all">All</string>
+    <string name="history_plan_subtitle">Points of %1$s</string>
+    <string name="history_plan_empty">No records for this plan yet</string>
 </resources>
