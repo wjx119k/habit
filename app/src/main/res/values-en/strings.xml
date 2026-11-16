@@ -78,7 +78,7 @@
     <string name="login_password">Password</string>
     <string name="login_action">Sign in</string>
     <string name="login_go_register">No account yet? Tap to sign up</string>
-    <string name="login_no_server">This app is not connected to a server yet. Please wait.</string>
+    <string name="login_no_server">This sign-in method is not available yet. Please use email.</string>
     <string name="login_other_ways">Other sign-in options</string>
     <string name="login_with_google">Continue with Google</string>
     <string name="login_with_qq">Continue with QQ</string>
@@ -281,4 +281,10 @@
     <string name="profile_logout_confirm">Sign out?\nYour plans and points stay on this phone.</string>
     <string name="profile_logged_in">Signed in · data stored locally</string>
     <string name="me_logged_in_hint">Signed in, tap to open your profile</string>
+    <string name="profile_delete_account">Delete account</string>
+    <string name="profile_delete_confirm">This permanently deletes your cloud data and local data. It cannot be undone.\n\n(The login email itself still needs to be removed on the backend.)</string>
+    <string name="profile_delete_do">Delete</string>
+    <string name="profile_deleting">Deleting…</string>
+    <string name="profile_deleted">Deleted: cloud and local data cleared</string>
+    <string name="profile_delete_offline">Local data cleared; cloud data was not deleted (network). Try again online.</string>
 </resources>

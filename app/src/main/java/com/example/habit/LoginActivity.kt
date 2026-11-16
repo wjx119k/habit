@@ -66,29 +66,30 @@ class LoginActivity : AppCompatActivity() {
             }
             layoutPassword.error = null
 
-            // 本地账号校验
-            when (val result = AccountStore.login(this, name, pwd)) {
-                is AuthResult.Ok -> {
-                    Toast.makeText(
-                        this,
-                        getString(R.string.auth_login_success, name),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    setResult(RESULT_OK)
-                    finish()
-                    @Suppress("DEPRECATION")
-                    overridePendingTransition(android.R.anim.fade_in, R.anim.slide_out_down)
-                }
-                is AuthResult.Fail -> {
-                    val message = getString(result.messageRes)
-                    if (result.messageRes == R.string.auth_error_not_found) {
-                        layoutUsername.error = message
-                        editUsername.requestFocus()
-                    } else {
-                        layoutPassword.error = message
-                        editPassword.requestFocus()
+            // Supabase 用邮箱登录，这里先挡一下明显不是邮箱的输入
+
+            // 走 Supabase 登录（失败返回中文提示，成功返回 null）
+            val error = SupabaseAuth.login(this, SupabaseAuth.toEmail(name), pwd)
+            if (error == null) {
+                // 登录成功：把云端数据拉回来
+                Thread {
+                    val payload = SupabaseSync.pull(this)
+                    runOnUiThread {
+                        payload?.let { SupabaseSync.restore(this, it) }
+                        Toast.makeText(
+                            this,
+                            getString(R.string.auth_login_success, name),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        setResult(RESULT_OK)
+                        finish()
+                        @Suppress("DEPRECATION")
+                        overridePendingTransition(android.R.anim.fade_in, R.anim.slide_out_down)
                     }
-                }
+                }.start()
+            } else {
+                layoutPassword.error = error
+                editPassword.requestFocus()
             }
         }
 

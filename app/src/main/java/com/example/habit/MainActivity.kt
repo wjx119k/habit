@@ -933,7 +933,7 @@ class MainActivity : AppCompatActivity() {
     private fun refreshAccountUi() {
         val nameView = findViewById<TextView>(R.id.tvUserName)
         val hintView = findViewById<TextView>(R.id.tvLoginHint)
-        val user = AccountStore.currentUser(this)
+        val user = SupabaseAuth.displayName(this)
         if (user == null) {
             nameView.setText(R.string.me_user_name)
             hintView.setText(R.string.me_login_hint)

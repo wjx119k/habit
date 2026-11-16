@@ -71,7 +71,7 @@
     <string name="login_password">パスワード</string>
     <string name="login_action">ログイン</string>
     <string name="login_go_register">アカウントをお持ちでない方はこちら</string>
-    <string name="login_no_server">このアプリはまだサーバーに接続されていません。しばらくお待ちください</string>
+    <string name="login_no_server">このログイン方法はまだ利用できません。メールでログインしてください。</string>
     <string name="login_other_ways">他のログイン方法</string>
     <string name="login_with_google">Google で続行</string>
     <string name="login_with_qq">QQ で続行</string>
@@ -277,4 +277,10 @@
     <string name="profile_logout_confirm">ログアウトしますか？\nプランやポイントは端末内に残ります。</string>
     <string name="profile_logged_in">ログイン中 · データは端末内</string>
     <string name="me_logged_in_hint">ログイン中。タップでプロフィールを表示</string>
+    <string name="profile_delete_account">アカウント削除</string>
+    <string name="profile_delete_confirm">クラウドと端末内のデータを完全に削除します。元に戻せません。\n\n（ログイン用メールアドレス自体は別途削除が必要です）</string>
+    <string name="profile_delete_do">削除する</string>
+    <string name="profile_deleting">削除中…</string>
+    <string name="profile_deleted">削除しました：クラウドと端末のデータを消去しました</string>
+    <string name="profile_delete_offline">端末データは消去しました。クラウドは未削除（通信エラー）。オンラインで再試行してください。</string>
 </resources>

@@ -52,11 +52,41 @@ class ProfileActivity : AppCompatActivity() {
         refreshLoginState()
     }
 
+
+    /** 注销账号：删云端数据 + 清本机数据 + 退出登录 */
+    private fun confirmDeleteAccount() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.profile_delete_account)
+            .setMessage(R.string.profile_delete_confirm)
+            .setNegativeButton(R.string.action_cancel, null)
+            .setPositiveButton(R.string.profile_delete_do) { _, _ ->
+                val btn = findViewById<MaterialButton>(R.id.btnLogin)
+                btn.isEnabled = false
+                btn.setText(R.string.profile_deleting)
+
+                Thread {
+                    val remoteOk = SupabaseSync.deleteRemote(this)
+                    runOnUiThread {
+                        SupabaseSync.wipeLocal(this)
+                        SupabaseAuth.logout(this)
+                        Toast.makeText(
+                            this,
+                            if (remoteOk) R.string.profile_deleted else R.string.profile_delete_offline,
+                            Toast.LENGTH_LONG
+                        ).show()
+                        btn.isEnabled = true
+                        refreshLoginState()
+                    }
+                }.start()
+            }
+            .show()
+    }
+
     /** 根据"有没有登录"切换提示文字和按钮行为 */
     private fun refreshLoginState() {
         val btnLogin = findViewById<MaterialButton>(R.id.btnLogin)
         val tvHint = findViewById<TextView>(R.id.tvProfileHint)
-        val user = AccountStore.currentUser(this)
+        val user = SupabaseAuth.displayName(this)
 
         if (user == null) {
             tvHint.setText(R.string.me_login_hint)
@@ -73,8 +103,11 @@ class ProfileActivity : AppCompatActivity() {
                 MaterialAlertDialogBuilder(this)
                     .setMessage(R.string.profile_logout_confirm)
                     .setNegativeButton(R.string.action_cancel, null)
+                    .setNeutralButton(R.string.profile_delete_account) { _, _ ->
+                        confirmDeleteAccount()
+                    }
                     .setPositiveButton(R.string.action_confirm) { _, _ ->
-                        AccountStore.logout(this)
+                        SupabaseAuth.logout(this)
                         Toast.makeText(
                             this,
                             getString(R.string.profile_logout),
