@@ -245,4 +245,20 @@
     <string name="history_redeem">Redeemed %1$s</string>
     <string name="history_clear_points">Points cleared</string>
     <string name="history_delete_plan">Deleted plan %1$s</string>
+    <string name="backup_title">Data &amp; backup</string>
+    <string name="settings_backup">Data &amp; backup</string>
+    <string name="settings_backup_desc">Export, share and import</string>
+    <string name="backup_will_include">This export contains</string>
+    <string name="backup_summary">%1$d plans · %2$d store rewards\n%3$d redemptions · %4$d point events\n%5$d unlocked achievements</string>
+    <string name="backup_last_export">Last export: %1$s</string>
+    <string name="backup_export_share">Export &amp; share</string>
+    <string name="backup_import">Import from file</string>
+    <string name="backup_tip">The export is a JSON file you can keep in cloud storage or send to yourself.\nImporting overwrites all current data, so be careful.</string>
+    <string name="backup_share_title">Share backup file</string>
+    <string name="backup_share_subject">Habit data backup</string>
+    <string name="backup_share_text">This is a data backup exported from Habit.</string>
+    <string name="backup_bad_file">This is not a valid Habit backup file</string>
+    <string name="backup_export_failed">Export failed: %1$s</string>
+    <string name="backup_import_failed">Import failed: cannot read this file</string>
+    <string name="backup_import_done">Imported. Reloading…</string>
 </resources>

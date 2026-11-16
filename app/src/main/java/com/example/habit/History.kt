@@ -66,6 +66,11 @@ object HistoryStore {
             .edit().remove(KEY_RECORDS).apply()
     }
 
+    /** 整体覆盖（导入备份时用） */
+    fun saveAll(context: Context, list: List<HistoryRecord>) {
+        save(context, list)
+    }
+
     private fun save(context: Context, list: List<HistoryRecord>) {
         val array = JSONArray()
         list.forEach {

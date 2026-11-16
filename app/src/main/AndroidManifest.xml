@@ -85,6 +85,22 @@
             android:name=".EasterEggActivity"
             android:exported="false" />
 
+        <!-- 数据与备份 -->
+        <activity
+            android:name=".BackupActivity"
+            android:exported="false" />
+
+        <!-- 分享备份文件用的 FileProvider -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
         <!-- 冬天彩蛋（整屏动画） -->
         <activity
             android:name=".WinterActivity"

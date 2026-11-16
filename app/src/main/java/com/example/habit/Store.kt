@@ -143,6 +143,22 @@ object StoreStore {
         return true
     }
 
+    /** 整体覆盖兑换记录（导入备份时用） */
+    fun saveRedemptions(context: Context, list: List<Redemption>) {
+        val array = JSONArray()
+        list.forEach {
+            array.put(
+                JSONObject().apply {
+                    put("itemId", it.itemId)
+                    put("title", it.title)
+                    put("cost", it.cost)
+                    put("time", it.time)
+                }
+            )
+        }
+        prefs(context).edit().putString(KEY_REDEMPTIONS, array.toString()).apply()
+    }
+
     /** 清空兑换记录（"清空积分"时一起重置，避免可用积分变成负数） */
     fun clear(context: Context) {
         prefs(context).edit().remove(KEY_REDEMPTIONS).apply()

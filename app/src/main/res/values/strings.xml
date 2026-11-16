@@ -261,4 +261,20 @@
     <string name="history_redeem">兑换 %1$s</string>
     <string name="history_clear_points">清空积分</string>
     <string name="history_delete_plan">删除计划 %1$s</string>
+    <string name="backup_title">数据与备份</string>
+    <string name="settings_backup">数据与备份</string>
+    <string name="settings_backup_desc">导出、分享与导入</string>
+    <string name="backup_will_include">这次会导出</string>
+    <string name="backup_summary">%1$d 个计划 · %2$d 个商店奖励\n%3$d 条兑换记录 · %4$d 条积分历史\n%5$d 个已解锁成就</string>
+    <string name="backup_last_export">上次导出：%1$s</string>
+    <string name="backup_export_share">导出并分享</string>
+    <string name="backup_import">从文件导入</string>
+    <string name="backup_tip">导出的是一份 JSON 文件，可以存到网盘、发给自己或朋友。\n导入会覆盖当前全部数据，请谨慎操作。</string>
+    <string name="backup_share_title">分享备份文件</string>
+    <string name="backup_share_subject">Habit 数据备份</string>
+    <string name="backup_share_text">这是我用 Habit 导出的数据备份。</string>
+    <string name="backup_bad_file">这不是有效的 Habit 备份文件</string>
+    <string name="backup_export_failed">导出失败：%1$s</string>
+    <string name="backup_import_failed">导入失败：读不了这个文件</string>
+    <string name="backup_import_done">导入成功，正在重新加载…</string>
 </resources>

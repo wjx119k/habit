@@ -241,4 +241,20 @@
     <string name="history_redeem">兌換 %1$s</string>
     <string name="history_clear_points">清空積分</string>
     <string name="history_delete_plan">刪除計畫 %1$s</string>
+    <string name="backup_title">資料與備份</string>
+    <string name="settings_backup">資料與備份</string>
+    <string name="settings_backup_desc">匯出、分享與匯入</string>
+    <string name="backup_will_include">這次會匯出</string>
+    <string name="backup_summary">%1$d 個計畫 · %2$d 個商店獎勵\n%3$d 筆兌換紀錄 · %4$d 筆積分歷史\n%5$d 個已解鎖成就</string>
+    <string name="backup_last_export">上次匯出：%1$s</string>
+    <string name="backup_export_share">匯出並分享</string>
+    <string name="backup_import">從檔案匯入</string>
+    <string name="backup_tip">匯出的是一份 JSON 檔案，可以存到雲端、寄給自己或朋友。\n匯入會覆蓋目前全部資料，請謹慎操作。</string>
+    <string name="backup_share_title">分享備份檔案</string>
+    <string name="backup_share_subject">Habit 資料備份</string>
+    <string name="backup_share_text">這是我用 Habit 匯出的資料備份。</string>
+    <string name="backup_bad_file">這不是有效的 Habit 備份檔案</string>
+    <string name="backup_export_failed">匯出失敗：%1$s</string>
+    <string name="backup_import_failed">匯入失敗：讀不了這個檔案</string>
+    <string name="backup_import_done">匯入成功，正在重新載入…</string>
 </resources>

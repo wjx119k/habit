@@ -96,6 +96,14 @@ object AchievementStore {
             .apply()
     }
 
+    /** 整体覆盖已解锁列表（导入备份时用） */
+    fun setUnlocked(context: Context, ids: Set<String>) {
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .edit()
+            .putStringSet(KEY_UNLOCKED, ids)
+            .apply()
+    }
+
     /**
      * 根据"单项目最佳"和"全部项目合计最佳"检查是否达成新成就。
      * 返回本次新解锁的成就列表（可能为空）。

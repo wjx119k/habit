@@ -241,4 +241,20 @@
     <string name="history_redeem">Обмен: %1$s</string>
     <string name="history_clear_points">Баллы сброшены</string>
     <string name="history_delete_plan">Удалён план %1$s</string>
+    <string name="backup_title">Данные и резервная копия</string>
+    <string name="settings_backup">Данные и резервная копия</string>
+    <string name="settings_backup_desc">Экспорт, отправка и импорт</string>
+    <string name="backup_will_include">В эту копию войдёт</string>
+    <string name="backup_summary">Планов: %1$d · наград: %2$d\nОбменов: %3$d · записей баллов: %4$d\nДостижений: %5$d</string>
+    <string name="backup_last_export">Последний экспорт: %1$s</string>
+    <string name="backup_export_share">Экспорт и отправка</string>
+    <string name="backup_import">Импорт из файла</string>
+    <string name="backup_tip">Экспорт — это файл JSON: его можно сохранить в облако или отправить себе.\nИмпорт заменит все текущие данные, будьте осторожны.</string>
+    <string name="backup_share_title">Отправить файл копии</string>
+    <string name="backup_share_subject">Резервная копия Habit</string>
+    <string name="backup_share_text">Это резервная копия данных, созданная в Habit.</string>
+    <string name="backup_bad_file">Это не файл резервной копии Habit</string>
+    <string name="backup_export_failed">Ошибка экспорта: %1$s</string>
+    <string name="backup_import_failed">Ошибка импорта: не удалось прочитать файл</string>
+    <string name="backup_import_done">Импортировано. Перезагрузка…</string>
 </resources>

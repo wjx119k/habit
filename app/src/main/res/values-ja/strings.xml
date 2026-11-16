@@ -241,4 +241,20 @@
     <string name="history_redeem">%1$s と交換</string>
     <string name="history_clear_points">ポイントをリセット</string>
     <string name="history_delete_plan">プラン削除 %1$s</string>
+    <string name="backup_title">データとバックアップ</string>
+    <string name="settings_backup">データとバックアップ</string>
+    <string name="settings_backup_desc">書き出し・共有・読み込み</string>
+    <string name="backup_will_include">書き出す内容</string>
+    <string name="backup_summary">プラン %1$d 件 · ストア %2$d 件\n交換履歴 %3$d 件 · ポイント履歴 %4$d 件\n解除済み実績 %5$d 件</string>
+    <string name="backup_last_export">前回の書き出し：%1$s</string>
+    <string name="backup_export_share">書き出して共有</string>
+    <string name="backup_import">ファイルから読み込む</string>
+    <string name="backup_tip">書き出したファイルは JSON です。クラウドに保存したり、自分や友だちに送れます。\n読み込むと現在のデータはすべて上書きされます。</string>
+    <string name="backup_share_title">バックアップを共有</string>
+    <string name="backup_share_subject">Habit のデータバックアップ</string>
+    <string name="backup_share_text">Habit で書き出したデータバックアップです。</string>
+    <string name="backup_bad_file">有効な Habit バックアップではありません</string>
+    <string name="backup_export_failed">書き出し失敗：%1$s</string>
+    <string name="backup_import_failed">読み込み失敗：このファイルを開けません</string>
+    <string name="backup_import_done">読み込みました。再読み込み中…</string>
 </resources>
