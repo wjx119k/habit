@@ -287,4 +287,14 @@
     <string name="history_plan_empty">这个计划还没有记录</string>
     <string name="error_points_range">请输入 %1$s ~ %2$s 之间的数字（最多一位小数）</string>
     <string name="error_cost_range">价格需在 %1$s ~ %2$s 之间（最多一位小数）</string>
+    <string name="auth_error_exists">这个用户名已经被注册了</string>
+    <string name="auth_error_not_found">该用户名还没有注册</string>
+    <string name="auth_error_wrong_password">密码不正确</string>
+    <string name="auth_login_success">欢迎回来，%1$s</string>
+    <string name="auth_register_success">注册成功，已自动登录</string>
+    <string name="auth_local_note">账号保存在本机，不联网、不上传；换手机或重装应用后需要重新注册。</string>
+    <string name="profile_logout">退出登录</string>
+    <string name="profile_logout_confirm">确定退出登录？\n你的计划、积分等数据仍保存在本机。</string>
+    <string name="profile_logged_in">已登录 · 数据保存在本机</string>
+    <string name="me_logged_in_hint">已登录，点击查看个人主页</string>
 </resources>

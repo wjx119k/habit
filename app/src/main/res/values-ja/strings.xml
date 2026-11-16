@@ -267,4 +267,14 @@
     <string name="history_plan_empty">このプランの記録はまだありません</string>
     <string name="error_points_range">%1$s 〜 %2$s の数値を入力してください（小数は1桁まで）</string>
     <string name="error_cost_range">価格は %1$s 〜 %2$s の範囲で入力してください（小数は1桁まで）</string>
+    <string name="auth_error_exists">このユーザー名は既に登録されています</string>
+    <string name="auth_error_not_found">このユーザー名は登録されていません</string>
+    <string name="auth_error_wrong_password">パスワードが正しくありません</string>
+    <string name="auth_login_success">おかえりなさい、%1$s</string>
+    <string name="auth_register_success">登録しました。自動でログインします</string>
+    <string name="auth_local_note">アカウントは端末内だけに保存され、送信されません。機種変更や再インストール後は再登録が必要です。</string>
+    <string name="profile_logout">ログアウト</string>
+    <string name="profile_logout_confirm">ログアウトしますか？\nプランやポイントは端末内に残ります。</string>
+    <string name="profile_logged_in">ログイン中 · データは端末内</string>
+    <string name="me_logged_in_hint">ログイン中。タップでプロフィールを表示</string>
 </resources>

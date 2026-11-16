@@ -111,6 +111,7 @@ class MainActivity : AppCompatActivity() {
         renderProjects(animate = false)
 
         setupMePage()
+        refreshAccountUi()
 
         // 右上角小头像：切到 Me 栏目
         findViewById<View>(R.id.btnAvatarTop).setOnClickListener { view ->
@@ -920,6 +921,26 @@ class MainActivity : AppCompatActivity() {
         }
 
         dialog.show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // 从登录页返回时刷新昵称
+        refreshAccountUi()
+    }
+
+    /** Me 页顶部资料卡：显示当前登录的用户名 */
+    private fun refreshAccountUi() {
+        val nameView = findViewById<TextView>(R.id.tvUserName)
+        val hintView = findViewById<TextView>(R.id.tvLoginHint)
+        val user = AccountStore.currentUser(this)
+        if (user == null) {
+            nameView.setText(R.string.me_user_name)
+            hintView.setText(R.string.me_login_hint)
+        } else {
+            nameView.text = user
+            hintView.setText(R.string.me_logged_in_hint)
+        }
     }
 
     private fun todayString(): String {

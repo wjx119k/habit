@@ -66,7 +66,30 @@ class LoginActivity : AppCompatActivity() {
             }
             layoutPassword.error = null
 
-            showNoServer()
+            // 本地账号校验
+            when (val result = AccountStore.login(this, name, pwd)) {
+                is AuthResult.Ok -> {
+                    Toast.makeText(
+                        this,
+                        getString(R.string.auth_login_success, name),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    setResult(RESULT_OK)
+                    finish()
+                    @Suppress("DEPRECATION")
+                    overridePendingTransition(android.R.anim.fade_in, R.anim.slide_out_down)
+                }
+                is AuthResult.Fail -> {
+                    val message = getString(result.messageRes)
+                    if (result.messageRes == R.string.auth_error_not_found) {
+                        layoutUsername.error = message
+                        editUsername.requestFocus()
+                    } else {
+                        layoutPassword.error = message
+                        editPassword.requestFocus()
+                    }
+                }
+            }
         }
 
         // 注册

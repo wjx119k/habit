@@ -5,6 +5,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -78,7 +79,20 @@ class RegisterActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            showNoServer()
+            // 真正注册：写进本机账号表，并自动登录
+            when (val result = AccountStore.register(this, name, pwd)) {
+                is AuthResult.Ok -> {
+                    Toast.makeText(this, R.string.auth_register_success, Toast.LENGTH_SHORT).show()
+                    setResult(RESULT_OK)
+                    finish()
+                    @Suppress("DEPRECATION")
+                    overridePendingTransition(android.R.anim.fade_in, R.anim.slide_out_down)
+                }
+                is AuthResult.Fail -> {
+                    layoutUsername.error = getString(result.messageRes)
+                    editUsername.requestFocus()
+                }
+            }
         }
     }
 
