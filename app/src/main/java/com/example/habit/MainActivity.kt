@@ -400,9 +400,10 @@ class MainActivity : AppCompatActivity() {
         val totalBest = projects.sumOf { it.bestStreak }
 
         val newly = AchievementStore.checkAndUnlock(this, singleBest, totalBest)
-        if (newly.isNotEmpty()) {
-            val best = newly.maxByOrNull { it.threshold } ?: return
-            showCheer("🏆", getString(R.string.ach_unlocked_toast, getString(best.titleRes)), true)
+        newly.forEachIndexed { index, achievement ->
+            window.decorView.postDelayed({
+                AchievementPopup.show(this, achievement)
+            }, (index * 3600).toLong())
         }
     }
 
@@ -927,6 +928,14 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         // 从登录页返回时刷新昵称
         refreshAccountUi()
+
+        // 从其它页面回来时，内存里的 projects 可能是旧的
+        // （比如「清空成就」把连续次数归零了，这里必须重新读盘，否则
+        //   一加分就会用过期的 bestStreak 立刻再解锁一次成就）
+        val latest = ProjectStore.load(this)
+        projects.clear()
+        projects.addAll(latest)
+        renderProjects(animate = false)
     }
 
     /** Me 页顶部资料卡：显示当前登录的用户名 */

@@ -282,4 +282,5 @@
     <string name="profile_deleting">正在註銷…</string>
     <string name="profile_deleted">已註銷：雲端與本機資料已清除</string>
     <string name="profile_delete_offline">已清理本機資料；雲端資料未能刪除（網路問題），請連網後重試</string>
+    <string name="ach_popup_label">成就解鎖</string>
 </resources>

@@ -282,4 +282,5 @@
     <string name="profile_deleting">削除中…</string>
     <string name="profile_deleted">削除しました：クラウドと端末のデータを消去しました</string>
     <string name="profile_delete_offline">端末データは消去しました。クラウドは未削除（通信エラー）。オンラインで再試行してください。</string>
+    <string name="ach_popup_label">実績解除</string>
 </resources>

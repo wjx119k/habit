@@ -302,4 +302,5 @@
     <string name="profile_deleting">正在注销…</string>
     <string name="profile_deleted">已注销：云端与本机数据已清除</string>
     <string name="profile_delete_offline">已清理本机数据；云端数据未能删除（网络问题），请联网后重试</string>
+    <string name="ach_popup_label">成就解锁</string>
 </resources>

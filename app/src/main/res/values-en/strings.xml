@@ -286,4 +286,5 @@
     <string name="profile_deleting">Deleting…</string>
     <string name="profile_deleted">Deleted: cloud and local data cleared</string>
     <string name="profile_delete_offline">Local data cleared; cloud data was not deleted (network). Try again online.</string>
+    <string name="ach_popup_label">Achievement unlocked</string>
 </resources>
