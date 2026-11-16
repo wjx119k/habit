@@ -252,4 +252,13 @@
     <string name="winter_line_2">雪花飘扬</string>
     <string name="winter_line_3">我的所爱</string>
     <string name="winter_line_4">你在哪里</string>
+    <string name="history_chart_subtitle">总积分随时间变化</string>
+    <string name="history_chart_range">%1$s — %2$s</string>
+    <string name="history_records">积分明细</string>
+    <string name="history_empty">还没有记录\n加分或减分之后，这里就会出现</string>
+    <string name="history_total_after">累计 %1$d</string>
+    <string name="chart_need_more">再变动几次就能看到曲线了</string>
+    <string name="history_redeem">兑换 %1$s</string>
+    <string name="history_clear_points">清空积分</string>
+    <string name="history_delete_plan">删除计划 %1$s</string>
 </resources>

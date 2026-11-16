@@ -232,4 +232,13 @@
     <string name="tab_project">Планы</string>
     <string name="tab_store">Магазин</string>
     <string name="tab_me">Мой</string>
+    <string name="history_chart_subtitle">Изменение баллов</string>
+    <string name="history_chart_range">%1$s — %2$s</string>
+    <string name="history_records">История баллов</string>
+    <string name="history_empty">Записей пока нет\nОни появятся после начисления или списания</string>
+    <string name="history_total_after">Итого %1$d</string>
+    <string name="chart_need_more">Ещё несколько изменений — и появится график</string>
+    <string name="history_redeem">Обмен: %1$s</string>
+    <string name="history_clear_points">Баллы сброшены</string>
+    <string name="history_delete_plan">Удалён план %1$s</string>
 </resources>

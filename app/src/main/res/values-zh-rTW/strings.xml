@@ -232,4 +232,13 @@
     <string name="tab_project">計畫</string>
     <string name="tab_store">商店</string>
     <string name="tab_me">我的</string>
+    <string name="history_chart_subtitle">總積分隨時間變化</string>
+    <string name="history_chart_range">%1$s — %2$s</string>
+    <string name="history_records">積分明細</string>
+    <string name="history_empty">還沒有紀錄\n加分或減分之後，這裡就會出現</string>
+    <string name="history_total_after">累計 %1$d</string>
+    <string name="chart_need_more">再變動幾次就能看到曲線了</string>
+    <string name="history_redeem">兌換 %1$s</string>
+    <string name="history_clear_points">清空積分</string>
+    <string name="history_delete_plan">刪除計畫 %1$s</string>
 </resources>

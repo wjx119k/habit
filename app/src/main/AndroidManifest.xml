@@ -60,6 +60,11 @@
             android:name=".AchievementsActivity"
             android:exported="false" />
 
+        <!-- 历史记录 -->
+        <activity
+            android:name=".HistoryActivity"
+            android:exported="false" />
+
         <!-- 关于页 -->
         <activity
             android:name=".AboutActivity"

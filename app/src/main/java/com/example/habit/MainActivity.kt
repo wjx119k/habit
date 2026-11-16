@@ -281,6 +281,11 @@ class MainActivity : AppCompatActivity() {
             ) {
                 val removed = projects.removeAt(index)
                 ProjectStore.save(this, projects)
+                recordHistory(
+                    getString(R.string.history_delete_plan, removed.name),
+                    -removed.points,
+                    removed.id
+                )
                 renderProjects(animate = false)
                 Toast.makeText(this, getString(R.string.toast_deleted, removed.name), Toast.LENGTH_SHORT).show()
                 dialog.dismiss()
@@ -292,6 +297,11 @@ class MainActivity : AppCompatActivity() {
             if (!isEdit) return@setOnClickListener
             projects[index] = existing!!.copy(points = 0)
             ProjectStore.save(this, projects)
+            recordHistory(
+                getString(R.string.history_delete_plan, existing.name),
+                -existing.points,
+                existing.id
+            )
             renderProjects(animate = false)
             Toast.makeText(this, getString(R.string.toast_cleared, existing.name), Toast.LENGTH_SHORT).show()
             dialog.dismiss()
@@ -317,6 +327,11 @@ class MainActivity : AppCompatActivity() {
                 bestStreak = maxOf(project.bestStreak, newStreak)
             )
             ProjectStore.save(this, projects)
+            recordHistory(
+                label = "${project.name} +${project.rewardPoints}",
+                delta = project.rewardPoints,
+                projectId = project.id
+            )
             renderProjects(animate = false)
             checkAchievements()
             showCheer("🎉", getString(R.string.cheer_done), isPositive = true)
@@ -335,6 +350,11 @@ class MainActivity : AppCompatActivity() {
                 streak = 0
             )
             ProjectStore.save(this, projects)
+            recordHistory(
+                label = "${project.name} −${project.penaltyPoints}",
+                delta = -project.penaltyPoints,
+                projectId = project.id
+            )
             renderProjects(animate = false)
             showCheer("💪", getString(R.string.cheer_miss), isPositive = false)
         }
@@ -468,11 +488,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, AchievementsActivity::class.java))
         }
         openMeDestination(R.id.rowHistory) {
-            Toast.makeText(
-                this,
-                getString(R.string.coming_soon, getString(R.string.me_history)),
-                Toast.LENGTH_SHORT
-            ).show()
+            startActivity(Intent(this, HistoryActivity::class.java))
         }
         openMeDestination(R.id.rowAbout) {
             startActivity(Intent(this, AboutActivity::class.java))
@@ -591,6 +607,7 @@ class MainActivity : AppCompatActivity() {
             .setMessage(R.string.clear_points_confirm)
             .setNegativeButton(R.string.action_cancel, null)
             .setPositiveButton(R.string.action_confirm) { _, _ ->
+                val before = availablePoints()
                 // 所有项目的积分归零（用 copy，Project 的字段都是 val）
                 for (i in projects.indices) {
                     projects[i] = projects[i].copy(points = 0)
@@ -599,6 +616,7 @@ class MainActivity : AppCompatActivity() {
 
                 // 兑换记录一起清空：否则"可用积分 = 0 − 已兑换"会变成负数
                 StoreStore.clear(this)
+                recordHistory(getString(R.string.history_clear_points), -before)
 
                 renderProjects(animate = true)
                 renderStore()
@@ -620,6 +638,23 @@ class MainActivity : AppCompatActivity() {
     /** 可用积分 = 所有项目累计 − 已兑换 */
     private fun availablePoints(): Int =
         projects.sumOf { it.points } - StoreStore.spentPoints(this)
+
+    /**
+     * 记一条积分变动历史。
+     * 必须在 projects / 兑换记录都改完之后调用——它要用变动后的总积分。
+     */
+    private fun recordHistory(label: String, delta: Int, projectId: String = "") {
+        HistoryStore.add(
+            this,
+            HistoryRecord(
+                time = System.currentTimeMillis(),
+                label = label,
+                delta = delta,
+                total = availablePoints(),
+                projectId = projectId
+            )
+        )
+    }
 
     private fun renderStore() {
         val earned = projects.sumOf { it.points }
@@ -707,6 +742,7 @@ class MainActivity : AppCompatActivity() {
             .setPositiveButton(R.string.action_confirm) { _, _ ->
                 val ok = StoreStore.redeem(this, item, available)
                 if (ok) {
+                    recordHistory(getString(R.string.history_redeem, item.title), -item.cost)
                     Toast.makeText(this, getString(R.string.store_toast_done, item.title), Toast.LENGTH_LONG).show()
                     renderProjects(animate = false)
                     renderStore()

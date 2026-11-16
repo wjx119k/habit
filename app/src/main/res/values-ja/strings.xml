@@ -232,4 +232,13 @@
     <string name="tab_project">プラン</string>
     <string name="tab_store">ストア</string>
     <string name="tab_me">マイ</string>
+    <string name="history_chart_subtitle">総ポイントの推移</string>
+    <string name="history_chart_range">%1$s — %2$s</string>
+    <string name="history_records">ポイント履歴</string>
+    <string name="history_empty">まだ記録がありません\n加点・減点するとここに表示されます</string>
+    <string name="history_total_after">累計 %1$d</string>
+    <string name="chart_need_more">あと数回変動するとグラフが出ます</string>
+    <string name="history_redeem">%1$s と交換</string>
+    <string name="history_clear_points">ポイントをリセット</string>
+    <string name="history_delete_plan">プラン削除 %1$s</string>
 </resources>

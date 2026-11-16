@@ -236,4 +236,13 @@
     <string name="winter_line_2">Snowflakes drift</string>
     <string name="winter_line_3">My beloved</string>
     <string name="winter_line_4">Where are you</string>
+    <string name="history_chart_subtitle">Total points over time</string>
+    <string name="history_chart_range">%1$s — %2$s</string>
+    <string name="history_records">Point events</string>
+    <string name="history_empty">No records yet\nThey will appear here after you add or deduct points</string>
+    <string name="history_total_after">Balance %1$d</string>
+    <string name="chart_need_more">A few more changes and the curve will appear</string>
+    <string name="history_redeem">Redeemed %1$s</string>
+    <string name="history_clear_points">Points cleared</string>
+    <string name="history_delete_plan">Deleted plan %1$s</string>
 </resources>
