@@ -100,18 +100,7 @@ class LoginActivity : AppCompatActivity() {
             overridePendingTransition(R.anim.slide_in_up, android.R.anim.fade_out)
         }
 
-        // 四个社交登录入口
-        val providers = listOf(R.id.btnGoogle, R.id.btnQQ, R.id.btnWechat, R.id.btnGithub)
-        providers.forEach { id ->
-            findViewById<View>(id).setOnClickListener { showNoServer() }
-        }
+        // 四个社交登录入口：暂未开放，点击无反应
     }
 
-    /** 统一的"还没有服务器"提示 */
-    private fun showNoServer() {
-        MaterialAlertDialogBuilder(this)
-            .setMessage(R.string.login_no_server)
-            .setPositiveButton(android.R.string.ok, null)
-            .show()
-    }
 }

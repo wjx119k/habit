@@ -71,7 +71,6 @@
     <string name="login_password">密碼</string>
     <string name="login_action">登入</string>
     <string name="login_go_register">還沒有帳戶？點擊註冊</string>
-    <string name="login_no_server">該登入方式暫未開放，請使用電子郵件登入</string>
     <string name="login_other_ways">其他登入方式</string>
     <string name="login_with_google">以 Google 繼續</string>
     <string name="login_with_qq">以 QQ 繼續</string>

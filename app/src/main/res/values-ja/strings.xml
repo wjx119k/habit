@@ -71,7 +71,6 @@
     <string name="login_password">パスワード</string>
     <string name="login_action">ログイン</string>
     <string name="login_go_register">アカウントをお持ちでない方はこちら</string>
-    <string name="login_no_server">このログイン方法はまだ利用できません。メールでログインしてください。</string>
     <string name="login_other_ways">他のログイン方法</string>
     <string name="login_with_google">Google で続行</string>
     <string name="login_with_qq">QQ で続行</string>

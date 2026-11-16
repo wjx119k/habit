@@ -78,7 +78,6 @@
     <string name="login_password">Password</string>
     <string name="login_action">Sign in</string>
     <string name="login_go_register">No account yet? Tap to sign up</string>
-    <string name="login_no_server">This sign-in method is not available yet. Please use email.</string>
     <string name="login_other_ways">Other sign-in options</string>
     <string name="login_with_google">Continue with Google</string>
     <string name="login_with_qq">Continue with QQ</string>

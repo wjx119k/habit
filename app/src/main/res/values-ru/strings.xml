@@ -71,7 +71,6 @@
     <string name="login_password">Пароль</string>
     <string name="login_action">Войти</string>
     <string name="login_go_register">Нет аккаунта? Нажмите, чтобы зарегистрироваться</string>
-    <string name="login_no_server">Этот способ входа пока недоступен. Используйте электронную почту.</string>
     <string name="login_other_ways">Другие способы входа</string>
     <string name="login_with_google">Продолжить с Google</string>
     <string name="login_with_qq">Продолжить с QQ</string>
