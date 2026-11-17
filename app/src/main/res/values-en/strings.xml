@@ -380,4 +380,18 @@
     <string name="eisen_add">Add</string>
     <string name="eisen_empty">Nothing here yet</string>
     <string name="eisen_delete_confirm">Delete "%1$s"?</string>
+    <string name="temp_tasks_title">One-off tasks</string>
+    <string name="temp_tasks_add">Add task</string>
+    <string name="temp_task_hint_title">What needs doing</string>
+    <string name="temp_task_hint_points">Points on completion (0.1–999.9)</string>
+    <string name="temp_task_invalid">Title required; points must be 0.1–999.9</string>
+    <string name="temp_task_done">Done! +%1$s points</string>
+    <string name="temp_task_delete_confirm">Delete "%1$s"? Points already earned stay.</string>
+    <string name="my_plans_title">My plans</string>
+    <string name="new_plan">+ New plan</string>
+    <string name="dialog_mistap">Accidentally dismissed?</string>
+    <string name="dialog_mistap_action">Go back</string>
+    <string name="temp_task_delete">Delete</string>
+    <string name="temp_tasks_clear_done">Clear completed</string>
+    <string name="temp_tasks_clear_confirm">Clear %1$d completed tasks? Points already earned stay.</string>
 </resources>

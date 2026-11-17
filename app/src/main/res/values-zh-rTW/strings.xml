@@ -376,4 +376,18 @@
     <string name="eisen_add">添加</string>
     <string name="eisen_empty">这个格子还是空的</string>
     <string name="eisen_delete_confirm">刪除「%1$s」？</string>
+    <string name="temp_tasks_title">臨時任務</string>
+    <string name="temp_tasks_add">添加任務</string>
+    <string name="temp_task_hint_title">要做的事</string>
+    <string name="temp_task_hint_points">完成后得多少分（0.1~999.9）</string>
+    <string name="temp_task_invalid">标题要填，分数需在 0.1~999.9 之间</string>
+    <string name="temp_task_done">完成！+%1$s 分</string>
+    <string name="temp_task_delete_confirm">刪除「%1$s」？（已获得的積分不会收回）</string>
+    <string name="my_plans_title">我的計畫</string>
+    <string name="new_plan">＋ 新建计划</string>
+    <string name="dialog_mistap">誤觸了？</string>
+    <string name="dialog_mistap_action">点击返回</string>
+    <string name="temp_task_delete">刪除</string>
+    <string name="temp_tasks_clear_done">清除已完成</string>
+    <string name="temp_tasks_clear_confirm">清除 %1$d 个已完成的任務？（已获得的積分不会收回）</string>
 </resources>

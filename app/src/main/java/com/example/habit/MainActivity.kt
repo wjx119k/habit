@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var projectList: androidx.recyclerview.widget.RecyclerView
     private lateinit var projectAdapter: ProjectAdapter
+    private val tempTasks = mutableListOf<TempTask>()
     private lateinit var emptyHint: TextView
     private lateinit var tvTotalPoints: TextView
     private lateinit var tvAvailablePoints: TextView
@@ -166,6 +167,11 @@ class MainActivity : AppCompatActivity() {
         findViewById<View>(R.id.cardEisenhower).setOnClickListener {
             startActivity(Intent(this, EisenhowerActivity::class.java))
         }
+
+        // 临时任务
+        findViewById<View>(R.id.btnAddTempTask).setOnClickListener { showTempTaskDialog() }
+        findViewById<View>(R.id.btnClearDoneTemp).setOnClickListener { clearDoneTempTasks() }
+        renderTempTasks()
 
         setupWinterEgg()
 
@@ -605,6 +611,7 @@ class MainActivity : AppCompatActivity() {
 
         // 顶部总积分 = 所有项目积分之和 − 已兑换积分
         tvTotalPoints.text = Points.format(availablePoints())
+        renderTempTasks()
 
         // 只有在真的存在积分时，才显示"清空积分"
         btnClearPoints.visibility =
@@ -676,6 +683,7 @@ class MainActivity : AppCompatActivity() {
                 // 松手后把顺序存下来
                 ProjectStore.save(this@MainActivity, projects)
                 tvTotalPoints.text = Points.format(availablePoints())
+        renderTempTasks()
             }
         }
 
@@ -722,7 +730,7 @@ class MainActivity : AppCompatActivity() {
 
     /** 可用积分 = 所有项目累计 − 已兑换 */
     private fun availablePoints(): Double =
-        Points.round(projects.sumOf { it.points } - StoreStore.spentPoints(this))
+        Points.round(projects.sumOf { it.points } + TempTaskStore.bonus(this) - StoreStore.spentPoints(this))
 
     /**
      * 记一条积分变动历史。
@@ -976,6 +984,163 @@ class MainActivity : AppCompatActivity() {
             hintView.setText(R.string.me_logged_in_hint)
         }
     }
+
+    // ============================================================
+    //  临时任务
+    // ============================================================
+
+    private fun renderTempTasks() {
+        val list = findViewById<LinearLayout>(R.id.tempTaskList) ?: return
+        list.removeAllViews()
+
+        tempTasks.clear()
+        tempTasks.addAll(TempTaskStore.load(this))
+
+        if (tempTasks.isEmpty()) {
+            list.visibility = View.GONE
+            return
+        }
+        list.visibility = View.VISIBLE
+
+        tempTasks.forEach { task ->
+            val row = layoutInflater.inflate(R.layout.item_temp_task, list, false)
+            val title = row.findViewById<TextView>(R.id.tvTaskTitle)
+            val points = row.findViewById<TextView>(R.id.tvTaskPoints)
+            val check = row.findViewById<android.widget.ImageView>(R.id.ivTaskCheck)
+
+            title.text = task.title
+            points.text = "+" + Points.format(task.points)
+
+            if (task.done) {
+                // 已完成：划掉 + 变灰
+                title.paintFlags = title.paintFlags or android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
+                title.alpha = 0.5f
+                points.alpha = 0.5f
+                check.alpha = 0.9f
+            } else {
+                title.paintFlags = title.paintFlags and android.graphics.Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                title.alpha = 1f
+                points.alpha = 1f
+                check.alpha = 0.35f
+            }
+
+            row.setOnClickListener {
+                if (!task.done) completeTempTask(task) else deleteTempTask(task)
+            }
+            list.addView(row)
+        }
+    }
+
+    /** 误触关闭弹窗后，底部提示「点击返回」重新打开 */
+    private fun showMistapSnackbar(onRetry: () -> Unit) {
+        com.google.android.material.snackbar.Snackbar.make(
+            findViewById(android.R.id.content),
+            R.string.dialog_mistap,
+            com.google.android.material.snackbar.Snackbar.LENGTH_LONG
+        ).setAction(R.string.dialog_mistap_action) { onRetry() }.show()
+    }
+
+    /** 新建临时任务（可带上次输入，用于误触返回） */
+    private fun showTempTaskDialog(prefillTitle: String = "", prefillPoints: String = "") {
+        val container = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(dp(20), dp(8), dp(20), 0)
+        }
+        val inputTitle = android.widget.EditText(this).apply {
+            hint = getString(R.string.temp_task_hint_title)
+            inputType = android.text.InputType.TYPE_CLASS_TEXT
+        }
+        val inputPoints = android.widget.EditText(this).apply {
+            hint = getString(R.string.temp_task_hint_points)
+            inputType = android.text.InputType.TYPE_CLASS_NUMBER or android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
+        }
+        if (prefillTitle.isNotEmpty()) inputTitle.setText(prefillTitle)
+        if (prefillPoints.isNotEmpty()) inputPoints.setText(prefillPoints)
+        container.addView(inputTitle)
+        container.addView(inputPoints)
+
+        val dialog = MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.temp_tasks_add)
+            .setView(container)
+            .setNegativeButton(R.string.action_cancel, null)
+            .setPositiveButton(R.string.action_confirm) { _, _ ->
+                val title = inputTitle.text.toString().trim()
+                val value = Points.parseInput(inputPoints.text.toString())
+                if (title.isEmpty() || value == null || !Points.isValidPerAction(value)) {
+                    Toast.makeText(this, R.string.temp_task_invalid, Toast.LENGTH_SHORT).show()
+                    return@setPositiveButton
+                }
+                val tasks = TempTaskStore.load(this)
+                tasks.add(TempTask(title = title, points = value))
+                TempTaskStore.save(this, tasks)
+                renderTempTasks()
+                tvTotalPoints.text = Points.format(availablePoints())
+            }
+            .create()
+
+        // 误触（点外部 / 返回键）关掉时，给一个"点击返回"
+        dialog.setOnCancelListener {
+            val t = inputTitle.text?.toString().orEmpty()
+            val p = inputPoints.text?.toString().orEmpty()
+            if (t.isNotBlank() || p.isNotBlank()) {
+                showMistapSnackbar { showTempTaskDialog(t, p) }
+            }
+        }
+        dialog.show()
+    }
+
+    /** 清除所有已完成任务（积分不回收） */
+    private fun clearDoneTempTasks() {
+        val tasks = TempTaskStore.load(this)
+        val done = tasks.count { it.done }
+        if (done == 0) return
+        MaterialAlertDialogBuilder(this)
+            .setMessage(getString(R.string.temp_tasks_clear_confirm, done))
+            .setNegativeButton(R.string.action_cancel, null)
+            .setPositiveButton(R.string.action_confirm) { _, _ ->
+                tasks.removeAll { it.done }
+                TempTaskStore.save(this, tasks)
+                renderTempTasks()
+            }
+            .show()
+    }
+
+    /** 完成：划掉 + 加分 + 记流水 */
+    private fun completeTempTask(task: TempTask) {
+        val tasks = TempTaskStore.load(this)
+        val index = tasks.indexOfFirst { it.id == task.id }
+        if (index < 0) return
+        tasks[index] = tasks[index].copy(done = true)
+        TempTaskStore.save(this, tasks)
+
+        TempTaskStore.addBonus(this, task.points)
+        recordHistory(
+            label = task.title + " " + Points.formatSigned(task.points),
+            delta = task.points,
+            projectId = "",
+            projectPoints = -1.0
+        )
+
+        renderTempTasks()
+        tvTotalPoints.text = Points.format(availablePoints())
+        showCheer("✅", getString(R.string.temp_task_done, Points.format(task.points)), isPositive = true)
+    }
+
+    /** 点已完成的任务：确认后删除（积分不回收） */
+    private fun deleteTempTask(task: TempTask) {
+        MaterialAlertDialogBuilder(this)
+            .setMessage(getString(R.string.temp_task_delete_confirm, task.title))
+            .setNegativeButton(R.string.action_cancel, null)
+            .setPositiveButton(R.string.action_confirm) { _, _ ->
+                val tasks = TempTaskStore.load(this)
+                tasks.removeAll { it.id == task.id }
+                TempTaskStore.save(this, tasks)
+                renderTempTasks()
+            }
+            .show()
+    }
+
+    private fun dp(value: Int) = (value * resources.displayMetrics.density).toInt()
 
     private fun todayString(): String {
         val cal = Calendar.getInstance()

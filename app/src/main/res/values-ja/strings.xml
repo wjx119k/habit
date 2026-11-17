@@ -376,4 +376,18 @@
     <string name="eisen_add">追加</string>
     <string name="eisen_empty">まだ空です</string>
     <string name="eisen_delete_confirm">「%1$s」を削除しますか？</string>
+    <string name="temp_tasks_title">単発タスク</string>
+    <string name="temp_tasks_add">タスクを追加</string>
+    <string name="temp_task_hint_title">やること</string>
+    <string name="temp_task_hint_points">完了でもらえるポイント（0.1〜999.9）</string>
+    <string name="temp_task_invalid">タイトルとポイント（0.1〜999.9）を入力してください</string>
+    <string name="temp_task_done">完了！+%1$s ポイント</string>
+    <string name="temp_task_delete_confirm">「%1$s」を削除しますか？（獲得済みのポイントは戻りません）</string>
+    <string name="my_plans_title">マイプラン</string>
+    <string name="new_plan">＋ 新規プラン</string>
+    <string name="dialog_mistap">誤って閉じましたか？</string>
+    <string name="dialog_mistap_action">戻る</string>
+    <string name="temp_task_delete">削除</string>
+    <string name="temp_tasks_clear_done">完了分を消す</string>
+    <string name="temp_tasks_clear_confirm">完了した %1$d 件を消しますか？（獲得済みポイントは残ります）</string>
 </resources>

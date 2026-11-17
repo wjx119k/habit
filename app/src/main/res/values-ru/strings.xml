@@ -376,4 +376,18 @@
     <string name="eisen_add">Добавить</string>
     <string name="eisen_empty">Здесь пока пусто</string>
     <string name="eisen_delete_confirm">Удалить «%1$s»?</string>
+    <string name="temp_tasks_title">Разовые задачи</string>
+    <string name="temp_tasks_add">Добавить задачу</string>
+    <string name="temp_task_hint_title">Что нужно сделать</string>
+    <string name="temp_task_hint_points">Баллы за выполнение (0.1–999.9)</string>
+    <string name="temp_task_invalid">Нужен заголовок; баллы от 0.1 до 999.9</string>
+    <string name="temp_task_done">Готово! +%1$s баллов</string>
+    <string name="temp_task_delete_confirm">Удалить «%1$s»? Полученные баллы останутся.</string>
+    <string name="my_plans_title">Мои планы</string>
+    <string name="new_plan">+ Новый план</string>
+    <string name="dialog_mistap">Случайно закрыли?</string>
+    <string name="dialog_mistap_action">Вернуться</string>
+    <string name="temp_task_delete">Удалить</string>
+    <string name="temp_tasks_clear_done">Убрать выполненные</string>
+    <string name="temp_tasks_clear_confirm">Убрать %1$d выполненных задач? Баллы останутся.</string>
 </resources>
