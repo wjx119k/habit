@@ -111,33 +111,7 @@
             android:textColor="?attr/colorPrimary" />
 
         <!-- 登录按钮 -->
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <SeekBar
-                    android:id="@+id/seekVerify"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:max="100"
-                    android:progress="0" />
-
-                <TextView
-                    android:id="@+id/tvVerifyHint"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:minWidth="76dp"
-                    android:text="@string/verify_hint"
-                    android:textColor="?attr/colorOnSurfaceVariant"
-                    android:textSize="13sp" />
-            </LinearLayout>
-
-            <com.google.android.material.button.MaterialButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLoginSubmit"
             style="@style/Widget.Material3.Button"
             android:layout_width="match_parent"

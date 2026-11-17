@@ -1,4 +1,4 @@
-package com.example.habit
+﻿package com.example.habit
 
 import android.os.Bundle
 import android.view.View
@@ -35,5 +35,91 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_login)
+
+        val root = findViewById<View>(R.id.loginRoot)
+        ViewCompat.setOnApplyWindowInsetsListener(root) { view, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(bars.left, bars.top, bars.right, bars.bottom)
+            insets
+        }
+        // 键盘弹出时不要遮住输入框
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+
+        val layoutUsername = findViewById<TextInputLayout>(R.id.layoutUsername)
+        val layoutPassword = findViewById<TextInputLayout>(R.id.layoutPassword)
+        val editUsername = findViewById<TextInputEditText>(R.id.editUsername)
+        val editPassword = findViewById<TextInputEditText>(R.id.editPassword)
+
+        findViewById<ImageButton>(R.id.btnLoginBack).setOnClickListener {
+            finish()
+            @Suppress("DEPRECATION")
+            overridePendingTransition(android.R.anim.fade_in, R.anim.slide_out_down)
+        }
+
+        // 登录
+        findViewById<MaterialButton>(R.id.btnLoginSubmit).setOnClickListener {
+            val name = editUsername.text?.toString()?.trim().orEmpty()
+            val pwd = editPassword.text?.toString().orEmpty()
+
+            if (name.isEmpty()) {
+                layoutUsername.error = getString(R.string.login_error_username)
+                editUsername.requestFocus()
+                return@setOnClickListener
+            }
+            layoutUsername.error = null
+
+            if (pwd.isEmpty()) {
+                layoutPassword.error = getString(R.string.login_error_password)
+                editPassword.requestFocus()
+                return@setOnClickListener
+            }
+            layoutPassword.error = null
+
+            // Supabase 用邮箱登录，这里先挡一下明显不是邮箱的输入
+
+            // 走 Supabase 登录（失败返回中文提示，成功返回 null）
+            // 关键：网络请求必须在后台线程，否则 Android 直接抛 NetworkOnMainThreadException
+            findViewById<MaterialButton>(R.id.btnLoginSubmit).isEnabled = false
+            Thread {
+                var error = SupabaseAuth.login(this, SupabaseAuth.toEmail(name), pwd)
+                // 老账号兼容：早期版本直接用用户名当邮箱注册
+                if (error != null && !name.contains("@")) {
+                    if (SupabaseAuth.login(this, name, pwd) == null) error = null
+                }
+                val result = error
+                runOnUiThread {
+                    findViewById<MaterialButton>(R.id.btnLoginSubmit).isEnabled = true
+                    if (result == null) {
+                        // 登录成功（不再做任何云端数据同步）
+                        Toast.makeText(
+                            this,
+                            getString(R.string.auth_login_success, name),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        setResult(RESULT_OK)
+                        finish()
+                        @Suppress("DEPRECATION")
+                        overridePendingTransition(android.R.anim.fade_in, R.anim.slide_out_down)
+                    } else {
+                        layoutPassword.error = result
+                        editPassword.requestFocus()
+                    }
+                }
+            }.start()
+        }
+
+        // 注册
+        findViewById<TextView>(R.id.tvGoRegister).setOnClickListener {
+            registerLauncher.launch(android.content.Intent(this, RegisterActivity::class.java))
+            @Suppress("DEPRECATION")
+            overridePendingTransition(R.anim.slide_in_up, android.R.anim.fade_out)
+        }
+
+        // 四个社交登录入口：暂未开放，点击无反应
+    }
 
 }
