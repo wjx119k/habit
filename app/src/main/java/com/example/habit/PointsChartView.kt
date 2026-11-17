@@ -2,6 +2,8 @@ package com.example.habit
 
 import android.content.Context
 import android.graphics.Canvas
+import android.view.GestureDetector
+import android.view.ScaleGestureDetector
 import android.graphics.LinearGradient
 import android.graphics.Paint
 import android.graphics.Path
@@ -48,8 +50,75 @@ class PointsChartView @JvmOverloads constructor(
     private val linePath = Path()
     private val fillPath = Path()
 
+    // ---------------- 缩放 / 拖动 ----------------
+
+    /** 可见窗口占整段时间的比例：1 = 全部，0.15 = 只看到最近一小段 */
+    private var viewSpanFrac = 1f
+
+    /** 可见窗口右边缘在整段里的位置：1 = 最右边（最新） */
+    private var viewEndFrac = 1f
+
+    private val minSpanFrac = 0.12f
+
+    private val scaleDetector = ScaleGestureDetector(context, object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+        override fun onScale(detector: ScaleGestureDetector): Boolean {
+            val focusX = detector.focusX
+            val before = fractionAt(focusX)
+            val oldSpan = viewSpanFrac
+            viewSpanFrac = (viewSpanFrac / detector.scaleFactor).coerceIn(minSpanFrac, 1f)
+            val after = fractionAt(focusX)
+            viewEndFrac = (viewEndFrac + (before - after) * oldSpan).coerceIn(viewSpanFrac, 1f)
+            clampWindow()
+            invalidate()
+            return true
+        }
+    })
+
+    private val gestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
+        override fun onDown(e: android.view.MotionEvent): Boolean = true
+
+        override fun onScroll(
+            e1: android.view.MotionEvent?,
+            e2: android.view.MotionEvent,
+            distanceX: Float,
+            distanceY: Float
+        ): Boolean {
+            val w = width.toFloat().coerceAtLeast(1f)
+            viewEndFrac = (viewEndFrac + distanceX / w * viewSpanFrac).coerceIn(viewSpanFrac, 1f)
+            clampWindow()
+            invalidate()
+            return true
+        }
+    })
+
+
+    override fun onTouchEvent(event: android.view.MotionEvent): Boolean {
+        scaleDetector.onTouchEvent(event)
+        gestureDetector.onTouchEvent(event)
+        return true
+    }
+
+    /** 某个 x 坐标对应整段时间的哪个比例 */
+    private fun fractionAt(x: Float): Float {
+        val padLeft = 6f * density
+        val padRight = 6f * density
+        val w = (width - padLeft - padRight).coerceAtLeast(1f)
+        return ((x - padLeft) / w).coerceIn(0f, 1f)
+    }
+
+    private fun clampWindow() {
+        viewSpanFrac = viewSpanFrac.coerceIn(minSpanFrac, 1f)
+        viewEndFrac = viewEndFrac.coerceIn(viewSpanFrac, 1f)
+    }
+
     fun setData(points: List<Pair<Long, Double>>) {
+        val sameData = data == points
         data = points
+        // 换数据时默认停在"最近的那一端"；同数据刷新则保留用户当前的缩放
+        if (!sameData) {
+            viewSpanFrac = 1f
+            viewEndFrac = 1f
+        }
         invalidate()
     }
 
@@ -94,22 +163,40 @@ class PointsChartView @JvmOverloads constructor(
             return
         }
 
-        val values = data.map { it.second }
-        val maxV = max(values.maxOrNull() ?: 0.0, 0.0)
-        val minV = minOf(values.minOrNull() ?: 0.0, 0.0)
-        // 上下留 12% 余量，曲线不会贴边
+        // ---- 可见窗口 ----
+        val tMin = data.first().first
+        val tMax = data.last().first
+        val tSpan = (tMax - tMin).toDouble().coerceAtLeast(1.0)
+
+        val winSpan = tSpan * viewSpanFrac
+        val tEnd = tMin + tSpan * viewEndFrac
+        val tStart = tEnd - winSpan
+
+        // 窗口内的下标（左右各多取一个，曲线才能连到边缘）
+        var from = data.indexOfLast { it.first <= tStart.toLong() }
+        if (from < 0) from = 0
+        var to = data.indexOfFirst { it.first >= tEnd.toLong() }
+        if (to < 0) to = data.size - 1
+        from = (from - 1).coerceAtLeast(0)
+        to = (to + 1).coerceAtMost(data.size - 1)
+        if (to - from < 1) return
+
+        // ---- 纵向范围跟着窗口内的数据走（放大后自动重新标定） ----
+        var maxV = 0.0
+        var minV = 0.0
+        for (i in from..to) {
+            val v = data[i].second
+            if (v > maxV) maxV = v
+            if (v < minV) minV = v
+        }
         val span = max((maxV - minV).toFloat(), 1f)
         val top = maxV + span * 0.12f
         val bottom = minV - span * 0.12f
         val range = top - bottom
 
-        val tMin = data.first().first
-        val tMax = data.last().first
-        val tSpan = (tMax - tMin).toFloat()
-
-        fun xOf(index: Int, t: Long): Float {
-            val ratio = if (tSpan <= 0f) index.toFloat() / (data.size - 1) else (t - tMin) / tSpan
-            return padLeft + chartW * ratio
+        fun xOf(t: Long): Float {
+            val ratio = ((t - tStart) / winSpan).coerceIn(0.0, 1.0)
+            return padLeft + chartW * ratio.toFloat()
         }
 
         fun yOf(v: Double): Float = padTop + chartH * (1f - ((v - bottom) / range).toFloat())
@@ -120,24 +207,24 @@ class PointsChartView @JvmOverloads constructor(
             canvas.drawLine(padLeft, y, padLeft + chartW, y, gridPaint)
         }
 
-        // 走一条平滑曲线（用相邻中点的二次贝塞尔）
+        // 平滑曲线
         linePath.reset()
-        linePath.moveTo(xOf(0, data[0].first), yOf(data[0].second))
-        for (i in 1 until data.size) {
-            val px = xOf(i - 1, data[i - 1].first)
+        linePath.moveTo(xOf(data[from].first), yOf(data[from].second))
+        for (i in (from + 1)..to) {
+            val px = xOf(data[i - 1].first)
             val py = yOf(data[i - 1].second)
-            val cx = xOf(i, data[i].first)
+            val cx = xOf(data[i].first)
             val cy = yOf(data[i].second)
             val midX = (px + cx) / 2f
             val midY = (py + cy) / 2f
             linePath.quadTo(px, py, midX, midY)
-            if (i == data.size - 1) linePath.lineTo(cx, cy)
+            if (i == to) linePath.lineTo(cx, cy)
         }
 
-        // 填充：把曲线下面涂成渐变
+        // 填充
         fillPath.set(linePath)
-        fillPath.lineTo(xOf(data.size - 1, data.last().first), padTop + chartH)
-        fillPath.lineTo(xOf(0, data.first().first), padTop + chartH)
+        fillPath.lineTo(xOf(data[to].first), padTop + chartH)
+        fillPath.lineTo(xOf(data[from].first), padTop + chartH)
         fillPath.close()
 
         fillPaint.shader = LinearGradient(
@@ -148,22 +235,24 @@ class PointsChartView @JvmOverloads constructor(
         )
         canvas.drawPath(fillPath, fillPaint)
         fillPaint.shader = null
-
         canvas.drawPath(linePath, linePaint)
 
-        // 最后一个点：加个圆点，表示"现在的积分"
-        val lastX = xOf(data.size - 1, data.last().first)
-        val lastY = yOf(data.last().second)
-        canvas.drawCircle(lastX, lastY, 4f * density, dotPaint)
-        dotPaint.color = colorOnSurface(255)
-        canvas.drawCircle(lastX, lastY, 1.6f * density, dotPaint)
+        // 最新点：只有它落在窗口里才画
+        if (data.last().first in tStart.toLong()..tEnd.toLong()) {
+            val lastX = xOf(data.last().first)
+            val lastY = yOf(data.last().second)
+            canvas.drawCircle(lastX, lastY, 4f * density, dotPaint)
+            dotPaint.color = colorOnSurface(255)
+            canvas.drawCircle(lastX, lastY, 1.6f * density, dotPaint)
+            dotPaint.color = colorPrimary(255)
+        }
 
         // 极值标注
         textPaint.textAlign = Paint.Align.LEFT
         textPaint.color = colorOnSurface(150)
-        canvas.drawText(Points.format(maxV.toDouble()), padLeft + 3f * density, padTop + textPaint.textSize, textPaint)
+        canvas.drawText(Points.format(maxV), padLeft + 3f * density, padTop + textPaint.textSize, textPaint)
         canvas.drawText(
-            Points.format(minV.toDouble()),
+            Points.format(minV),
             padLeft + 3f * density,
             padTop + chartH - 3f * density,
             textPaint
