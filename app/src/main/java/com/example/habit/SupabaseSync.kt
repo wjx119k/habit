@@ -64,6 +64,18 @@ object SupabaseSync {
         }
 
         val url = SupabaseAuth.URL + TABLE + "?on_conflict=user_id"
+        // 保护：本机没有任何计划也没有任何历史时，绝不覆盖云端
+        // （清空 App 数据后重新登录就是这种情形，一推就把云端数据冲掉了）
+        val emptyLocal = runCatching {
+            val o = JSONObject(payload)
+            (o.optJSONArray("plans")?.length() ?: 0) == 0 &&
+                (o.optJSONArray("history")?.length() ?: 0) == 0
+        }.getOrDefault(true)
+        if (emptyLocal) {
+            log(context, "push skipped: 本机为空，避免覆盖云端")
+            return false
+        }
+
         val (code, text) = request("POST", url, body, token, prefer = "resolution=merge-duplicates")
         log(context, "push code=" + code + " body=" + text.take(200))
         return code in 200..299

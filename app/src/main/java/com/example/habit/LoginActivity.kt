@@ -38,8 +38,12 @@ class LoginActivity : AppCompatActivity() {
 
     /** 云端 payload 里有没有真实计划（没有就当作空壳，不能覆盖本机） */
     private fun cloudHasProjects(payload: String): Boolean = runCatching {
-        val n = org.json.JSONObject(payload).optJSONArray("projects")?.length() ?: 0
-        n > 0
+        val o = org.json.JSONObject(payload)
+        // 注意：Backup 导出的键名是 plans（不是 projects），写错会导致永远判定为空
+        val plans = o.optJSONArray("plans")?.length()
+            ?: o.optJSONArray("projects")?.length() ?: 0
+        val history = o.optJSONArray("history")?.length() ?: 0
+        plans > 0 || history > 0
     }.getOrDefault(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
