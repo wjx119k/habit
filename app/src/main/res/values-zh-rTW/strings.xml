@@ -150,8 +150,8 @@
     <string name="about_terms">使用者條款</string>
     <string name="about_privacy">隱私政策</string>
     <string name="about_licenses_text">《Habit 開源授權》\n更新日期：2026 年 11 月 15 日\n\n本應用基於以下開源專案建置，感謝它們的作者。\n\n一、AndroidX\n授權：Apache License 2.0\n用途：應用程式基礎元件，如介面相容函式庫、核心工具、清單控件等。\n主頁：https://developer.android.com/jetpack/androidx\n\n二、Material Components for Android\n授權：Apache License 2.0\n用途：Material Design 介面元件，如按鈕、輸入框、底部抽屜、標籤等。\n主頁：https://github.com/material-components/material-components-android\n\n三、Kotlin 標準函式庫\n授權：Apache License 2.0\n用途：Kotlin 語言的執行環境支援。\n主頁：https://kotlinlang.org\n\n四、建置期相依\nAndroid Gradle Plugin、Gradle 與 Kotlin 編譯器僅在建置階段使用，不會隨應用程式散布給使用者。\n\n五、關於 Apache License 2.0\n上述元件皆採用 Apache License 2.0 授權，完整條款請見 https://www.apache.org/licenses/LICENSE-2.0 。該授權允許自由使用、修改與散布，但需保留原始的著作權聲明與授權聲明。\n\n六、本應用程式本身\nHabit 的介面設計、圖示與業務程式碼由開發者 Wan 撰寫，未經許可不得用於商業用途。\n\n七、字型與素材\n應用程式內使用的手寫體來自作業系統內建字型，未內嵌任何第三方商用字型。</string>
-    <string name="about_terms_text">使用者條款仍在撰寫中。\n\n目前本應用不需要註冊即可使用全部功能，也不收集任何個人資訊。</string>
-    <string name="about_privacy_text">隱私政策：\n\n本應用目前不連網、不收集任何個人資訊。\n你的習慣、積分與打卡記錄全部保存在手機本機，卸載應用即會刪除。</string>
+    <string name="about_terms_text">本應用需登入後才能提交回饋。\n\n習慣、積分、成就等資料全部保存在你的手機本機，不會上傳雲端。完整條款請點開《使用者協議》查看。</string>
+    <string name="about_privacy_text">本應用不收集通訊錄、相簿、位置、簡訊等資訊，沒有廣告，也沒有埋點統計。\n\n習慣資料只保存在手機本機；登入帳號與回饋內容存儲在你自己的 Supabase 空間。</string>
     <string name="about_copyright">© 2026 Wan · Habit</string>
     <string name="about_follow">關注與聯絡</string>
     <string name="about_bilibili">哔哩哔哩</string>
@@ -285,15 +285,15 @@
     <string name="ach_popup_label">成就解鎖</string>
     <string name="profile_avatar">使用者頭像</string>
     <string name="privacy_summary_title">一句话说完</string>
-    <string name="privacy_summary_body">Habit 不卖資料、不投广告、不做用户画像。你不登入时，所有資料只存在这台手機裡；登入后，資料会加密传输并保存到你自己的雲端空間。</string>
+    <string name="privacy_summary_body">Habit 不賣資料、不投廣告、不做使用者画像。你的習慣資料始終只在這台手機裡；登入只用來辨識身分和提交回饋。</string>
     <string name="privacy_local_title">① 存在手機裡的东西</string>
-    <string name="privacy_local_body">习惯计划、积分流水、商店奖励、成就、语言和主题設定。这些保存在应用私有目录，其它应用读不到，卸载即删除。</string>
-    <string name="privacy_cloud_title">② 传到雲端的东西</string>
-    <string name="privacy_cloud_body">只有你主动登入后，才会把上面那份資料整份同步到你自己的 Supabase 空間。資料库开了行级权限（RLS），服务端按登入身份隔离，别人即使拿到公开密钥也读不到你的记录。</string>
+    <string name="privacy_local_body">習慣計畫、積分流水、商店獎勵、成就、歷史記錄、語言與主題設定。保存在應用私有目錄，其它應用讀不到，卸載即刪除。</string>
+    <string name="privacy_cloud_title">② 會上傳到雲端的東西</string>
+    <string name="privacy_cloud_body">只有兩樣：登入時的帳號資訊（使用者名稱與密碼雜湊，由 Supabase 驗證身分），以及你在「關於 - 回饋」裡主動提交的回饋內容、應用版本與裝置型號。習慣資料不會上傳。</string>
     <string name="privacy_not_collected_title">③ 我们不要的东西</string>
-    <string name="privacy_not_collected_body">不读取通讯录、相册、位置、短信、通话记录；不采集设备标识、IMEI、MAC 地址；没有埋点统计、没有崩溃上报、没有广告 SDK。整个应用只有一个第三方依赖用于云同步，即 Supabase。</string>
+    <string name="privacy_not_collected_body">不讀取通訊錄、相簿、位置、簡訊、通話記錄；不採集裝置識別碼、IMEI、MAC 位址；沒有埋點統計、沒有崩潰上報、沒有廣告 SDK。</string>
     <string name="privacy_permission_title">④ 用到的权限</string>
-    <string name="privacy_permission_body">只有「網路访问（INTERNET）」一项，且仅在登入、注册与資料同步时使用。不联网时，记账、加减分、看历史全部照常工作。</string>
+    <string name="privacy_permission_body">網路（登入與回饋）、通知與鬧鐘（提醒）、振動、安裝應用（應用內更新）、開機自啟（恢復提醒）。均不用於收集個人資訊。</string>
     <string name="privacy_rights_title">⑤ 你能做的事</string>
     <string name="privacy_rights_body">· 导出备份：設定 → 資料与备份，随时把全部資料存成檔案带走
 · 注销帳號：个人主页 → 退出登入 → 注销帳號，雲端資料与本机資料一并删除
@@ -313,7 +313,7 @@
     <string name="reminder_notification_title">今天还差一笔</string>
     <string name="reminder_notification_body">花 10 秒给今天的习惯打个分吧</string>
     <string name="terms_dialog_title">用户协议与隱私政策</string>
-    <string name="terms_dialog_message">使用 Habit 前，请先了解这些：\n\n· 不登录时，你的计划、積分、歷史只保存在这台手機里\n· 登录后，这些資料会同步到你自己帳號下的雲端空间（Supabase）\n· 不读取通讯录、相册、位置，没有广告和埋点统计\n· 你可以随时导出資料，或在個人主頁注销帳號删除全部資料\n\n点击「同意并继续」表示你已阅读并同意《用户协议》与《隱私政策》。</string>
+    <string name="terms_dialog_message">使用 Habit 前，請先了解這些：\n\n· 你的計畫、積分、歷史只保存在這台手機裡，不會上傳雲端\n· 登入只用於辨識身分和在應用內提交回饋\n· 不讀取通訊錄、相簿、位置，沒有廣告和埋點統計\n· 你可以隨時匯出資料，或在個人主頁登出帳號\n\n點擊「同意並繼續」表示你已閱讀並同意《使用者協議》與《隱私政策》。</string>
     <string name="terms_dialog_agree">同意并继续</string>
     <string name="terms_dialog_disagree">不同意</string>
     <string name="terms_dialog_detail">查看详情</string>
@@ -459,3 +459,5 @@
     <string name="verify_title">人机驗證</string>
     <string name="verify_dialog_desc">按住滑桿拖到最右边，确认你不是自动脚本</string>
 </resources>
+
+

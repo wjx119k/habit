@@ -157,8 +157,8 @@
     <string name="about_terms">Terms of service</string>
     <string name="about_privacy">Privacy policy</string>
     <string name="about_licenses_text">Habit Open Source Licenses\nLast updated: November 15, 2026\n\nThe App is built on the following open source projects. Thanks to their authors.\n\n1. AndroidX\nLicense: Apache License 2.0\nUsed for: core app components such as the compatibility library, core utilities and list widgets.\nHomepage: https://developer.android.com/jetpack/androidx\n\n2. Material Components for Android\nLicense: Apache License 2.0\nUsed for: Material Design UI components such as buttons, text fields, bottom sheets and chips.\nHomepage: https://github.com/material-components/material-components-android\n\n3. Kotlin Standard Library\nLicense: Apache License 2.0\nUsed for: Kotlin language runtime support.\nHomepage: https://kotlinlang.org\n\n4. Build-time dependencies\nThe Android Gradle Plugin, Gradle and the Kotlin compiler are used only when building and are not distributed to users.\n\n5. About Apache License 2.0\nThe components above are licensed under Apache License 2.0. The full text is available at https://www.apache.org/licenses/LICENSE-2.0. The license allows free use, modification and redistribution provided the original copyright and license notices are kept.\n\n6. The App itself\nThe interface design, icons and business code of Habit are written by the developer Wan and may not be used commercially without permission.\n\n7. Fonts and assets\nCursive text uses fonts shipped with the operating system; no third-party commercial font is bundled.</string>
-    <string name="about_terms_text">The terms of service are still being written.\n\nAll features are usable without an account, and no personal information is collected.</string>
-    <string name="about_privacy_text">Privacy policy:\n\nThis app does not use the network and collects no personal information.\nYour habits, points and check-in records stay on your phone and are deleted when you uninstall the app.</string>
+    <string name="about_terms_text">You need to sign in to send feedback.\n\nYour habits, points and achievements stay on this phone — nothing is uploaded. Tap to read the full Terms.</string>
+    <string name="about_privacy_text">No contacts, photos, location or messages. No ads, no analytics. Habit data stays on this phone; only your sign-in account and any feedback you send are stored in Supabase.</string>
     <string name="about_copyright">© 2026 Wan · Habit</string>
     <string name="about_follow">Follow and contact</string>
     <string name="about_bilibili">Bilibili</string>
@@ -289,15 +289,15 @@
     <string name="ach_popup_label">Achievement unlocked</string>
     <string name="profile_avatar">User avatar</string>
     <string name="privacy_summary_title">In one sentence</string>
-    <string name="privacy_summary_body">Habit does not sell data, show ads, or profile you. Without signing in, everything stays on this phone. After signing in, your data is transferred securely and stored in your own cloud space.</string>
+    <string name="privacy_summary_body">No data selling, no ads, no profiling. Your habit data never leaves this phone; signing in only proves who you are and lets you send feedback.</string>
     <string name="privacy_local_title">1. What stays on the phone</string>
-    <string name="privacy_local_body">Habit plans, point history, store rewards, achievements, language and theme. Stored in the app\'s private directory — unreadable by other apps, deleted on uninstall.</string>
+    <string name="privacy_local_body">Habit plans, point history, store rewards, achievements, history, language and theme settings — all in the app private storage. Other apps cannot read it; uninstalling deletes it.</string>
     <string name="privacy_cloud_title">2. What goes to the cloud</string>
-    <string name="privacy_cloud_body">Only after you sign in, and only that same data, uploaded to your own Supabase space. Row Level Security isolates every record by login identity, so even with the public key others cannot read your rows.</string>
+    <string name="privacy_cloud_body">Only two things: your sign-in account (username and password hash, verified by Supabase), and the feedback text, app version and device model you submit on purpose. Habit data is never uploaded.</string>
     <string name="privacy_not_collected_title">3. What we never touch</string>
-    <string name="privacy_not_collected_body">No contacts, photos, location, SMS or call logs; no device identifiers, IMEI or MAC address; no analytics, no crash reporting, no ad SDKs. One third-party service is used, for sync only: Supabase.</string>
+    <string name="privacy_not_collected_body">No contacts, photos, location, messages or call logs. No device identifiers, IMEI or MAC address. No analytics, no crash reporting, no ad SDKs.</string>
     <string name="privacy_permission_title">4. Permissions</string>
-    <string name="privacy_permission_body">Only INTERNET, used solely for sign-in, registration and sync. Everything else works offline.</string>
+    <string name="privacy_permission_body">Internet (sign-in and feedback), notifications and alarms (reminders), vibration, install packages (in-app update), boot completed (restore reminders). None of them collect personal data.</string>
     <string name="privacy_rights_title">5. What you can do</string>
     <string name="privacy_rights_body">· Export a backup: Settings → Data &amp; backup
 · Delete your account: Profile → Sign out → Delete account (cloud and local data removed)
@@ -317,7 +317,7 @@
     <string name="reminder_notification_title">One entry to go</string>
     <string name="reminder_notification_body">Take 10 seconds to score today&#8217;s habits</string>
     <string name="terms_dialog_title">Terms &amp; Privacy</string>
-    <string name="terms_dialog_message">Before using Habit, please note:\n\n· Without signing in, your plans, points and history stay on this phone only\n· After signing in, that data syncs to your own cloud space (Supabase)\n· No contacts, photos or location access; no ads and no analytics\n· You can export your data anytime, or delete everything from your profile\n\nTapping "Agree and continue" means you accept the Terms of Service and Privacy Policy.</string>
+    <string name="terms_dialog_message">Before using Habit:\n\n· Plans, points and history stay on this phone — nothing is uploaded\n· Signing in only identifies you and lets you send feedback\n· No contacts, photos or location access; no ads, no analytics\n· You can export your data anytime, or delete your account in Profile\n\nTap "Agree and continue" to accept the Terms and Privacy Policy.</string>
     <string name="terms_dialog_agree">Agree and continue</string>
     <string name="terms_dialog_disagree">Disagree</string>
     <string name="terms_dialog_detail">Details</string>
@@ -463,3 +463,4 @@
     <string name="verify_title">Quick check</string>
     <string name="verify_dialog_desc">Drag the slider to the far right to confirm you are human.</string>
 </resources>
+

@@ -150,8 +150,8 @@
     <string name="about_terms">利用規約</string>
     <string name="about_privacy">プライバシーポリシー</string>
     <string name="about_licenses_text">Habit オープンソースライセンス\n最終更新日：2026年11月15日\n\n本アプリは以下のオープンソースプロジェクトを利用して構築されています。作者の皆様に感謝します。\n\n1. AndroidX\nライセンス：Apache License 2.0\n用途：互換ライブラリ、コアユーティリティ、リストウィジェットなどの基盤コンポーネント。\nサイト：https://developer.android.com/jetpack/androidx\n\n2. Material Components for Android\nライセンス：Apache License 2.0\n用途：ボタン、入力欄、ボトムシート、チップなどの Material Design UI コンポーネント。\nサイト：https://github.com/material-components/material-components-android\n\n3. Kotlin 標準ライブラリ\nライセンス：Apache License 2.0\n用途：Kotlin 言語のランタイム。\nサイト：https://kotlinlang.org\n\n4. ビルド時のみの依存\nAndroid Gradle Plugin、Gradle、Kotlin コンパイラはビルド時のみ使用され、ユーザーには配布されません。\n\n5. Apache License 2.0 について\n上記コンポーネントは Apache License 2.0 で提供されています。全文は https://www.apache.org/licenses/LICENSE-2.0 を参照してください。著作権表示とライセンス表示を保持すれば、自由な利用・改変・再配布が認められています。\n\n6. 本アプリ自体\nHabit のデザイン、アイコン、ビジネスコードは開発者 Wan が作成したもので、無断での商用利用はできません。\n\n7. フォントと素材\n手書き風の文字は OS 標準フォントを使用しており、第三者の商用フォントは同梱していません。</string>
-    <string name="about_terms_text">利用規約は作成中です。\n\n現在、登録なしで全機能を利用でき、個人情報は収集していません。</string>
-    <string name="about_privacy_text">プライバシーポリシー：\n\n本アプリは通信を行わず、個人情報を収集しません。\n習慣・ポイント・記録はすべて端末内に保存され、アンインストールで削除されます。</string>
+    <string name="about_terms_text">フィードバックの送信にはログインが必要です。\n\n習慣・ポイント・実績などのデータはすべて端末内に保存され、アップロードされません。</string>
+    <string name="about_privacy_text">連絡先・写真・位置情報・メッセージは取得しません。広告も解析もありません。習慣データは端末内のみ、ログイン情報とフィードバックだけが Supabase に保存されます。</string>
     <string name="about_copyright">© 2026 Wan · Habit</string>
     <string name="about_follow">フォロー・お問い合わせ</string>
     <string name="about_bilibili">ビリビリ</string>
@@ -285,15 +285,15 @@
     <string name="ach_popup_label">実績解除</string>
     <string name="profile_avatar">ユーザーアイコン</string>
     <string name="privacy_summary_title">ひとことで言うと</string>
-    <string name="privacy_summary_body">Habit はデータを売らず、広告も出さず、プロファイリングもしません。ログインしなければ、すべてのデータはこの端末内だけに保存されます。ログインすると、あなた自身のクラウド領域に安全に転送されます。</string>
+    <string name="privacy_summary_body">データ販売も広告もプロファイリングもしません。習慣データは端末から出ません。ログインは身分確認とフィードバック送信のためだけのものです。</string>
     <string name="privacy_local_title">1. 端末内に保存されるもの</string>
-    <string name="privacy_local_body">習慣プラン、ポイント履歴、ストアのご褒美、実績、言語とテーマ。アプリ専用領域に保存され、他のアプリからは読めません。アンインストールで削除されます。</string>
-    <string name="privacy_cloud_title">2. クラウドに送られるもの</string>
-    <string name="privacy_cloud_body">ログインしたときだけ、上記のデータをまとめてあなたの Supabase 領域へ同期します。行レベルセキュリティ（RLS）により、公開キーを持っていても他人はあなたの記録を読めません。</string>
+    <string name="privacy_local_body">習慣プラン、ポイント履歴、ストア報酬、実績、履歴、言語とテーマ設定。アプリ専用領域に保存され、他のアプリからは読めません。アンインストールで削除されます。</string>
+    <string name="privacy_cloud_title">② クラウドに送られるもの</string>
+    <string name="privacy_cloud_body">ログイン情報（ユーザー名とパスワードハッシュ、Supabase が認証）と、あなたが任意で送信したフィードバック本文・アプリ版・端末モデルのみです。習慣データは送信されません。</string>
     <string name="privacy_not_collected_title">3. 取得しないもの</string>
-    <string name="privacy_not_collected_body">連絡先・写真・位置情報・SMS・通話履歴は読みません。端末識別子・IMEI・MAC アドレスも取得しません。解析・クラッシュ報告・広告 SDK はありません。外部サービスは同期用の Supabase のみです。</string>
+    <string name="privacy_not_collected_body">連絡先・写真・位置情報・メッセージ・通話履歴は取得しません。端末識別子・IMEI・MAC アドレスも取得しません。解析・クラッシュ収集・広告 SDK はありません。</string>
     <string name="privacy_permission_title">4. 使用する権限</string>
-    <string name="privacy_permission_body">INTERNET のみ。ログイン・登録・同期のときだけ使います。オフラインでも記録や履歴はすべて動作します。</string>
+    <string name="privacy_permission_body">ネットワーク（ログインとフィードバック）、通知とアラーム（リマインダー）、振動、アプリのインストール（アプリ内更新）、起動時の自動開始（リマインダー復元）。いずれも個人情報の収集には使いません。</string>
     <string name="privacy_rights_title">5. できること</string>
     <string name="privacy_rights_body">・バックアップ書き出し：設定 → データとバックアップ
 ・アカウント削除：プロフィール → ログアウト → アカウント削除（クラウドと端末の両方）
@@ -313,7 +313,7 @@
     <string name="reminder_notification_title">あと1件です</string>
     <string name="reminder_notification_body">10秒で今日の習慣を記録しましょう</string>
     <string name="terms_dialog_title">利用規約とプライバシー</string>
-    <string name="terms_dialog_message">Habit をご利用になる前に、以下をご確認ください：\n\n· ログインしない場合、プラン・ポイント・履歴はこの端末内だけに保存されます\n· ログインすると、それらはご自身のクラウド領域（Supabase）に同期されます\n· 連絡先・写真・位置情報は読み取りません。広告も解析もありません\n· データの書き出し、プロフィールからのアカウント削除がいつでも可能です\n\n「同意して続行」を押すと、利用規約とプライバシーポリシーに同意したものとみなします。</string>
+    <string name="terms_dialog_message">Habit を使う前に：\n\n· プラン・ポイント・履歴は端末内のみで、アップロードされません\n· ログインは身分確認とフィードバック送信のためだけです\n· 連絡先・写真・位置情報は取得せず、広告も解析もありません\n· データはいつでも書き出せます。プロフィールからアカウント削除も可能です\n\n「同意して続ける」で利用規約とプライバシーポリシーに同意したものとみなします。</string>
     <string name="terms_dialog_agree">同意して続行</string>
     <string name="terms_dialog_disagree">同意しない</string>
     <string name="terms_dialog_detail">詳細を見る</string>
@@ -459,3 +459,5 @@
     <string name="verify_title">確認</string>
     <string name="verify_dialog_desc">スライダーを右端まで動かしてください。</string>
 </resources>
+
+

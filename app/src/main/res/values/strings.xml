@@ -172,8 +172,8 @@
     <string name="about_terms">用户协议</string>
     <string name="about_privacy">隐私政策</string>
     <string name="about_licenses_text">《Habit 开源许可》\n更新日期：2026 年 11 月 15 日\n\n本应用基于以下开源项目构建，感谢它们的作者。\n\n一、AndroidX\n许可：Apache License 2.0\n用途：应用基础组件，如界面兼容库、核心工具、列表控件等。\n主页：https://developer.android.com/jetpack/androidx\n\n二、Material Components for Android\n许可：Apache License 2.0\n用途：Material Design 界面组件，如按钮、输入框、底部抽屉、标签等。\n主页：https://github.com/material-components/material-components-android\n\n三、Kotlin 标准库\n许可：Apache License 2.0\n用途：Kotlin 语言的运行时支持。\n主页：https://kotlinlang.org\n\n四、构建期依赖\nAndroid Gradle Plugin、Gradle 与 Kotlin 编译器仅在构建阶段使用，不会随应用分发给用户。\n\n五、关于 Apache License 2.0\n上述组件均采用 Apache License 2.0 授权。你可以在 https://www.apache.org/licenses/LICENSE-2.0 查看完整条款。该许可允许自由使用、修改与分发，但需保留原始的版权声明与许可声明。\n\n六、本应用自身\nHabit 的界面设计、图标与业务代码由开发者 Wan 编写，未经许可不得用于商业用途。\n\n七、字体与素材\n应用内使用的系统手写体来自操作系统自带字体，未内嵌任何第三方商用字体。</string>
-    <string name="about_terms_text">用户协议内容仍在编写中。\n\n目前本应用不需要注册即可使用全部功能，也不收集任何个人信息。</string>
-    <string name="about_privacy_text">隐私政策：\n\n本应用目前不联网、不收集任何个人信息。\n你的习惯、积分与打卡记录全部保存在手机本地，卸载应用即会删除。</string>
+    <string name="about_terms_text">本应用需登录后才能提交反馈。\n\n习惯、积分、成就等数据全部保存在你的手机本地，不会上传云端。完整条款请点开《用户协议》查看。</string>
+    <string name="about_privacy_text">本应用不收集通讯录、相册、位置、短信等信息，没有广告，也没有埋点统计。\n\n习惯数据只保存在手机本地；登录账号与反馈内容存储在你自己的 Supabase 空间。</string>
     <string name="about_copyright">© 2026 Wan · Habit</string>
     <string name="about_follow">关注与联系</string>
     <string name="about_bilibili">哔哩哔哩</string>
@@ -201,8 +201,8 @@
     <string name="focus_build">构建与验证</string>
     <string name="action_copy_email">复制邮箱</string>
     <string name="toast_email_copied">邮箱已复制</string>
-    <string name="terms_body">《Habit 用户协议》\n更新日期：2026 年 11 月 15 日\n\n一、协议的接受\n欢迎使用 Habit（以下简称"本应用"）。本应用由个人开发者 Wan 开发并维护。你下载、安装或使用本应用，即表示你已阅读并同意本协议的全部内容。如果你不同意本协议的任何内容，请停止使用本应用。\n\n二、服务内容\n2.1 本应用是一款帮助你记录和养成习惯的本地工具，功能包括：创建习惯计划、记录完成与违背、累计积分、解锁成就等。\n2.2 当前版本不需要注册即可使用全部功能，也不提供账号体系与云端同步。\n\n三、数据与存储\n3.1 你的习惯、积分、成就等数据全部保存在你自己的手机本地。\n3.2 本应用不会将上述数据上传到任何服务器，也不会收集你的个人信息。\n3.3 卸载本应用、清除应用数据或更换设备，相关数据将被删除且无法恢复，请自行留意。\n\n四、积分与成就\n4.1 积分与成就是本应用内的虚拟记录，仅用于自我激励。\n4.2 积分不具有任何货币价值，不能兑换现金、实物或任何形式的权益。\n4.3 你可以随时在应用内清空成就或删除自己创建的计划。\n\n五、使用规范\n5.1 你应当合法、合理地使用本应用。\n5.2 不得对本应用进行反向工程、破解、修改或用于任何违法用途。\n5.3 不得利用本应用从事侵犯他人合法权益的行为。\n\n六、知识产权\n6.1 本应用的界面设计、图标与源代码归开发者所有。\n6.2 本应用使用的开源组件遵循其各自的开源许可协议，详见"关于 - 开源许可"。\n\n七、免责声明\n7.1 本应用按"现状"提供，开发者不对其完全无错误作出保证。\n7.2 因设备故障、系统更新、误操作或卸载导致的数据丢失，开发者不承担责任。\n7.3 本应用不能替代任何专业建议（包括医疗、心理、财务等）。\n\n八、协议的变更\n开发者可能不定期更新本协议。更新后的协议会在应用内展示，你继续使用即视为接受新版本。\n\n九、联系我们\n如对本协议有任何疑问，可通过 wan.business@qq.com 与开发者联系。邮箱如有变更，以"关于"页面公示为准。\n\n十、其他\n本协议未尽事宜，双方应本着诚实信用原则协商解决。</string>
-    <string name="privacy_body">《Habit 隐私政策》\n更新日期：2026 年 11 月 15 日\n\n一、我们收集什么\n本应用目前不收集任何个人信息。使用全部功能无需注册，也不需要提供手机号或邮箱。\n\n二、你的数据存在哪里\n习惯、积分、成就等数据全部保存在你的手机本地（应用私有目录），不会上传到任何服务器。\n\n三、网络与第三方组件\n3.1 本应用不包含任何统计、广告或崩溃上报 SDK。\n3.2 唯一的外部访问是"关于"页面里的开发者联系方式，只有你主动点击时，才会打开浏览器或邮件应用。\n\n四、权限说明\n本应用目前不申请任何敏感权限。\n\n五、数据删除\n卸载应用，或在系统设置中清除本应用的数据，全部记录将被永久删除，开发者无法恢复。\n\n六、儿童隐私\n本应用不面向儿童收集任何信息。\n\n七、政策变更\n若未来接入服务器或登录功能，本政策会同步更新，并在应用内展示。\n\n八、联系方式\n如对隐私问题有疑问，可发送邮件至 wan.business@qq.com。</string>
+    <string name="terms_body">《Habit 用户协议》\n更新日期：2026 年 11 月 18 日\n\n一、协议的接受\n欢迎使用 Habit（以下简称"本应用"）。本应用由个人开发者 Wan 开发并维护。你下载、安装或使用本应用，即表示你已阅读并同意本协议的全部内容。\n\n二、服务内容\n2.1 本应用是一款帮助你记录和养成习惯的本地工具，功能包括：创建习惯计划、记录完成与违背、累计积分、解锁成就、番茄钟、记忆卡片等。\n2.2 本应用的大部分功能无需登录即可使用。登录仅用于两件事：证明你是某个账号的使用者，以及在应用内向开发者提交反馈。\n2.3 本应用不提供云端数据备份或跨设备同步。你的习惯数据始终只保存在本机。\n\n三、账号\n3.1 你使用用户名和密码注册账号，账号信息由 Supabase 提供身份验证服务。\n3.2 请妥善保管密码。因你自身泄露密码造成的损失，开发者不承担责任。\n3.3 你可以在个人主页退出登录，或注销账号并清空本机数据。\n\n四、数据与存储\n4.1 习惯、积分、成就、历史记录等数据全部保存在你的手机本地。\n4.2 登录状态下提交的反馈内容、应用版本号与设备型号会上传至开发者可查看的数据库，用于定位问题与改进产品。\n4.3 卸载本应用、清除应用数据或更换设备，本机数据将被删除且无法恢复，请自行导出备份。\n\n五、积分与成就\n5.1 积分与成就是本应用内的虚拟记录，仅用于自我激励。\n5.2 积分不具有任何货币价值，不能兑换现金、实物或任何形式的权益。\n5.3 你可以随时在应用内清空成就或删除自己创建的计划。\n\n六、反馈\n6.1 请勿在反馈中填写与问题无关的敏感个人信息（如身份证号、银行卡号、详细住址）。\n6.2 开发者会阅读反馈，但不保证逐条回复。\n\n七、使用规范\n7.1 你应当合法、合理地使用本应用。\n7.2 不得对本应用进行反向工程、破解、修改或用于任何违法用途。\n7.3 不得利用本应用从事侵犯他人合法权益的行为。\n\n八、知识产权\n8.1 本应用的界面设计、图标与源代码归开发者所有。\n8.2 本应用使用的开源组件遵循其各自的开源许可协议，详见"关于 - 开源许可"。\n\n九、免责声明\n9.1 本应用按"现状"提供，开发者不对其完全无错误作出保证。\n9.2 因设备故障、系统更新、误操作或卸载导致的数据丢失，开发者不承担责任。\n9.3 本应用不能替代任何专业建议（包括医疗、心理、财务等）。\n\n十、协议的变更\n开发者可能不定期更新本协议。更新后的协议会在应用内展示，你继续使用即视为接受新版本。\n\n十一、联系我们\n如对本协议有任何疑问，可通过 wan.business@qq.com 与开发者联系，或在应用内「关于 - 反馈」直接提交（需登录）。\n\n十二、其他\n本协议未尽事宜，双方应本着诚实信用原则协商解决。</string>
+    <string name="privacy_body">《Habit 隐私政策》\n更新日期：2026 年 11 月 18 日\n\n一、我们不收集什么\n本应用不读取通讯录、相册、位置、短信、通话记录；不采集 IMEI、MAC 地址等设备标识；没有广告 SDK，也没有埋点统计或崩溃上报 SDK。\n\n二、只存在手机里的数据\n习惯计划、积分流水、商店奖励、成就、历史记录、语言与主题设置，全部保存在应用私有目录，其它应用读不到。卸载应用即删除。\n\n三、登录与账号\n3.1 只有你主动登录时，才会创建账号。账号由 Supabase 提供身份验证服务，保存你的用户名、密码哈希与最后登录时间。\n3.2 密码不会以明文形式保存，开发者也无法查看你的明文密码。\n3.3 不登录时，除必要的网络请求外，本应用不会上传任何内容。\n\n四、反馈\n4.1 你在「关于 - 反馈」中提交的内容、应用版本号与设备型号会保存到 Supabase 数据库中，只有开发者可以查看。\n4.2 反馈用于定位问题与改进产品。请不要在反馈中填写身份证号、银行卡号等敏感信息。\n\n五、用到的权限\n· 网络访问（INTERNET）：登录、注册与提交反馈时使用\n· 通知（POST_NOTIFICATIONS）：习惯提醒与番茄钟到点提醒\n· 闹钟（SCHEDULE_EXACT_ALARM / USE_EXACT_ALARM）：番茄钟准时响铃\n· 振动（VIBRATE）：提醒时振动\n· 安装应用（REQUEST_INSTALL_PACKAGES）：应用内检查更新后安装新版\n· 开机自启（RECEIVE_BOOT_COMPLETED）：重启后恢复提醒\n以上权限均不用于收集个人信息。\n\n六、第三方服务\n本应用仅接入一个第三方服务：Supabase（提供账号与反馈存储）。其数据存储位置与安全策略由 Supabase 负责。除此之外不向任何第三方共享你的数据。\n\n七、数据删除\n7.1 卸载应用或在系统设置中清除应用数据，本机记录将被永久删除。\n7.2 如需删除账号与已提交的反馈，可通过 wan.business@qq.com 联系开发者，或在应用内注销账号。\n\n八、儿童隐私\n本应用不面向儿童收集任何信息。\n\n九、政策变更\n若功能或第三方服务发生变化，本政策会同步更新并在应用内展示。\n\n十、联系方式\n如对隐私问题有疑问，可发送邮件至 wan.business@qq.com。</string>
     <!-- 积分商城 -->
     <string name="store_title">积分商城</string>
     <string name="store_available">可用积分</string>
@@ -305,15 +305,15 @@
     <string name="ach_popup_label">成就解锁</string>
     <string name="profile_avatar">用户头像</string>
     <string name="privacy_summary_title">一句话说完</string>
-    <string name="privacy_summary_body">Habit 不卖数据、不投广告、不做用户画像。你不登录时，所有数据只存在这台手机里；登录后，数据会加密传输并保存到你自己的云端空间。</string>
+    <string name="privacy_summary_body">Habit 不卖数据、不投广告、不做用户画像。你的习惯数据始终只在这台手机里；登录只用来识别身份和提交反馈。</string>
     <string name="privacy_local_title">① 存在手机里的东西</string>
-    <string name="privacy_local_body">习惯计划、积分流水、商店奖励、成就、语言和主题设置。这些保存在应用私有目录，其它应用读不到，卸载即删除。</string>
-    <string name="privacy_cloud_title">② 传到云端的东西</string>
-    <string name="privacy_cloud_body">只有你主动登录后，才会把上面那份数据整份同步到你自己的 Supabase 空间。数据库开了行级权限（RLS），服务端按登录身份隔离，别人即使拿到公开密钥也读不到你的记录。</string>
+    <string name="privacy_local_body">习惯计划、积分流水、商店奖励、成就、历史记录、语言与主题设置。保存在应用私有目录，其它应用读不到，卸载即删除。</string>
+    <string name="privacy_cloud_title">② 会上传到云端的东西</string>
+    <string name="privacy_cloud_body">只有两样：登录时的账号信息（用户名与密码哈希，由 Supabase 验证身份），以及你在「关于 - 反馈」里主动提交的反馈内容、应用版本号与设备型号。习惯数据不会上传。</string>
     <string name="privacy_not_collected_title">③ 我们不要的东西</string>
-    <string name="privacy_not_collected_body">不读取通讯录、相册、位置、短信、通话记录；不采集设备标识、IMEI、MAC 地址；没有埋点统计、没有崩溃上报、没有广告 SDK。整个应用只有一个第三方依赖用于云同步，即 Supabase。</string>
+    <string name="privacy_not_collected_body">不读取通讯录、相册、位置、短信、通话记录；不采集设备标识、IMEI、MAC 地址；没有埋点统计、没有崩溃上报、没有广告 SDK。</string>
     <string name="privacy_permission_title">④ 用到的权限</string>
-    <string name="privacy_permission_body">只有「网络访问（INTERNET）」一项，且仅在登录、注册与数据同步时使用。不联网时，记账、加减分、看历史全部照常工作。</string>
+    <string name="privacy_permission_body">网络（登录与反馈）、通知与闹钟（提醒）、振动、安装应用（应用内更新）、开机自启（恢复提醒）。均不用于收集个人信息。</string>
     <string name="privacy_rights_title">⑤ 你能做的事</string>
     <string name="privacy_rights_body">· 导出备份：设置 → 数据与备份，随时把全部数据存成文件带走
 · 注销账号：个人主页 → 退出登录 → 注销账号，云端数据与本机数据一并删除
@@ -333,7 +333,7 @@
     <string name="reminder_notification_title">今天还差一笔</string>
     <string name="reminder_notification_body">花 10 秒给今天的习惯打个分吧</string>
     <string name="terms_dialog_title">用户协议与隐私政策</string>
-    <string name="terms_dialog_message">使用 Habit 前，请先了解这些：\n\n· 不登录时，你的计划、积分、历史只保存在这台手机里\n· 登录后，这些数据会同步到你自己账号下的云端空间（Supabase）\n· 不读取通讯录、相册、位置，没有广告和埋点统计\n· 你可以随时导出数据，或在个人主页注销账号删除全部数据\n\n点击「同意并继续」表示你已阅读并同意《用户协议》与《隐私政策》。</string>
+    <string name="terms_dialog_message">使用 Habit 前，请先了解这些：\n\n· 你的计划、积分、历史只保存在这台手机里，不会上传云端\n· 登录只用于识别身份和在应用内提交反馈\n· 不读取通讯录、相册、位置，没有广告和埋点统计\n· 你可以随时导出数据，或在个人主页注销账号\n\n点击「同意并继续」表示你已阅读并同意《用户协议》与《隐私政策》。</string>
     <string name="terms_dialog_agree">同意并继续</string>
     <string name="terms_dialog_disagree">不同意</string>
     <string name="terms_dialog_detail">查看详情</string>
@@ -479,3 +479,5 @@
     <string name="verify_title">人机验证</string>
     <string name="verify_dialog_desc">按住滑块拖到最右边，确认你不是自动脚本</string>
 </resources>
+
+
