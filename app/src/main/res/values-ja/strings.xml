@@ -340,4 +340,6 @@
     <string name="update_install_message_simple">新しい版を GitHub からダウンロードできます。\n\nインストールしてもプランとポイントは残ります。</string>
     <string name="update_need_permission">先に「不明なアプリのインストール」を許可してから再試行してください</string>
     <string name="update_no_release">まだリリースがありません</string>
+    <string name="splash_tagline_cn">良い習慣が明るい未来をつくる</string>
+    <string name="splash_skip">スキップ</string>
 </resources>

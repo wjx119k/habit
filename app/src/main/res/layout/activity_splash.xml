@@ -42,18 +42,27 @@
           fontFamily="cursive" 会用系统自带的手写体/书法体，
           letterSpacing 让字母之间稍微松一点，看起来更像英文书法。
         -->
-        <TextView
+        <com.example.habit.SplashTextAnimationView
             android:id="@+id/splashTagline"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:fontFamily="cursive"
-            android:gravity="center"
-            android:letterSpacing="0.06"
-            android:text="@string/splash_tagline"
-            android:textColor="?android:attr/textColorSecondary"
-            android:textSize="17sp" />
+            android:layout_marginTop="28dp" />
 
     </LinearLayout>
+
+    <!-- 跳过：右上角，点一下直接进入 -->
+    <TextView
+        android:id="@+id/btnSkip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="20dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="10dp"
+        android:text="@string/splash_skip"
+        android:textColor="?android:attr/textColorSecondary"
+        android:textSize="14sp"
+        android:visibility="gone" />
 
 </FrameLayout>

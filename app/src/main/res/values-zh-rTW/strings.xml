@@ -340,4 +340,6 @@
     <string name="update_install_message_simple">新版本已经可以从 GitHub 下载。\n\n安装会替换当前版本，你的计划和積分不会丢失。</string>
     <string name="update_need_permission">请先允许「安装未知应用」，再回来点一次更新</string>
     <string name="update_no_release">项目还没有发布任何版本</string>
+    <string name="splash_tagline_cn">好習慣成就大未來</string>
+    <string name="splash_skip">跳过</string>
 </resources>

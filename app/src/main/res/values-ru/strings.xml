@@ -340,4 +340,6 @@
     <string name="update_install_message_simple">Новую версию можно скачать с GitHub.\n\nУстановка заменит приложение, но планы и баллы сохранятся.</string>
     <string name="update_need_permission">Сначала разрешите установку из неизвестных источников</string>
     <string name="update_no_release">В проекте пока нет релизов</string>
+    <string name="splash_tagline_cn">Хорошие привычки создают будущее</string>
+    <string name="splash_skip">Пропустить</string>
 </resources>

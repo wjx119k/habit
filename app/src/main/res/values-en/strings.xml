@@ -344,4 +344,6 @@
     <string name="update_install_message_simple">The new version can be downloaded from GitHub.\n\nInstalling replaces the app but keeps your plans and points.</string>
     <string name="update_need_permission">Allow "install unknown apps" first, then try again</string>
     <string name="update_no_release">This project has no releases yet</string>
+    <string name="splash_tagline_cn">Good habits build a great future</string>
+    <string name="splash_skip">Skip</string>
 </resources>
