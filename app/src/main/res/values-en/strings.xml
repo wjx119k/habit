@@ -442,4 +442,5 @@
     <string name="tag_urgent">⚡ Urgent · Not important</string>
     <string name="tag_neither">· Neither</string>
     <string name="splash_tap_hint">Tap anywhere to continue</string>
+    <string name="toast_points_cleared">Points cleared</string>
 </resources>

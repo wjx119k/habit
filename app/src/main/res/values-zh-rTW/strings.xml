@@ -438,4 +438,5 @@
     <string name="tag_urgent">⚡ 緊急 · 不重要</string>
     <string name="tag_neither">· 不緊急 · 不重要</string>
     <string name="splash_tap_hint">輕觸螢幕繼續</string>
+    <string name="toast_points_cleared">積分已清空</string>
 </resources>

@@ -54,7 +54,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var redemptionList: LinearLayout
     private lateinit var tvNoRecord: TextView
     private lateinit var tvStoreEmpty: TextView
-    private lateinit var btnClearPoints: MaterialButton
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var pageProject: View
     private lateinit var pageStore: View
@@ -102,8 +101,6 @@ class MainActivity : AppCompatActivity() {
         tvStoreEmpty = findViewById(R.id.tvStoreEmpty)
 
         // Project 栏目下的"清空积分"
-        btnClearPoints = findViewById(R.id.btnClearPoints)
-        btnClearPoints.setOnClickListener { confirmClearPoints() }
 
         // 商城里"添加奖励"
         findViewById<View>(R.id.btnAddReward).setOnClickListener {
@@ -611,9 +608,6 @@ class MainActivity : AppCompatActivity() {
         tvTotalPoints.text = Points.format(availablePoints())
         renderTempTasks()
 
-        // 只有在真的存在积分时，才显示"清空积分"
-        btnClearPoints.visibility =
-            if (projects.any { it.points != 0.0 }) View.VISIBLE else View.GONE
 
         if (projects.isEmpty()) {
             emptyHint.visibility = View.VISIBLE
@@ -692,41 +686,6 @@ class MainActivity : AppCompatActivity() {
     //  清空积分
     // ============================================================
 
-    private fun confirmClearPoints() {
-        MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.clear_points)
-            .setMessage(R.string.clear_points_confirm)
-            .setNegativeButton(R.string.action_cancel, null)
-            .setPositiveButton(R.string.action_confirm) { _, _ ->
-                val before = availablePoints()
-                // 所有项目的积分归零（用 copy，Project 的字段都是 val）
-                for (i in projects.indices) {
-                    projects[i] = projects[i].copy(points = 0.0)
-                }
-                ProjectStore.save(this, projects)
-
-                // 兑换记录一起清空：否则"可用积分 = 0 − 已兑换"会变成负数
-                StoreStore.clear(this)
-                recordHistory(getString(R.string.history_clear_points), -before)
-
-                renderProjects(animate = true)
-                renderStore()
-                Toast.makeText(this, R.string.clear_points_done, Toast.LENGTH_SHORT).show()
-            }
-            .show()
-    }
-
-    // ============================================================
-    //  Store（积分商城）
-    // ============================================================
-
-    /** 奖励图标的配色循环 */
-    private val storeColors = listOf(
-        0xFF7E57C2.toInt(), 0xFFEC407A.toInt(), 0xFFEF5350.toInt(),
-        0xFF42A5F5.toInt(), 0xFF26A69A.toInt(), 0xFFFFA726.toInt()
-    )
-
-    /** 可用积分 = 所有项目累计 − 已兑换 */
     private fun availablePoints(): Double =
         Points.round(projects.sumOf { it.points } + TempTaskStore.bonus(this) - StoreStore.spentPoints(this))
 
@@ -752,6 +711,12 @@ class MainActivity : AppCompatActivity() {
             )
         )
     }
+
+    /** 商店图标的底色轮换（之前误删了，这里补回来） */
+    private val storeColors = listOf(
+        0xFF6C8AE4L, 0xFFE46C8A, 0xFFE4A76C,
+        0xFF6CE4A7, 0xFFA76CE4, 0xFF6CCFE4
+    ).map { it.toInt() }
 
     private fun renderStore() {
         val earned = projects.sumOf { it.points }

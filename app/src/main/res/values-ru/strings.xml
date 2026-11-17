@@ -438,4 +438,5 @@
     <string name="tag_urgent">⚡ Срочно · не важно</string>
     <string name="tag_neither">· Ни то, ни другое</string>
     <string name="splash_tap_hint">Коснитесь экрана, чтобы продолжить</string>
+    <string name="toast_points_cleared">Баллы обнулены</string>
 </resources>

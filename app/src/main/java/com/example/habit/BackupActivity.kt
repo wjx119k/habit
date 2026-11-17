@@ -50,6 +50,10 @@ class BackupActivity : AppCompatActivity() {
 
         findViewById<MaterialButton>(R.id.btnExportShare).setOnClickListener { exportAndShare() }
 
+        findViewById<MaterialButton>(R.id.btnBackupClearPoints).setOnClickListener {
+            confirmClearPoints()
+        }
+
         findViewById<MaterialButton>(R.id.btnImportFile).setOnClickListener {
             runCatching {
                 pickFile.launch(arrayOf("application/json", "text/plain", "application/octet-stream"))
@@ -87,6 +91,30 @@ class BackupActivity : AppCompatActivity() {
     // ============================================================
     //  导出 + 分享
     // ============================================================
+
+    /**
+     * 清空所有计划的积分。
+     *
+     * 为什么放在"数据与备份"里？
+     *   它是低频、破坏性的数据操作，和导出/导入是同一类事；
+     *   放在计划页会被误触。
+     */
+    private fun confirmClearPoints() {
+        com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.clear_points)
+            .setMessage(R.string.clear_points_confirm)
+            .setNegativeButton(R.string.action_cancel, null)
+            .setPositiveButton(R.string.action_confirm) { _, _ ->
+                val projects = ProjectStore.load(this)
+                if (projects.isEmpty()) return@setPositiveButton
+                for (i in projects.indices) {
+                    projects[i] = projects[i].copy(points = 0.0)
+                }
+                ProjectStore.save(this, projects)
+                Toast.makeText(this, R.string.toast_points_cleared, Toast.LENGTH_SHORT).show()
+            }
+            .show()
+    }
 
     private fun exportAndShare() {
         runCatching {

@@ -42,7 +42,15 @@
                 android:textAppearance="?attr/textAppearanceHeadlineSmall"
                 android:textColor="?attr/colorOnSurface" />
 
-        </LinearLayout>
+            <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnBackupClearPoints"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="@string/clear_points" />
+
+</LinearLayout>
 
         <!-- 内容概览 -->
         <com.google.android.material.card.MaterialCardView

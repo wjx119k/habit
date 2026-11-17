@@ -120,16 +120,4 @@
 
     </FrameLayout>
 
-    <!-- 清空积分（只在有积分时出现） -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnClearPoints"
-        style="@style/Widget.Material3.Button.TextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="4dp"
-        android:text="@string/clear_points"
-        android:textColor="?attr/colorError"
-        android:visibility="gone" />
-
 </LinearLayout>
