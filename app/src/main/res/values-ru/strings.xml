@@ -433,4 +433,8 @@
     <string name="temp_task_undo_history">Отмена выполнения: %1$s −%2$s</string>
     <string name="temp_task_delete_title">Удалить задачу</string>
     <string name="temp_task_delete_confirm_long">Удалить «%1$s»?\n\nНезавершённая задача баллов не даёт.</string>
+    <string name="tag_urgent_important">🔥 Срочно · важно</string>
+    <string name="tag_important">⭐ Важно · не срочно</string>
+    <string name="tag_urgent">⚡ Срочно · не важно</string>
+    <string name="tag_neither">· Ни то, ни другое</string>
 </resources>

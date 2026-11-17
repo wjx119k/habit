@@ -437,4 +437,8 @@
     <string name="temp_task_undo_history">Completion undone: %1$s −%2$s</string>
     <string name="temp_task_delete_title">Delete task</string>
     <string name="temp_task_delete_confirm_long">Delete "%1$s"?\n\nAn unfinished task earns no points.</string>
+    <string name="tag_urgent_important">🔥 Urgent · Important</string>
+    <string name="tag_important">⭐ Important · Not urgent</string>
+    <string name="tag_urgent">⚡ Urgent · Not important</string>
+    <string name="tag_neither">· Neither</string>
 </resources>

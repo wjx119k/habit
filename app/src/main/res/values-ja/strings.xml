@@ -433,4 +433,8 @@
     <string name="temp_task_undo_history">完了取り消し：%1$s −%2$s</string>
     <string name="temp_task_delete_title">タスクを削除</string>
     <string name="temp_task_delete_confirm_long">「%1$s」を削除しますか？\n\n未完了のタスクにはポイントが入りません。</string>
+    <string name="tag_urgent_important">🔥 緊急・重要</string>
+    <string name="tag_important">⭐ 重要・緊急でない</string>
+    <string name="tag_urgent">⚡ 緊急・重要でない</string>
+    <string name="tag_neither">· どちらでもない</string>
 </resources>

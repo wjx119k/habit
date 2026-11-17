@@ -1009,6 +1009,16 @@ class MainActivity : AppCompatActivity() {
             title.text = task.title
             points.text = "+" + Points.format(task.points)
 
+            // 紧急 / 重要 属性（来自艾森豪威尔象限）
+            val tag = row.findViewById<TextView>(R.id.tvTaskTag)
+            val tagText = quadrantLabel(task.quadrant)
+            if (tagText.isNullOrEmpty()) tag.visibility = View.GONE
+            else {
+                tag.text = tagText
+                tag.visibility = View.VISIBLE
+                tag.alpha = if (task.done) 0.5f else 1f
+            }
+
             if (task.done) {
                 // 已完成：划掉 + 变灰
                 title.paintFlags = title.paintFlags or android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
@@ -1222,6 +1232,15 @@ class MainActivity : AppCompatActivity() {
         renderTempTasks()
         tvTotalPoints.text = Points.format(availablePoints())
         Toast.makeText(this, R.string.temp_task_undone, Toast.LENGTH_SHORT).show()
+    }
+
+    /** 象限 → 人话标签 */
+    private fun quadrantLabel(quadrant: String): String? = when (quadrant) {
+        "do" -> getString(R.string.tag_urgent_important)
+        "plan" -> getString(R.string.tag_important)
+        "delegate" -> getString(R.string.tag_urgent)
+        "drop" -> getString(R.string.tag_neither)
+        else -> null
     }
 
     /** 长按删除：未完成的也能删 */
