@@ -710,6 +710,8 @@ class MainActivity : AppCompatActivity() {
                 projectPoints = projectPoints
             )
         )
+        // 任何一次积分变化都顺手同步到云端（未登录时内部会自动跳过）
+        SupabaseSync.pushDebounced(this)
     }
 
     /** 商店图标的底色轮换（之前误删了，这里补回来） */

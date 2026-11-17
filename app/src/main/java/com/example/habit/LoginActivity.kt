@@ -63,7 +63,7 @@ class LoginActivity : AppCompatActivity() {
         // 登录
         findViewById<MaterialButton>(R.id.btnLoginSubmit).setOnClickListener {
             val name = editUsername.text?.toString()?.trim().orEmpty()
-            val pwd = editPassword.text?.toString()?.trim().orEmpty()
+            val pwd = editPassword.text?.toString().orEmpty()
 
             if (name.isEmpty()) {
                 layoutUsername.error = getString(R.string.login_error_username)
@@ -82,7 +82,12 @@ class LoginActivity : AppCompatActivity() {
             // Supabase 用邮箱登录，这里先挡一下明显不是邮箱的输入
 
             // 走 Supabase 登录（失败返回中文提示，成功返回 null）
-            val error = SupabaseAuth.login(this, SupabaseAuth.toEmail(name), pwd)
+            var error = SupabaseAuth.login(this, SupabaseAuth.toEmail(name), pwd)
+            // 老账号兼容：早期版本直接用用户名当邮箱注册，这里再试一次原始值
+            if (error != null && name.contains("@").not()) {
+                val retry = SupabaseAuth.login(this, name, pwd)
+                if (retry == null) error = null
+            }
             if (error == null) {
                 // 登录成功：把云端数据拉回来
                 Thread {

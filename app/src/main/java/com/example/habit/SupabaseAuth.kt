@@ -137,7 +137,7 @@ object SupabaseAuth {
         }.getOrNull().orEmpty()
 
         return when {
-            msg.contains("Invalid login credentials", true) -> "邮箱或密码不正确"
+            msg.contains("Invalid login credentials", true) -> "用户名或密码不正确"
             msg.contains("already registered", true) -> "这个邮箱已经注册过了"
             msg.contains("Email not confirmed", true) -> "请先去邮箱点确认链接"
             msg.contains("rate limit", true) -> "操作太频繁，稍后再试"

@@ -59,6 +59,28 @@ object SupabaseSync {
     fun restore(context: Context, payload: String): String? = Backup.restore(context, payload)
 
 
+    private val mainHandler = android.os.Handler(android.os.Looper.getMainLooper())
+    private var pendingPush: Runnable? = null
+
+    /**
+     * 防抖推送：连续操作只在上一次之后 2 秒推一次。
+     *
+     * 为什么防抖？
+     *   用户可能连着点七八次加分，每次都发一个请求既费流量又容易超时。
+     *   等手停下来再推，既省事又不丢数据。
+     */
+    fun pushDebounced(context: Context) {
+        if (!SupabaseAuth.isLoggedIn(context)) return
+
+        pendingPush?.let { mainHandler.removeCallbacks(it) }
+        val app = context.applicationContext
+        val runnable = Runnable {
+            Thread { runCatching { push(app) } }.start()
+        }
+        pendingPush = runnable
+        mainHandler.postDelayed(runnable, 2000L)
+    }
+
     /** 删除云端那一行数据（注销账号时用） */
     fun deleteRemote(context: Context): Boolean {
         val userId = currentUserId(context) ?: return false
