@@ -1067,6 +1067,10 @@ class MainActivity : AppCompatActivity() {
             .setMessage(getString(R.string.graduate_confirm, project.name))
             .setNegativeButton(R.string.action_cancel, null)
             .setPositiveButton(R.string.graduate_action) { _, _ ->
+                // 毕业后积分要保留：把他赚到的分转到 bonus 池里，
+                // 否则从 projects 移除的一瞬间总分会掉下去。
+                if (project.points != 0.0) TempTaskStore.addBonus(this, project.points)
+
                 projects.removeAt(index)
                 ProjectStore.save(this, projects)
                 recordHistory(
