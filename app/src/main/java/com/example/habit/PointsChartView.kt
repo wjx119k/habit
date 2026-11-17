@@ -60,19 +60,10 @@ class PointsChartView @JvmOverloads constructor(
 
     private val minSpanFrac = 0.12f
 
-    private val scaleDetector = ScaleGestureDetector(context, object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
-        override fun onScale(detector: ScaleGestureDetector): Boolean {
-            val focusX = detector.focusX
-            val before = fractionAt(focusX)
-            val oldSpan = viewSpanFrac
-            viewSpanFrac = (viewSpanFrac / detector.scaleFactor).coerceIn(minSpanFrac, 1f)
-            val after = fractionAt(focusX)
-            viewEndFrac = (viewEndFrac + (before - after) * oldSpan).coerceIn(viewSpanFrac, 1f)
-            clampWindow()
-            invalidate()
-            return true
-        }
-    })
+    /** 双指缩放：记录上一帧两指间距 */
+    private var lastPinchSpan = 0f
+
+    /** 双指缩放：自己记录两指间距，不依赖 ScaleGestureDetector */
 
     private val gestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
         override fun onDown(e: android.view.MotionEvent): Boolean = true
@@ -120,8 +111,30 @@ class PointsChartView @JvmOverloads constructor(
                 performClick()
             }
         }
-        scaleDetector.onTouchEvent(event)
-        gestureDetector.onTouchEvent(event)
+        // ---- 双指缩放（自己算，避免 ScaleGestureDetector 在某些机型不触发）----
+        when (event.actionMasked) {
+            android.view.MotionEvent.ACTION_POINTER_DOWN -> {
+                if (event.pointerCount >= 2) lastPinchSpan = spanOf(event)
+            }
+            android.view.MotionEvent.ACTION_MOVE -> {
+                if (event.pointerCount >= 2) {
+                    val span = spanOf(event)
+                    if (lastPinchSpan > 0f && span > 0f) {
+                        val factor = span / lastPinchSpan
+                        if (factor > 1.01f || factor < 0.99f) {
+                            applyZoom(factor, (event.getX(0) + event.getX(1)) / 2f)
+                            lastPinchSpan = span
+                        }
+                    }
+                } else {
+                    gestureDetector.onTouchEvent(event)
+                }
+            }
+            android.view.MotionEvent.ACTION_POINTER_UP,
+            android.view.MotionEvent.ACTION_UP,
+            android.view.MotionEvent.ACTION_CANCEL -> lastPinchSpan = 0f
+            else -> gestureDetector.onTouchEvent(event)
+        }
         invalidate()
         return true
     }
@@ -129,6 +142,23 @@ class PointsChartView @JvmOverloads constructor(
     override fun performClick(): Boolean {
         super.performClick()
         return true
+    }
+
+    private fun spanOf(event: android.view.MotionEvent): Float {
+        if (event.pointerCount < 2) return 0f
+        val dx = event.getX(1) - event.getX(0)
+        val dy = event.getY(1) - event.getY(0)
+        return kotlin.math.sqrt(dx * dx + dy * dy)
+    }
+
+    /** 以 focusX 为中心缩放：factor > 1 表示两指张开 => 放大（窗口变窄） */
+    private fun applyZoom(factor: Float, focusX: Float) {
+        val before = fractionAt(focusX)
+        val oldSpan = viewSpanFrac
+        viewSpanFrac = (viewSpanFrac / factor).coerceIn(minSpanFrac, 1f)
+        val after = fractionAt(focusX)
+        viewEndFrac = (viewEndFrac + (before - after) * oldSpan).coerceIn(viewSpanFrac, 1f)
+        clampWindow()
     }
 
     /** 某个 x 坐标对应整段时间的哪个比例 */
@@ -161,6 +191,22 @@ class PointsChartView @JvmOverloads constructor(
         invalidate()
     }
 
+    /** 横轴时间标签：左边是窗口起点，右边是窗口终点 */
+    private fun drawAxisLabels(
+        canvas: Canvas, startMs: Long, endMs: Long,
+        padLeft: Float, bottomY: Float, chartW: Float
+    ) {
+        val fmt = java.text.SimpleDateFormat("MM-dd HH:mm", java.util.Locale.getDefault())
+        textPaint.textAlign = Paint.Align.LEFT
+        textPaint.color = colorOnSurface(130)
+        val y = bottomY + textPaint.textSize + 2f * density
+        canvas.drawText(fmt.format(java.util.Date(startMs)), padLeft + 2f * density, y, textPaint)
+
+        textPaint.textAlign = Paint.Align.RIGHT
+        canvas.drawText(fmt.format(java.util.Date(endMs)), padLeft + chartW - 2f * density, y, textPaint)
+        textPaint.textAlign = Paint.Align.LEFT
+    }
+
     private fun colorOnSurface(alpha: Int): Int {
         val tv = TypedValue()
         context.theme.resolveAttribute(com.google.android.material.R.attr.colorOnSurface, tv, true)
@@ -184,7 +230,7 @@ class PointsChartView @JvmOverloads constructor(
         val padLeft = 6f * density
         val padRight = 6f * density
         val padTop = 14f * density
-        val padBottom = 14f * density
+        val padBottom = 26f * density
         val chartW = width - padLeft - padRight
         val chartH = height - padTop - padBottom
         if (chartW <= 0 || chartH <= 0) return
@@ -286,6 +332,9 @@ class PointsChartView @JvmOverloads constructor(
             dotPaint.color = colorPrimary(255)
         }
 
+        // ---- 横轴：显示当前窗口左右两端的时间 ----
+        drawAxisLabels(canvas, tStart.toLong(), tEnd.toLong(), padLeft, padTop + chartH, chartW)
+
         // 极值标注
         textPaint.textAlign = Paint.Align.LEFT
         textPaint.color = colorOnSurface(150)
@@ -293,7 +342,7 @@ class PointsChartView @JvmOverloads constructor(
         canvas.drawText(
             Points.format(minV),
             padLeft + 3f * density,
-            padTop + chartH - 3f * density,
+            padTop + chartH - 6f * density,
             textPaint
         )
     }
