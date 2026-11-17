@@ -115,7 +115,7 @@ object SupabaseSync {
             Thread { runCatching { push(app) } }.start()
         }
         pendingPush = runnable
-        mainHandler.postDelayed(runnable, 800L)
+        mainHandler.postDelayed(runnable, 150L)
     }
 
     /**
