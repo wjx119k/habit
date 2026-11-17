@@ -431,4 +431,8 @@
     <string name="eisen_field_points">Reward</string>
     <string name="eisen_points_helper">Points added when you complete it</string>
     <string name="eisen_error_title">Please enter the task</string>
+    <string name="temp_task_undo">Undo</string>
+    <string name="temp_task_undone">Undone — points returned</string>
+    <string name="temp_task_undo_complete">Undo completion</string>
+    <string name="temp_task_undo_history">Completion undone: %1$s −%2$s</string>
 </resources>

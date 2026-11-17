@@ -427,4 +427,8 @@
     <string name="eisen_field_points">完了報酬</string>
     <string name="eisen_points_helper">完了するとこのポイントが入ります</string>
     <string name="eisen_error_title">タスクを入力してください</string>
+    <string name="temp_task_undo">取り消し</string>
+    <string name="temp_task_undone">取り消しました。ポイントは戻りました</string>
+    <string name="temp_task_undo_complete">完了を取り消す</string>
+    <string name="temp_task_undo_history">完了取り消し：%1$s −%2$s</string>
 </resources>

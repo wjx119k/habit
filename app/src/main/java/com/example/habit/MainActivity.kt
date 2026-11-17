@@ -1187,14 +1187,45 @@ class MainActivity : AppCompatActivity() {
 
         renderTempTasks()
         tvTotalPoints.text = Points.format(availablePoints())
-        showCheer("✅", getString(R.string.temp_task_done, Points.format(task.points)), isPositive = true)
+
+        // 误触保护：立刻给一个「撤销」，不用去找删除入口
+        com.google.android.material.snackbar.Snackbar.make(
+            findViewById(android.R.id.content),
+            getString(R.string.temp_task_done, Points.format(task.points)),
+            com.google.android.material.snackbar.Snackbar.LENGTH_LONG
+        ).setAction(R.string.temp_task_undo) { undoCompleteTempTask(task) }.show()
     }
 
-    /** 点已完成的任务：确认后删除（积分不回收） */
+    /** 撤销完成：分数退回，任务恢复成未完成 */
+    private fun undoCompleteTempTask(task: TempTask) {
+        val tasks = TempTaskStore.load(this)
+        val index = tasks.indexOfFirst { it.id == task.id }
+        if (index < 0) return
+        tasks[index] = tasks[index].copy(done = false)
+        TempTaskStore.save(this, tasks)
+
+        // 把刚才加的分扣回去，并留一条反向流水，账才对得上
+        TempTaskStore.addBonus(this, -task.points)
+        recordHistory(
+            label = getString(R.string.temp_task_undo_history, task.title, Points.format(task.points)),
+            delta = -task.points,
+            projectId = "",
+            projectPoints = -1.0
+        )
+
+        renderTempTasks()
+        tvTotalPoints.text = Points.format(availablePoints())
+        Toast.makeText(this, R.string.temp_task_undone, Toast.LENGTH_SHORT).show()
+    }
+
+    /** 点已完成的任务：可以选择撤销完成，或者彻底删除 */
     private fun deleteTempTask(task: TempTask) {
         MaterialAlertDialogBuilder(this)
             .setMessage(getString(R.string.temp_task_delete_confirm, task.title))
             .setNegativeButton(R.string.action_cancel, null)
+            .setNeutralButton(R.string.temp_task_undo_complete) { _, _ ->
+                undoCompleteTempTask(task)
+            }
             .setPositiveButton(R.string.action_confirm) { _, _ ->
                 val tasks = TempTaskStore.load(this)
                 tasks.removeAll { it.id == task.id }

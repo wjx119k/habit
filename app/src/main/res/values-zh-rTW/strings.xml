@@ -427,4 +427,8 @@
     <string name="eisen_field_points">完成獎勵</string>
     <string name="eisen_points_helper">完成后自动加这么多分</string>
     <string name="eisen_error_title">请填写任務內容</string>
+    <string name="temp_task_undo">撤銷</string>
+    <string name="temp_task_undone">已撤銷，分數已退回</string>
+    <string name="temp_task_undo_complete">撤銷完成</string>
+    <string name="temp_task_undo_history">撤銷完成：%1$s −%2$s</string>
 </resources>

@@ -427,4 +427,8 @@
     <string name="eisen_field_points">Награда</string>
     <string name="eisen_points_helper">Баллы начислятся после выполнения</string>
     <string name="eisen_error_title">Введите задачу</string>
+    <string name="temp_task_undo">Отменить</string>
+    <string name="temp_task_undone">Отменено — баллы возвращены</string>
+    <string name="temp_task_undo_complete">Отменить выполнение</string>
+    <string name="temp_task_undo_history">Отмена выполнения: %1$s −%2$s</string>
 </resources>
