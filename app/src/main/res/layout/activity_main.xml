@@ -54,9 +54,12 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/btnPointsPill"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_points_pill"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingHorizontal="12dp"

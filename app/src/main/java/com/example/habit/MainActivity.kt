@@ -113,6 +113,12 @@ class MainActivity : AppCompatActivity() {
         setupMePage()
         refreshAccountUi()
 
+        // 右上角积分胶囊：跳到「商店」，顺手能花掉
+        findViewById<View>(R.id.btnPointsPill).setOnClickListener { view ->
+            view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+            bottomNav.selectedItemId = R.id.nav_store
+        }
+
         // 右上角小头像：直接进「个人主页」
         findViewById<View>(R.id.btnAvatarTop).setOnClickListener { view ->
             view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
