@@ -431,4 +431,6 @@
     <string name="temp_task_undone">Отменено — баллы возвращены</string>
     <string name="temp_task_undo_complete">Отменить выполнение</string>
     <string name="temp_task_undo_history">Отмена выполнения: %1$s −%2$s</string>
+    <string name="temp_task_delete_title">Удалить задачу</string>
+    <string name="temp_task_delete_confirm_long">Удалить «%1$s»?\n\nНезавершённая задача баллов не даёт.</string>
 </resources>

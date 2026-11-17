@@ -1025,6 +1025,12 @@ class MainActivity : AppCompatActivity() {
             row.setOnClickListener {
                 if (!task.done) completeTempTask(task) else deleteTempTask(task)
             }
+            // 长按：任何状态都能直接删除（未完成的也能删，不用先点成完成）
+            row.setOnLongClickListener {
+                it.performHapticFeedback(android.view.HapticFeedbackConstants.LONG_PRESS)
+                confirmDeleteTempTask(task)
+                true
+            }
             list.addView(row)
         }
     }
@@ -1216,6 +1222,21 @@ class MainActivity : AppCompatActivity() {
         renderTempTasks()
         tvTotalPoints.text = Points.format(availablePoints())
         Toast.makeText(this, R.string.temp_task_undone, Toast.LENGTH_SHORT).show()
+    }
+
+    /** 长按删除：未完成的也能删 */
+    private fun confirmDeleteTempTask(task: TempTask) {
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.temp_task_delete_title)
+            .setMessage(getString(R.string.temp_task_delete_confirm_long, task.title))
+            .setNegativeButton(R.string.action_cancel, null)
+            .setPositiveButton(R.string.temp_task_delete) { _, _ ->
+                val tasks = TempTaskStore.load(this)
+                tasks.removeAll { it.id == task.id }
+                TempTaskStore.save(this, tasks)
+                renderTempTasks()
+            }
+            .show()
     }
 
     /** 点已完成的任务：可以选择撤销完成，或者彻底删除 */

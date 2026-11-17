@@ -451,4 +451,6 @@
     <string name="temp_task_undone">已撤销，分数已退回</string>
     <string name="temp_task_undo_complete">撤销完成</string>
     <string name="temp_task_undo_history">撤销完成：%1$s −%2$s</string>
+    <string name="temp_task_delete_title">删除任务</string>
+    <string name="temp_task_delete_confirm_long">确定删除「%1$s」？\n\n未完成的任务不会产生积分。</string>
 </resources>

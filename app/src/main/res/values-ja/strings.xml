@@ -431,4 +431,6 @@
     <string name="temp_task_undone">取り消しました。ポイントは戻りました</string>
     <string name="temp_task_undo_complete">完了を取り消す</string>
     <string name="temp_task_undo_history">完了取り消し：%1$s −%2$s</string>
+    <string name="temp_task_delete_title">タスクを削除</string>
+    <string name="temp_task_delete_confirm_long">「%1$s」を削除しますか？\n\n未完了のタスクにはポイントが入りません。</string>
 </resources>
