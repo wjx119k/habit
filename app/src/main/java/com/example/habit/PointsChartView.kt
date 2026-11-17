@@ -77,6 +77,20 @@ class PointsChartView @JvmOverloads constructor(
     private val gestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
         override fun onDown(e: android.view.MotionEvent): Boolean = true
 
+        /** 双击：没缩放就放大到 40%，已缩放则还原（单指也能操作） */
+        override fun onDoubleTap(e: android.view.MotionEvent): Boolean {
+            if (viewSpanFrac >= 0.999f) {
+                viewSpanFrac = 0.4f
+                viewEndFrac = 1f
+            } else {
+                viewSpanFrac = 1f
+                viewEndFrac = 1f
+            }
+            clampWindow()
+            invalidate()
+            return true
+        }
+
         override fun onScroll(
             e1: android.view.MotionEvent?,
             e2: android.view.MotionEvent,
@@ -93,8 +107,27 @@ class PointsChartView @JvmOverloads constructor(
 
 
     override fun onTouchEvent(event: android.view.MotionEvent): Boolean {
+        when (event.actionMasked) {
+            android.view.MotionEvent.ACTION_DOWN -> {
+                isPressed = true
+                // 关键：告诉外面的 NestedScrollView「别抢我的手势」
+                parent?.requestDisallowInterceptTouchEvent(true)
+            }
+            android.view.MotionEvent.ACTION_UP,
+            android.view.MotionEvent.ACTION_CANCEL -> {
+                isPressed = false
+                parent?.requestDisallowInterceptTouchEvent(false)
+                performClick()
+            }
+        }
         scaleDetector.onTouchEvent(event)
         gestureDetector.onTouchEvent(event)
+        invalidate()
+        return true
+    }
+
+    override fun performClick(): Boolean {
+        super.performClick()
         return true
     }
 
@@ -109,6 +142,12 @@ class PointsChartView @JvmOverloads constructor(
     private fun clampWindow() {
         viewSpanFrac = viewSpanFrac.coerceIn(minSpanFrac, 1f)
         viewEndFrac = viewEndFrac.coerceIn(viewSpanFrac, 1f)
+    }
+
+    init {
+        // 自定义 View 必须显式可点击，否则触摸事件可能被忽略
+        isClickable = true
+        isFocusable = true
     }
 
     fun setData(points: List<Pair<Long, Double>>) {
