@@ -439,4 +439,6 @@
     <string name="pomodoro_channel_desc">专注结束时的闹钟提醒</string>
     <string name="pomodoro_notification_body">点一下回到番茄钟</string>
     <string name="eisen_remove_confirm">把「%1$s」从矩阵和临时任务里一起移除？</string>
+    <string name="eisen_add_task">＋ 添加任务</string>
+    <string name="eisen_points_hint">完成得多少分（0.1~999.9）</string>
 </resources>

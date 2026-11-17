@@ -419,4 +419,6 @@
     <string name="pomodoro_channel_desc">Сигнал по окончании фокуса</string>
     <string name="pomodoro_notification_body">Нажмите, чтобы вернуться</string>
     <string name="eisen_remove_confirm">Удалить «%1$s» из матрицы и разовых задач?</string>
+    <string name="eisen_add_task">+ Добавить задачу</string>
+    <string name="eisen_points_hint">Баллы за выполнение (0.1–999.9)</string>
 </resources>

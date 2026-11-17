@@ -423,4 +423,6 @@
     <string name="pomodoro_channel_desc">Alarm when a focus session ends</string>
     <string name="pomodoro_notification_body">Tap to return to the pomodoro</string>
     <string name="eisen_remove_confirm">Remove "%1$s" from the matrix and one-off tasks?</string>
+    <string name="eisen_add_task">+ Add task</string>
+    <string name="eisen_points_hint">Points on completion (0.1–999.9)</string>
 </resources>

@@ -55,21 +55,11 @@ class EisenhowerActivity : AppCompatActivity() {
         findViewById<ImageButton>(R.id.btnEisenBack).setOnClickListener { finish() }
 
         quadrants.forEach { q ->
-            val input = findViewById<EditText>(q.inputId)
-            findViewById<MaterialButton>(q.addId).setOnClickListener {
-                val text = input.text.toString().trim()
-                if (text.isEmpty()) return@setOnClickListener
-                val tasks = TempTaskStore.load(this)
-                tasks.add(
-                    TempTask(
-                        title = text,
-                        points = DEFAULT_POINTS,
-                        quadrant = q.key
-                    )
-                )
-                TempTaskStore.save(this, tasks)
-                input.setText("")
-                refreshAll()
+            // 行内输入框改成弹窗里的输入，这里直接隐藏
+            findViewById<EditText>(q.inputId).visibility = View.GONE
+            findViewById<MaterialButton>(q.addId).apply {
+                setText(R.string.eisen_add_task)
+                setOnClickListener { showAddDialog(q) }
             }
         }
 
@@ -80,6 +70,46 @@ class EisenhowerActivity : AppCompatActivity() {
         super.onResume()
         // 从计划页勾完任务回来，状态要跟着变
         refreshAll()
+    }
+
+    /**
+     * 添加任务：一次把「做什么」和「值多少分」都问清楚。
+     * 分数决定完成时加多少分，所以在建的时候就让用户定。
+     */
+    private fun showAddDialog(q: Quadrant) {
+        val container = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(dp(20), dp(8), dp(20), 0)
+        }
+        val inputTitle = EditText(this).apply { hint = getString(R.string.eisen_hint) }
+        val inputPoints = EditText(this).apply {
+            hint = getString(R.string.eisen_points_hint)
+            inputType = android.text.InputType.TYPE_CLASS_NUMBER or
+                android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
+            setText(Points.format(DEFAULT_POINTS))
+        }
+        container.addView(inputTitle)
+        container.addView(inputPoints)
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle(q.titleRes)
+            .setView(container)
+            .setNegativeButton(R.string.action_cancel, null)
+            .setPositiveButton(R.string.eisen_add) { _, _ ->
+                val title = inputTitle.text.toString().trim()
+                val points = Points.parseInput(inputPoints.text.toString())
+                if (title.isEmpty() || points == null || !Points.isValidPerAction(points)) {
+                    android.widget.Toast.makeText(
+                        this, R.string.temp_task_invalid, android.widget.Toast.LENGTH_SHORT
+                    ).show()
+                    return@setPositiveButton
+                }
+                val tasks = TempTaskStore.load(this)
+                tasks.add(TempTask(title = title, points = points, quadrant = q.key))
+                TempTaskStore.save(this, tasks)
+                refreshAll()
+            }
+            .show()
     }
 
     private fun refreshAll() {

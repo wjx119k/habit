@@ -1050,7 +1050,8 @@ class MainActivity : AppCompatActivity() {
         }
         content.findViewById<View>(R.id.choiceTemp).setOnClickListener {
             dialog.dismiss()
-            showTempTaskDialog()
+            // 临时任务统一从矩阵进：先分象限，再填分数
+            startActivity(Intent(this, EisenhowerActivity::class.java))
         }
         dialog.show()
     }
