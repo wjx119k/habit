@@ -74,6 +74,17 @@ object SettingsStore {
         prefs(context).edit().putInt(KEY_AGREED, TERMS_VERSION).apply()
     }
 
+    // ---------------- 自动更新 ----------------
+
+    private const val KEY_AUTO_UPDATE = "auto_update"
+
+    fun isAutoUpdate(context: Context): Boolean =
+        prefs(context).getBoolean(KEY_AUTO_UPDATE, true)
+
+    fun setAutoUpdate(context: Context, on: Boolean) {
+        prefs(context).edit().putBoolean(KEY_AUTO_UPDATE, on).apply()
+    }
+
     private fun prefs(context: Context) =
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 }

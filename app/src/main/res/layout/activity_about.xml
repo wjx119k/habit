@@ -143,6 +143,54 @@
             android:layout_marginTop="10dp"
             android:orientation="vertical" />
 
+        <!-- 自动更新开关 -->
+        <include
+            android:id="@+id/aboutRowAutoUpdate"
+            layout="@layout/item_switch_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+
+        <!-- 当前版本 -->
+        <include
+            android:id="@+id/aboutRowVersion"
+            layout="@layout/item_settings_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+
+        <!-- README 说明 -->
+        <include
+            android:id="@+id/aboutRowReadme"
+            layout="@layout/item_settings_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+
+        <!-- 版本发布 -->
+        <include
+            android:id="@+id/aboutRowReleases"
+            layout="@layout/item_settings_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+
+        <!-- GitHub 议题 -->
+        <include
+            android:id="@+id/aboutRowIssues"
+            layout="@layout/item_settings_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+
+        <!-- 赞助 -->
+        <include
+            android:id="@+id/aboutRowSponsor"
+            layout="@layout/item_settings_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+
         <!-- 开源许可 -->
         <include
             android:id="@+id/aboutRowLicenses"

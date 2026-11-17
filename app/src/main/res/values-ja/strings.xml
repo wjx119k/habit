@@ -317,4 +317,27 @@
     <string name="terms_dialog_agree">同意して続行</string>
     <string name="terms_dialog_disagree">同意しない</string>
     <string name="terms_dialog_detail">詳細を見る</string>
+    <string name="about_readme">README</string>
+    <string name="about_releases">リリース</string>
+    <string name="about_issues">GitHub イシュー</string>
+    <string name="about_sponsor">支援</string>
+    <string name="sponsor_message">Habit は完全無料、広告なし、データを売りません。空いた時間で作っています。\n\nもし役に立ったら、応援していただけると嬉しいです：\n\n· GitHub でスター ⭐\n· イシューで不具合を知らせる\n· コーヒーをご馳走する（メールで連絡）\n\nどれもお金以上に励みになります。</string>
+    <string name="sponsor_contact">連絡する</string>
+    <string name="about_current_version">現在のバージョン</string>
+    <string name="about_auto_update">自動更新</string>
+    <string name="about_auto_update_desc">GitHub から新しい版を確認してダウンロード</string>
+    <string name="update_checking">更新を確認しています…</string>
+    <string name="update_latest">最新版です</string>
+    <string name="update_found">新しい版 %1$s が見つかりました</string>
+    <string name="update_failed">確認に失敗しました：%1$s</string>
+    <string name="update_downloading">ダウンロード中…</string>
+    <string name="update_download_failed">ダウンロードに失敗しました</string>
+    <string name="update_install_title">新しい版をインストール</string>
+    <string name="update_install_message">%1$s をダウンロードしました。今すぐインストールしますか？\n\nデータは保持されます。</string>
+    <string name="update_install_now">インストール</string>
+    <string name="update_install_later">あとで</string>
+    <string name="update_no_asset">このリリースには APK がありません</string>
+    <string name="update_install_message_simple">新しい版を GitHub からダウンロードできます。\n\nインストールしてもプランとポイントは残ります。</string>
+    <string name="update_need_permission">先に「不明なアプリのインストール」を許可してから再試行してください</string>
+    <string name="update_no_release">まだリリースがありません</string>
 </resources>

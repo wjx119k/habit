@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.materialswitch.MaterialSwitch
 
 /**
  * 关于页。
@@ -26,6 +27,14 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
  * 界面按列表渲染，未来加人只需要改数据，不用动布局。
  */
 class AboutActivity : AppCompatActivity() {
+
+    private companion object {
+        /** 仓库地址：README / 版本发布 / 议题 都从它拼出来 */
+        const val REPO_URL = "https://github.com/wjx119k/habit"
+
+        /** 赞助、合作等事宜的联系邮箱 */
+        const val SPONSOR_EMAIL = "wan.business@qq.com"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +59,52 @@ class AboutActivity : AppCompatActivity() {
         }.getOrNull() ?: "1.0"
         findViewById<TextView>(R.id.tvAboutVersion).text =
             getString(R.string.about_version) + " " + versionName
+
+        // 自动更新开关
+        val autoRow = findViewById<View>(R.id.aboutRowAutoUpdate)
+        autoRow.findViewById<ImageView>(R.id.ivSwitchIcon).setImageResource(R.drawable.ic_update)
+        autoRow.findViewById<TextView>(R.id.tvSwitchTitle).setText(R.string.about_auto_update)
+        autoRow.findViewById<TextView>(R.id.tvSwitchSubtitle).setText(R.string.about_auto_update_desc)
+
+        val switchAuto = autoRow.findViewById<MaterialSwitch>(R.id.switchValue)
+        switchAuto.isChecked = SettingsStore.isAutoUpdate(this)
+        switchAuto.setOnCheckedChangeListener { _, checked ->
+            SettingsStore.setAutoUpdate(this, checked)
+            if (checked) checkForUpdate(silentIfLatest = false)
+        }
+
+        // 开关打开时，进入本页自动检查一次（已是最新则不打扰）
+        if (switchAuto.isChecked) checkForUpdate(silentIfLatest = true)
+
+        // 当前版本：显示 版本名 + 构建号，点一下手动检查更新
+        // （原来点它是打开发布页，现在改成"检查更新"，发布页另有入口）
+        bindRow(R.id.aboutRowVersion, R.drawable.ic_info, R.string.about_current_version) {
+            checkForUpdate(silentIfLatest = false)
+        }
+        val versionCode = runCatching {
+            @Suppress("DEPRECATION")
+            packageManager.getPackageInfo(packageName, 0).versionCode
+        }.getOrDefault(0)
+        findViewById<View>(R.id.aboutRowVersion)
+            .findViewById<TextView>(R.id.tvRowValue)
+            .apply {
+                text = "$versionName ($versionCode)"
+                visibility = View.VISIBLE
+            }
+
+        // 仓库相关：README / 版本发布 / 议题 / 赞助
+        bindRow(R.id.aboutRowReadme, R.drawable.ic_habit, R.string.about_readme) {
+            openUrl(REPO_URL + "#readme")
+        }
+        bindRow(R.id.aboutRowReleases, R.drawable.ic_verified, R.string.about_releases) {
+            openUrl(REPO_URL + "/releases")
+        }
+        bindRow(R.id.aboutRowIssues, R.drawable.ic_help, R.string.about_issues) {
+            openUrl(REPO_URL + "/issues")
+        }
+        bindRow(R.id.aboutRowSponsor, R.drawable.ic_crown, R.string.about_sponsor) {
+            showSponsorDialog()
+        }
 
         // 三个文本页
         bindRow(R.id.aboutRowLicenses, R.drawable.ic_verified, R.string.about_licenses) {
@@ -165,6 +220,90 @@ class AboutActivity : AppCompatActivity() {
         row.findViewById<ImageView>(R.id.ivRowIcon).setImageResource(iconRes)
         row.findViewById<TextView>(R.id.tvRowTitle).setText(titleRes)
         row.setOnClickListener { onClick() }
+    }
+
+    /**
+     * 检查更新。
+     * @param silentIfLatest 已是最新时不弹提示（启动时自动检查用）
+     */
+    private fun checkForUpdate(silentIfLatest: Boolean) {
+        Toast.makeText(this, R.string.update_checking, Toast.LENGTH_SHORT).show()
+        Thread {
+            val result = UpdateChecker.check(this)
+            runOnUiThread {
+                when (result) {
+                    is UpdateChecker.Result.Latest -> {
+                        if (!silentIfLatest) {
+                            Toast.makeText(this, R.string.update_latest, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    is UpdateChecker.Result.Newer -> offerUpdate(result)
+                    is UpdateChecker.Result.NoRelease -> {
+                        if (!silentIfLatest) {
+                            Toast.makeText(this, R.string.update_no_release, Toast.LENGTH_LONG).show()
+                        }
+                    }
+                    is UpdateChecker.Result.Failed -> {
+                        if (!silentIfLatest) {
+                            Toast.makeText(
+                                this,
+                                getString(R.string.update_failed, result.message),
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+                }
+            }
+        }.start()
+    }
+
+    /** 发现新版本：确认后下载，再拉起系统安装器 */
+    private fun offerUpdate(info: UpdateChecker.Result.Newer) {
+        if (info.apkUrl.isBlank()) {
+            Toast.makeText(this, R.string.update_no_asset, Toast.LENGTH_LONG).show()
+            return
+        }
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle(getString(R.string.update_found, info.tag))
+            .setMessage(R.string.update_install_message_simple)
+            .setNegativeButton(R.string.update_install_later, null)
+            .setPositiveButton(R.string.update_install_now) { _, _ -> downloadAndInstall(info) }
+            .show()
+    }
+
+    private fun downloadAndInstall(info: UpdateChecker.Result.Newer) {
+        Toast.makeText(this, R.string.update_downloading, Toast.LENGTH_LONG).show()
+        Thread {
+            val apk = UpdateChecker.download(this, info.apkUrl)
+            runOnUiThread {
+                if (apk == null) {
+                    Toast.makeText(this, R.string.update_download_failed, Toast.LENGTH_LONG).show()
+                    return@runOnUiThread
+                }
+                // 拉起系统安装界面（这一步必须由用户点「安装」）
+                if (!UpdateChecker.install(this, apk)) {
+                    Toast.makeText(this, R.string.update_need_permission, Toast.LENGTH_LONG).show()
+                }
+            }
+        }.start()
+    }
+
+    /**
+     * 赞助说明。
+     *
+     * 没有接支付渠道，所以不做"假按钮"：
+     * 老实说明 Habit 免费无广告，并给出能联系到开发者的方式。
+     */
+    private fun showSponsorDialog() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.about_sponsor)
+            .setMessage(R.string.sponsor_message)
+            .setNegativeButton(R.string.action_cancel, null)
+            .setPositiveButton(R.string.sponsor_contact) { _, _ ->
+                openEmail(SPONSOR_EMAIL)
+            }
+            .show()
     }
 
     private fun showTextDialog(title: String, content: String) {

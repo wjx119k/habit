@@ -317,4 +317,27 @@
     <string name="terms_dialog_agree">Согласен и продолжить</string>
     <string name="terms_dialog_disagree">Не согласен</string>
     <string name="terms_dialog_detail">Подробнее</string>
+    <string name="about_readme">README</string>
+    <string name="about_releases">Релизы</string>
+    <string name="about_issues">Задачи на GitHub</string>
+    <string name="about_sponsor">Поддержать</string>
+    <string name="sponsor_message">Habit полностью бесплатен, без рекламы и без продажи данных. Делается в свободное время.\n\nЕсли он вам помог и хочется отблагодарить:\n\n· Поставьте звезду на GitHub ⭐\n· Откройте задачу и расскажите, что сломалось\n· Или угостите кофе (напишите на почту)\n\nЛюбое из этого приятнее денег.</string>
+    <string name="sponsor_contact">Написать</string>
+    <string name="about_current_version">Текущая версия</string>
+    <string name="about_auto_update">Автообновление</string>
+    <string name="about_auto_update_desc">Проверять и скачивать новые версии с GitHub</string>
+    <string name="update_checking">Проверяем обновления…</string>
+    <string name="update_latest">У вас последняя версия</string>
+    <string name="update_found">Найдена новая версия %1$s</string>
+    <string name="update_failed">Ошибка проверки: %1$s</string>
+    <string name="update_downloading">Скачиваем…</string>
+    <string name="update_download_failed">Не удалось скачать, попробуйте позже</string>
+    <string name="update_install_title">Установить обновление</string>
+    <string name="update_install_message">Загружено %1$s. Установить сейчас?\n\nДанные сохранятся.</string>
+    <string name="update_install_now">Установить</string>
+    <string name="update_install_later">Позже</string>
+    <string name="update_no_asset">В этом релизе нет APK</string>
+    <string name="update_install_message_simple">Новую версию можно скачать с GitHub.\n\nУстановка заменит приложение, но планы и баллы сохранятся.</string>
+    <string name="update_need_permission">Сначала разрешите установку из неизвестных источников</string>
+    <string name="update_no_release">В проекте пока нет релизов</string>
 </resources>
