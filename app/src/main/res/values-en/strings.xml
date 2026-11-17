@@ -425,4 +425,10 @@
     <string name="eisen_remove_confirm">Remove "%1$s" from the matrix and one-off tasks?</string>
     <string name="eisen_add_task">+ Add task</string>
     <string name="eisen_points_hint">Points on completion (0.1–999.9)</string>
+    <string name="eisen_dialog_title">Add task</string>
+    <string name="eisen_dialog_subtitle">Goes into "%1$s"</string>
+    <string name="eisen_field_task">What to do</string>
+    <string name="eisen_field_points">Reward</string>
+    <string name="eisen_points_helper">Points added when you complete it</string>
+    <string name="eisen_error_title">Please enter the task</string>
 </resources>

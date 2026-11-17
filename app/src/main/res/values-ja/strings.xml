@@ -421,4 +421,10 @@
     <string name="eisen_remove_confirm">「%1$s」をマトリクスと単発タスクから削除しますか？</string>
     <string name="eisen_add_task">＋ タスクを追加</string>
     <string name="eisen_points_hint">完了でもらえるポイント（0.1〜999.9）</string>
+    <string name="eisen_dialog_title">タスクを追加</string>
+    <string name="eisen_dialog_subtitle">「%1$s」に入れる</string>
+    <string name="eisen_field_task">やること</string>
+    <string name="eisen_field_points">完了報酬</string>
+    <string name="eisen_points_helper">完了するとこのポイントが入ります</string>
+    <string name="eisen_error_title">タスクを入力してください</string>
 </resources>

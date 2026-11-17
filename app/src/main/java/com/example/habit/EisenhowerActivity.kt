@@ -77,31 +77,33 @@ class EisenhowerActivity : AppCompatActivity() {
      * 分数决定完成时加多少分，所以在建的时候就让用户定。
      */
     private fun showAddDialog(q: Quadrant) {
-        val container = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(dp(20), dp(8), dp(20), 0)
-        }
-        val inputTitle = EditText(this).apply { hint = getString(R.string.eisen_hint) }
-        val inputPoints = EditText(this).apply {
-            hint = getString(R.string.eisen_points_hint)
-            inputType = android.text.InputType.TYPE_CLASS_NUMBER or
-                android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
-            setText(Points.format(DEFAULT_POINTS))
-        }
-        container.addView(inputTitle)
-        container.addView(inputPoints)
+        val content = layoutInflater.inflate(R.layout.dialog_eisen_task, null)
+        val editTitle = content.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.editEisenTitle)
+        val editPoints = content.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.editEisenPoints)
+        val layoutTitle = content.findViewById<com.google.android.material.textfield.TextInputLayout>(R.id.layoutEisenTitle)
+        val layoutPoints = content.findViewById<com.google.android.material.textfield.TextInputLayout>(R.id.layoutEisenPoints)
 
-        MaterialAlertDialogBuilder(this)
-            .setTitle(q.titleRes)
-            .setView(container)
+        content.findViewById<android.widget.TextView>(R.id.tvEisenDialogSubtitle)
+            .setText(getString(R.string.eisen_dialog_subtitle, getString(q.titleRes)))
+
+        editPoints.setText(Points.format(DEFAULT_POINTS))
+        editTitle.requestFocus()
+
+        val dialog = MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.eisen_dialog_title)
+            .setView(content)
             .setNegativeButton(R.string.action_cancel, null)
             .setPositiveButton(R.string.eisen_add) { _, _ ->
-                val title = inputTitle.text.toString().trim()
-                val points = Points.parseInput(inputPoints.text.toString())
-                if (title.isEmpty() || points == null || !Points.isValidPerAction(points)) {
-                    android.widget.Toast.makeText(
-                        this, R.string.temp_task_invalid, android.widget.Toast.LENGTH_SHORT
-                    ).show()
+                val title = editTitle.text?.toString()?.trim().orEmpty()
+                val points = Points.parseInput(editPoints.text?.toString())
+                if (title.isEmpty()) {
+                    layoutTitle.error = getString(R.string.eisen_error_title)
+                    return@setPositiveButton
+                }
+                if (points == null || !Points.isValidPerAction(points)) {
+                    layoutPoints.error = getString(
+                        R.string.error_points_range, Points.MIN_PER_ACTION, Points.MAX_PER_ACTION
+                    )
                     return@setPositiveButton
                 }
                 val tasks = TempTaskStore.load(this)
@@ -109,7 +111,9 @@ class EisenhowerActivity : AppCompatActivity() {
                 TempTaskStore.save(this, tasks)
                 refreshAll()
             }
-            .show()
+            .create()
+
+        dialog.show()
     }
 
     private fun refreshAll() {
