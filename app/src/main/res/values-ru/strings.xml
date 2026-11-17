@@ -441,4 +441,8 @@
     <string name="toast_points_cleared">Баллы обнулены</string>
     <string name="backup_danger_title">Опасная зона</string>
     <string name="backup_danger_desc">Обнуляет баллы всех планов и разовых задач. История сохраняется. Отменить нельзя.</string>
+    <string name="sync_confirm_title">В облаке есть данные</string>
+    <string name="sync_confirm_message">В облаке хранится другая копия данных.\n\nЗаменить данные на устройстве облачными или загрузить свои?</string>
+    <string name="sync_keep_local">Оставить свои</string>
+    <string name="sync_use_cloud">Взять из облака</string>
 </resources>

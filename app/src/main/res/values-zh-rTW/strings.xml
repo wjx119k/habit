@@ -441,4 +441,8 @@
     <string name="toast_points_cleared">積分已清空</string>
     <string name="backup_danger_title">危險操作</string>
     <string name="backup_danger_desc">清空所有计划与临时任务的積分，歷史記錄保留。此操作不可撤销。</string>
+    <string name="sync_confirm_title">雲端已有資料</string>
+    <string name="sync_confirm_message">雲端保存着另一份資料（可能来自别的裝置）。\n\n要用雲端的覆盖本机，还是把本机的传到雲端？</string>
+    <string name="sync_keep_local">用本机的</string>
+    <string name="sync_use_cloud">用雲端的</string>
 </resources>

@@ -36,6 +36,12 @@ class LoginActivity : AppCompatActivity() {
         }
 
 
+    /** 云端 payload 里有没有真实计划（没有就当作空壳，不能覆盖本机） */
+    private fun cloudHasProjects(payload: String): Boolean = runCatching {
+        val n = org.json.JSONObject(payload).optJSONArray("projects")?.length() ?: 0
+        n > 0
+    }.getOrDefault(false)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -98,7 +104,17 @@ class LoginActivity : AppCompatActivity() {
                         Thread {
                             val payload = SupabaseSync.pull(this)
                             runOnUiThread {
-                                payload?.let { SupabaseSync.restore(this, it) }
+                                if (payload == null) {
+                            // 云端为空（首次登录）：把本机数据推上去
+                            Thread { runCatching { SupabaseSync.push(this) } }.start()
+                        } else if (cloudHasProjects(payload)) {
+                            // 云端有真实数据：先备份本机，再覆盖，避免误删
+                            runCatching { Backup.writeToCache(this) }
+                            SupabaseSync.restore(this, payload)
+                        } else {
+                            // 云端只是空壳：不要覆盖本机，反向推送
+                            Thread { runCatching { SupabaseSync.push(this) } }.start()
+                        }
                                 Toast.makeText(
                                     this,
                                     getString(R.string.auth_login_success, name),

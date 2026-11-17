@@ -39,20 +39,45 @@ object SupabaseSync {
 
     /** 把本机数据整份推上去（有则覆盖，无则新建） */
     fun push(context: Context): Boolean {
-        val userId = currentUserId(context) ?: return false
-        val token = token(context) ?: return false
+        val userId = currentUserId(context)
+        if (userId == null) { log(context, "push: 拿不到用户 id（JWT 解码失败）"); return false }
+        val token = token(context)
+        if (token == null) { log(context, "push: 没有 access_token"); return false }
 
-        val payload = Backup.toJson(context)
-        val body = JSONObject().apply {
-            put("user_id", userId)
-            put("payload", JSONObject(payload))
-            put("updated_at", System.currentTimeMillis())
-        }.toString()
+        val payload = runCatching { Backup.toJson(context) }.getOrElse {
+            log(context, "push: 生成本机数据失败 " + it); return false
+        }
 
-        // 用 upsert：不存在就插入，存在就覆盖
+        val body = runCatching {
+            JSONObject().apply {
+                put("user_id", userId)
+                put("payload", JSONObject(payload))
+                // 必须传 ISO-8601 字符串：数据库列是 timestamptz，
+                // 传毫秒整数会报 "date/time field value out of range"
+                put(
+                    "updated_at",
+                    java.time.Instant.ofEpochMilli(System.currentTimeMillis()).toString()
+                )
+            }.toString()
+        }.getOrElse {
+            log(context, "push: 组装 JSON 失败 " + it); return false
+        }
+
         val url = SupabaseAuth.URL + TABLE + "?on_conflict=user_id"
-        val (code, _) = request("POST", url, body, token, prefer = "resolution=merge-duplicates")
+        val (code, text) = request("POST", url, body, token, prefer = "resolution=merge-duplicates")
+        log(context, "push code=" + code + " body=" + text.take(200))
         return code in 200..299
+    }
+
+    /** 同步诊断日志 */
+    private fun log(context: Context, line: String) {
+        runCatching {
+            val f = java.io.File(context.filesDir, "sync_debug.txt")
+            f.appendText(
+                java.text.SimpleDateFormat("MM-dd HH:mm:ss", java.util.Locale.US)
+                    .format(java.util.Date()) + "  " + line + "\n"
+            )
+        }
     }
 
     /** 用云端数据覆盖本机（登录时用） */
@@ -111,7 +136,17 @@ object SupabaseSync {
         return runCatching {
             val parts = jwt.split(".")
             if (parts.size < 2) return null
-            val json = String(android.util.Base64.decode(parts[1], android.util.Base64.URL_SAFE))
+            // JWT 的 payload 是"无填充"的 base64url，必须先补上 = 才能解码，
+            // 否则 Base64.decode 会抛异常，用户 id 拿不到 -> 整个同步静默失败
+            var seg = parts[1]
+            while (seg.length % 4 != 0) seg += "="
+            val json = String(
+                android.util.Base64.decode(
+                    seg,
+                    android.util.Base64.URL_SAFE or android.util.Base64.NO_WRAP or
+                        android.util.Base64.NO_PADDING
+                )
+            )
             JSONObject(json).optString("sub").ifBlank { null }
         }.getOrNull()
     }

@@ -445,4 +445,8 @@
     <string name="toast_points_cleared">Points cleared</string>
     <string name="backup_danger_title">Danger zone</string>
     <string name="backup_danger_desc">Clears points on all plans and one-off tasks. History is kept. This cannot be undone.</string>
+    <string name="sync_confirm_title">Cloud data found</string>
+    <string name="sync_confirm_message">Another copy of your data is stored in the cloud.\n\nOverwrite this device with the cloud copy, or upload this device instead?</string>
+    <string name="sync_keep_local">Use this device</string>
+    <string name="sync_use_cloud">Use cloud</string>
 </resources>

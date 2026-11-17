@@ -441,4 +441,8 @@
     <string name="toast_points_cleared">ポイントをクリアしました</string>
     <string name="backup_danger_title">危険な操作</string>
     <string name="backup_danger_desc">すべてのプランと単発タスクのポイントを消します。履歴は残ります。元に戻せません。</string>
+    <string name="sync_confirm_title">クラウドにデータがあります</string>
+    <string name="sync_confirm_message">別の端末のデータがクラウドにあります。\n\nクラウドで上書きしますか、それともこの端末のデータを送りますか？</string>
+    <string name="sync_keep_local">この端末を使う</string>
+    <string name="sync_use_cloud">クラウドを使う</string>
 </resources>
