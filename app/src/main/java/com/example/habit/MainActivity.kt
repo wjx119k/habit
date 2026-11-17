@@ -721,9 +721,10 @@ class MainActivity : AppCompatActivity() {
     ).map { it.toInt() }
 
     private fun renderStore() {
-        val earned = projects.sumOf { it.points }
+        val bonus = TempTaskStore.bonus(this)
+        val earned = Points.round(projects.sumOf { it.points } + bonus)
         val spent = StoreStore.spentPoints(this)
-        val available = earned - spent
+        val available = Points.round(earned - spent)
 
         tvAvailablePoints.text = Points.format(available)
         tvStoreSummary.text = getString(
