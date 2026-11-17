@@ -323,7 +323,6 @@ class MainActivity : AppCompatActivity() {
             }
 
             ProjectStore.save(this, projects)
-        SupabaseSync.pushDebounced(this)
             renderProjects(animate = !isEdit)
             dialog.dismiss()
         }
@@ -337,7 +336,6 @@ class MainActivity : AppCompatActivity() {
             ) {
                 val removed = projects.removeAt(index)
                 ProjectStore.save(this, projects)
-        SupabaseSync.pushDebounced(this)
                 recordHistory(
                     getString(R.string.history_delete_plan, removed.name),
                     -removed.points,
@@ -354,7 +352,6 @@ class MainActivity : AppCompatActivity() {
             if (!isEdit) return@setOnClickListener
             projects[index] = existing!!.copy(points = 0.0)
             ProjectStore.save(this, projects)
-        SupabaseSync.pushDebounced(this)
             recordHistory(
                 getString(R.string.history_delete_plan, existing.name),
                 -existing.points,
@@ -386,7 +383,6 @@ class MainActivity : AppCompatActivity() {
                 bestStreak = maxOf(project.bestStreak, newStreak)
             )
             ProjectStore.save(this, projects)
-        SupabaseSync.pushDebounced(this)
             recordHistory(
                 label = "${project.name} +${Points.format(project.rewardPoints)}",
                 delta = project.rewardPoints,
@@ -411,7 +407,6 @@ class MainActivity : AppCompatActivity() {
                 streak = 0
             )
             ProjectStore.save(this, projects)
-        SupabaseSync.pushDebounced(this)
             recordHistory(
                 label = "${project.name} −${Points.format(project.penaltyPoints)}",
                 delta = -project.penaltyPoints,
@@ -716,7 +711,6 @@ class MainActivity : AppCompatActivity() {
             )
         )
         // 任何一次积分变化都顺手同步到云端（未登录时内部会自动跳过）
-        SupabaseSync.pushDebounced(this)
     }
 
     /** 商店图标的底色轮换（之前误删了，这里补回来） */
@@ -881,7 +875,6 @@ class MainActivity : AppCompatActivity() {
                     .setNegativeButton(R.string.action_cancel, null)
                     .setPositiveButton(R.string.action_confirm) { _, _ ->
                         StoreStore.deleteItem(this, existing.id)
-        SupabaseSync.pushDebounced(this)
                         renderStore()
                         Toast.makeText(this, R.string.store_deleted, Toast.LENGTH_SHORT).show()
                         dialog.dismiss()
@@ -917,10 +910,8 @@ class MainActivity : AppCompatActivity() {
 
             if (isEdit) {
                 StoreStore.updateItem(this, existing!!.copy(title = title, desc = desc, cost = cost))
-        SupabaseSync.pushDebounced(this)
             } else {
                 StoreStore.addItem(this, StoreItem(title = title, cost = cost, desc = desc))
-        SupabaseSync.pushDebounced(this)
             }
 
             renderStore()
@@ -934,7 +925,6 @@ class MainActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         // 退到后台前把还没推的改动立刻发出去
-        SupabaseSync.flush(this)
     }
 
     override fun onResume() {
@@ -1079,7 +1069,6 @@ class MainActivity : AppCompatActivity() {
 
                 projects.removeAt(index)
                 ProjectStore.save(this, projects)
-        SupabaseSync.pushDebounced(this)
                 recordHistory(
                     getString(R.string.graduate_history, project.name),
                     0.0,

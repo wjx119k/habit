@@ -86,7 +86,6 @@ class RegisterActivity : AppCompatActivity() {
         btnSubmit.isEnabled = false
         Thread {
             val error = SupabaseAuth.register(this, email, pwd)
-            if (error == null) SupabaseSync.push(this)
             runOnUiThread {
                 btnSubmit.isEnabled = true
                 if (error != null) layoutEmail.error = error
