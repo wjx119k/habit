@@ -120,6 +120,10 @@
             layout="@layout/page_store" />
 
         <include
+            android:id="@+id/pageTools"
+            layout="@layout/page_tools" />
+
+        <include
             android:id="@+id/pageMe"
             layout="@layout/page_me" />
 
@@ -128,6 +132,7 @@
     <!-- 底部导航栏：谷歌 Material 组件库提供的标准控件 -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
+            app:labelVisibilityMode="labeled"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:menu="@menu/bottom_nav" />

@@ -21,6 +21,21 @@
 
         <!-- 启动页：桌面图标直接指向它（"隐藏图标"功能已移除） -->
         <activity
+            android:name=".PomodoroActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Habit" />
+
+        <activity
+            android:name=".FlashcardsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Habit" />
+
+        <activity
+            android:name=".EisenhowerActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Habit" />
+
+        <activity
             android:name=".NotificationsActivity"
             android:exported="false"
             android:theme="@style/Theme.Habit" />

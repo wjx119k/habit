@@ -57,6 +57,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var pageProject: View
     private lateinit var pageStore: View
+    private lateinit var pageTools: View
     private lateinit var pageMe: View
 
     /** 用于延时关闭"鼓励"浮层 */
@@ -76,6 +77,7 @@ class MainActivity : AppCompatActivity() {
         bottomNav = findViewById(R.id.bottomNav)
         pageProject = findViewById(R.id.pageProject)
         pageStore = findViewById(R.id.pageStore)
+        pageTools = findViewById(R.id.pageTools)
         pageMe = findViewById(R.id.pageMe)
 
         projectList = findViewById(R.id.projectList)
@@ -138,6 +140,10 @@ class MainActivity : AppCompatActivity() {
                     renderStore()
                     true
                 }
+                R.id.nav_tools -> {
+                    showTab(pageTools)
+                    true
+                }
                 R.id.nav_me -> {
                     showTab(pageMe)
                     true
@@ -148,6 +154,17 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<View>(R.id.btnAddProject).setOnClickListener {
             showProjectSheet(existing = null, index = -1)
+        }
+
+        // 工具页三张卡片
+        findViewById<View>(R.id.cardPomodoro).setOnClickListener {
+            startActivity(Intent(this, PomodoroActivity::class.java))
+        }
+        findViewById<View>(R.id.cardFlashcards).setOnClickListener {
+            startActivity(Intent(this, FlashcardsActivity::class.java))
+        }
+        findViewById<View>(R.id.cardEisenhower).setOnClickListener {
+            startActivity(Intent(this, EisenhowerActivity::class.java))
         }
 
         setupWinterEgg()
@@ -972,7 +989,7 @@ class MainActivity : AppCompatActivity() {
 
     /** 切换栏目：三个页面里只显示目标页，其余隐藏（带 180ms 淡入） */
     private fun showTab(target: View) {
-        listOf(pageProject, pageStore, pageMe).forEach {
+        listOf(pageProject, pageStore, pageTools, pageMe).forEach {
             if (it !== target) it.visibility = View.GONE
         }
         if (target.visibility != View.VISIBLE) {
