@@ -60,6 +60,11 @@ class AboutActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.tvAboutVersion).text =
             getString(R.string.about_version) + " " + versionName
 
+        // 反馈：直接唤起邮件，主题和正文预填机型与版本
+        bindRow(R.id.aboutRowFeedback, R.drawable.ic_email, R.string.about_feedback, R.string.sub_feedback) {
+            sendFeedback()
+        }
+
         // 自动更新开关
         val autoRow = findViewById<View>(R.id.aboutRowAutoUpdate)
         autoRow.findViewById<ImageView>(R.id.ivSwitchIcon).setImageResource(R.drawable.ic_update)
@@ -78,7 +83,7 @@ class AboutActivity : AppCompatActivity() {
 
         // 当前版本：显示 版本名 + 构建号，点一下手动检查更新
         // （原来点它是打开发布页，现在改成"检查更新"，发布页另有入口）
-        bindRow(R.id.aboutRowVersion, R.drawable.ic_info, R.string.about_current_version) {
+        bindRow(R.id.aboutRowVersion, R.drawable.ic_info, R.string.about_current_version, R.string.sub_version) {
             checkForUpdate(silentIfLatest = false)
         }
         val versionCode = runCatching {
@@ -93,27 +98,27 @@ class AboutActivity : AppCompatActivity() {
             }
 
         // 仓库相关：README / 版本发布 / 议题 / 赞助
-        bindRow(R.id.aboutRowReadme, R.drawable.ic_habit, R.string.about_readme) {
+        bindRow(R.id.aboutRowReadme, R.drawable.ic_habit, R.string.about_readme, R.string.sub_readme) {
             openUrl(REPO_URL + "#readme")
         }
-        bindRow(R.id.aboutRowReleases, R.drawable.ic_verified, R.string.about_releases) {
+        bindRow(R.id.aboutRowReleases, R.drawable.ic_verified, R.string.about_releases, R.string.sub_releases) {
             openUrl(REPO_URL + "/releases")
         }
-        bindRow(R.id.aboutRowIssues, R.drawable.ic_help, R.string.about_issues) {
+        bindRow(R.id.aboutRowIssues, R.drawable.ic_help, R.string.about_issues, R.string.sub_issues) {
             openUrl(REPO_URL + "/issues")
         }
-        bindRow(R.id.aboutRowSponsor, R.drawable.ic_crown, R.string.about_sponsor) {
+        bindRow(R.id.aboutRowSponsor, R.drawable.ic_crown, R.string.about_sponsor, R.string.sub_sponsor) {
             showSponsorDialog()
         }
 
         // 三个文本页
-        bindRow(R.id.aboutRowLicenses, R.drawable.ic_verified, R.string.about_licenses) {
+        bindRow(R.id.aboutRowLicenses, R.drawable.ic_verified, R.string.about_licenses, R.string.sub_licenses) {
             openLegal(LegalActivity.TYPE_LICENSES)
         }
-        bindRow(R.id.aboutRowTerms, R.drawable.ic_info, R.string.about_terms) {
+        bindRow(R.id.aboutRowTerms, R.drawable.ic_info, R.string.about_terms, R.string.sub_terms) {
             openLegal(LegalActivity.TYPE_TERMS)
         }
-        bindRow(R.id.aboutRowPrivacy, R.drawable.ic_lock, R.string.about_privacy) {
+        bindRow(R.id.aboutRowPrivacy, R.drawable.ic_lock, R.string.about_privacy, R.string.sub_privacy) {
             openLegal(LegalActivity.TYPE_PRIVACY)
         }
 
@@ -215,10 +220,28 @@ class AboutActivity : AppCompatActivity() {
     //  工具方法
     // ============================================================
 
-    private fun bindRow(rowId: Int, iconRes: Int, titleRes: Int, onClick: () -> Unit) {
+    /**
+     * 一行入口。
+     * @param subtitleRes 大字下面的小字注释，0 表示不显示
+     */
+    private fun bindRow(
+        rowId: Int,
+        iconRes: Int,
+        titleRes: Int,
+        subtitleRes: Int = 0,
+        onClick: () -> Unit
+    ) {
         val row = findViewById<View>(rowId)
         row.findViewById<ImageView>(R.id.ivRowIcon).setImageResource(iconRes)
         row.findViewById<TextView>(R.id.tvRowTitle).setText(titleRes)
+
+        val subtitle = row.findViewById<TextView>(R.id.tvRowSubtitle)
+        if (subtitleRes != 0) {
+            subtitle.setText(subtitleRes)
+            subtitle.visibility = View.VISIBLE
+        } else {
+            subtitle.visibility = View.GONE
+        }
         row.setOnClickListener { onClick() }
     }
 
@@ -325,6 +348,29 @@ class AboutActivity : AppCompatActivity() {
         runCatching {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
         }.onFailure {
+            Toast.makeText(this, R.string.about_cannot_open, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    /** 反馈：把机型、系统、版本一并带上，省得用户自己填 */
+    private fun sendFeedback() {
+        val version = runCatching {
+            @Suppress("DEPRECATION")
+            packageManager.getPackageInfo(packageName, 0).versionName
+        }.getOrNull() ?: "?"
+        val body = getString(
+            R.string.feedback_body_template,
+            version,
+            android.os.Build.MODEL,
+            "Android " + android.os.Build.VERSION.RELEASE +
+                " (API " + android.os.Build.VERSION.SDK_INT + ")"
+        )
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:" + SPONSOR_EMAIL)
+            putExtra(Intent.EXTRA_SUBJECT, getString(R.string.feedback_subject))
+            putExtra(Intent.EXTRA_TEXT, body)
+        }
+        runCatching { startActivity(intent) }.onFailure {
             Toast.makeText(this, R.string.about_cannot_open, Toast.LENGTH_SHORT).show()
         }
     }

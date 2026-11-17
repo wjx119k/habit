@@ -407,4 +407,16 @@
     <string name="graduate_congrats_title">Congratulations 🎓</string>
     <string name="graduate_congrats_body">"%1$s" has graduated.\n\nIt earned you %2$s points in total.\nNo more reminders — it is part of you now.\n\nGo build the next one.</string>
     <string name="graduate_congrats_ok">Keep going</string>
+    <string name="about_feedback">Feedback</string>
+    <string name="sub_feedback">Something broken? Email me</string>
+    <string name="sub_version">Installed version and build number</string>
+    <string name="sub_readme">What this project is and does</string>
+    <string name="sub_releases">Every past version and APK</string>
+    <string name="sub_issues">Ask, report, request</string>
+    <string name="sub_sponsor">Help keep Habit alive</string>
+    <string name="sub_licenses">Open-source libraries and their licenses</string>
+    <string name="sub_terms">Rules for using this app</string>
+    <string name="sub_privacy">Where data lives and where it goes</string>
+    <string name="feedback_subject">Habit feedback</string>
+    <string name="feedback_body_template">\n\n— please keep this, it helps me debug —\nVersion: %1$s\nDevice: %2$s\nSystem: %3$s</string>
 </resources>

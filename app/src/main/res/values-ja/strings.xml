@@ -403,4 +403,16 @@
     <string name="graduate_congrats_title">おめでとう 🎓</string>
     <string name="graduate_congrats_body">「%1$s」は卒業しました。\n\n累計 %2$s ポイント。\nもうリマインダーは要りません。\n\n次を作りましょう。</string>
     <string name="graduate_congrats_ok">次へ</string>
+    <string name="about_feedback">フィードバック</string>
+    <string name="sub_feedback">不具合があればメールで</string>
+    <string name="sub_version">インストール中の版とビルド番号</string>
+    <string name="sub_readme">プロジェクトの説明</string>
+    <string name="sub_releases">過去の版と APK 一覧</string>
+    <string name="sub_issues">質問・バグ報告・要望</string>
+    <string name="sub_sponsor">Habit の継続を支援</string>
+    <string name="sub_licenses">使用している OSS とライセンス</string>
+    <string name="sub_terms">利用時のルール</string>
+    <string name="sub_privacy">データの保存先と送信先</string>
+    <string name="feedback_subject">Habit フィードバック</string>
+    <string name="feedback_body_template">\n\n— 以下はそのまま残してください —\nバージョン：%1$s\n端末：%2$s\nシステム：%3$s</string>
 </resources>

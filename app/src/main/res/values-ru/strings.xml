@@ -403,4 +403,16 @@
     <string name="graduate_congrats_title">Поздравляем 🎓</string>
     <string name="graduate_congrats_body">«%1$s» выпущена.\n\nВсего %2$s баллов.\nНапоминания больше не нужны.\n\nПереходите к следующей.</string>
     <string name="graduate_congrats_ok">Дальше</string>
+    <string name="about_feedback">Обратная связь</string>
+    <string name="sub_feedback">Что-то сломалось? Напишите</string>
+    <string name="sub_version">Установленная версия и сборка</string>
+    <string name="sub_readme">Что это за проект</string>
+    <string name="sub_releases">Все версии и APK</string>
+    <string name="sub_issues">Вопросы, баги, пожелания</string>
+    <string name="sub_sponsor">Поддержать Habit</string>
+    <string name="sub_licenses">Открытые библиотеки и лицензии</string>
+    <string name="sub_terms">Правила использования</string>
+    <string name="sub_privacy">Где хранятся и куда уходят данные</string>
+    <string name="feedback_subject">Отзыв о Habit</string>
+    <string name="feedback_body_template">\n\n— не удаляйте, это помогает отладке —\nВерсия: %1$s\nУстройство: %2$s\nСистема: %3$s</string>
 </resources>

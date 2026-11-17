@@ -403,4 +403,16 @@
     <string name="graduate_congrats_title">恭喜你 🎓</string>
     <string name="graduate_congrats_body">「%1$s」已经毕业了。\n\n它陪了你这么久，累计 %2$s 分。\n从此不用再提醒——它已经是你的本能。\n\n去养成下一个吧。</string>
     <string name="graduate_congrats_ok">继续前行</string>
+    <string name="about_feedback">回饋</string>
+    <string name="sub_feedback">遇到问题？写信告诉我</string>
+    <string name="sub_version">当前安装的版本号与构建号</string>
+    <string name="sub_readme">项目说明与功能介绍</string>
+    <string name="sub_releases">所有历史版本与安装包</string>
+    <string name="sub_issues">提问题、报 bug、许愿</string>
+    <string name="sub_sponsor">支持 Habit 继续做下去</string>
+    <string name="sub_licenses">用到的開源库及其授權</string>
+    <string name="sub_terms">使用本应用需要遵守的规则</string>
+    <string name="sub_privacy">資料存在哪、传到哪</string>
+    <string name="feedback_subject">Habit 使用回饋</string>
+    <string name="feedback_body_template">\n\n— 以下信息请保留，方便定位问题 —\n版本：%1$s\n机型：%2$s\n系统：%3$s</string>
 </resources>
