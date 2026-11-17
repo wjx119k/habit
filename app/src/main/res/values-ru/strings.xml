@@ -445,4 +445,12 @@
     <string name="sync_confirm_message">В облаке хранится другая копия данных.\n\nЗаменить данные на устройстве облачными или загрузить свои?</string>
     <string name="sync_keep_local">Оставить свои</string>
     <string name="sync_use_cloud">Взять из облака</string>
+    <string name="feedback_title">Обратная связь</string>
+    <string name="feedback_intro">После входа можно отправить отзыв прямо из приложения.</string>
+    <string name="feedback_hint">Что сломалось или чего не хватает…</string>
+    <string name="feedback_send">Отправить</string>
+    <string name="feedback_sending">Отправка…</string>
+    <string name="feedback_sent">Спасибо за отзыв</string>
+    <string name="feedback_too_short">Нужно минимум 3 символа</string>
+    <string name="feedback_need_login">Сначала войдите</string>
 </resources>

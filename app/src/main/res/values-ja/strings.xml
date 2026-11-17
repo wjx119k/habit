@@ -445,4 +445,12 @@
     <string name="sync_confirm_message">別の端末のデータがクラウドにあります。\n\nクラウドで上書きしますか、それともこの端末のデータを送りますか？</string>
     <string name="sync_keep_local">この端末を使う</string>
     <string name="sync_use_cloud">クラウドを使う</string>
+    <string name="feedback_title">フィードバック</string>
+    <string name="feedback_intro">ログインしていれば、アプリから直接フィードバックを送れます。</string>
+    <string name="feedback_hint">不具合や欲しい機能など</string>
+    <string name="feedback_send">送信する</string>
+    <string name="feedback_sending">送信中…</string>
+    <string name="feedback_sent">ありがとうございました</string>
+    <string name="feedback_too_short">3文字以上で入力してください</string>
+    <string name="feedback_need_login">先にログインしてください</string>
 </resources>

@@ -449,4 +449,12 @@
     <string name="sync_confirm_message">Another copy of your data is stored in the cloud.\n\nOverwrite this device with the cloud copy, or upload this device instead?</string>
     <string name="sync_keep_local">Use this device</string>
     <string name="sync_use_cloud">Use cloud</string>
+    <string name="feedback_title">Feedback</string>
+    <string name="feedback_intro">Signed-in users can send feedback straight from the app — no email client, no adding contacts.</string>
+    <string name="feedback_hint">What broke, what you wish existed…</string>
+    <string name="feedback_send">Send feedback</string>
+    <string name="feedback_sending">Sending…</string>
+    <string name="feedback_sent">Thanks for the feedback</string>
+    <string name="feedback_too_short">At least 3 characters</string>
+    <string name="feedback_need_login">Please sign in first</string>
 </resources>

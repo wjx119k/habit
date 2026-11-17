@@ -62,7 +62,22 @@ class AboutActivity : AppCompatActivity() {
 
         // 反馈：直接唤起邮件，主题和正文预填机型与版本
         bindRow(R.id.aboutRowFeedback, R.drawable.ic_email, R.string.about_feedback, R.string.sub_feedback) {
-            sendFeedback()
+            // 登录后可以直接在 App 内提交，不需要邮箱
+            if (SupabaseAuth.isLoggedIn(this)) {
+                startActivity(Intent(this, FeedbackActivity::class.java))
+                @Suppress("DEPRECATION")
+                overridePendingTransition(R.anim.slide_in_right, android.R.anim.fade_out)
+            } else {
+                MaterialAlertDialogBuilder(this)
+                    .setMessage(R.string.feedback_need_login)
+                    .setNegativeButton(R.string.action_cancel, null)
+                    .setPositiveButton(R.string.profile_login_button) { _, _ ->
+                        startActivity(Intent(this, LoginActivity::class.java))
+                        @Suppress("DEPRECATION")
+                        overridePendingTransition(R.anim.slide_in_up, android.R.anim.fade_out)
+                    }
+                    .show()
+            }
         }
 
         // 自动更新开关
