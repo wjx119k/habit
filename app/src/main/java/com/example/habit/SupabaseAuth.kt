@@ -19,6 +19,9 @@ object SupabaseAuth {
     const val ANON_KEY =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt4b3BwdmFhbWRrb3dhaXpiaWdlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ4MDk1MTEsImV4cCI6MjExMDM4NTUxMX0.vzj6_ppb00ddDTikHFR-Kuh1MOk8vz6Xhs0P8pRb7as"
 
+    /** 临时保存 context 供网络层写日志（仅调试用） */
+    private lateinit var contextHolder: Context
+
     private const val PREFS = "habit_supabase"
     private const val KEY_ACCESS = "access_token"
     private const val KEY_REFRESH = "refresh_token"
@@ -65,20 +68,44 @@ object SupabaseAuth {
             saveSession(context, json!!)
             return null
         }
-        return friendlyError(text)
+        // 诊断：把服务器原文写进文件，方便排查；同时显示在红字里
+        val friendly = friendlyError(text)
+        debugLog(context, "login code=" + code + " body=" + text.take(300))
+        return friendly + " [" + code + ": " + text.take(120) + "]"
     }
 
+
     fun login(context: Context, email: String, password: String): String? {
+        contextHolder = context.applicationContext
         val body = JSONObject().put("email", email).put("password", password).toString()
         val (code, text) = post("/auth/v1/token?grant_type=password", body)
+
+        // 网络层直接失败（连不上 / 超时）：异常信息在 text 里
+        if (code == -1) {
+            debugLog(context, "NETWORK FAIL " + text)
+            return "网络连接失败：" + text
+        }
+
         if (code in 200..299) {
             val json = runCatching { JSONObject(text) }.getOrNull() ?: return "服务器返回异常"
             saveSession(context, json)
             return null
         }
-        return friendlyError(text)
+
+        debugLog(context, "login code=" + code + " body=" + text.take(300))
+        return friendlyError(text) + " [" + code + ": " + text.take(120) + "]"
     }
 
+    /** 把调试信息追加到 files/login_debug.txt */
+    private fun debugLog(context: Context, line: String) {
+        runCatching {
+            val f = java.io.File(context.filesDir, "login_debug.txt")
+            f.appendText(
+                java.text.SimpleDateFormat("MM-dd HH:mm:ss", java.util.Locale.US)
+                    .format(java.util.Date()) + "  " + line + "\n"
+            )
+        }
+    }
 
     // ---------------- 邮箱验证码（两步注册） ----------------
 
@@ -123,7 +150,13 @@ object SupabaseAuth {
             val stream = if (code in 200..299) conn.inputStream else conn.errorStream
             val text = stream?.bufferedReader()?.use(BufferedReader::readText).orEmpty()
             code to text
-        }.getOrElse { -1 to (it.message ?: "网络错误") }
+        }.getOrElse { e ->
+            val detail = e.javaClass.simpleName + " / " + (e.message ?: "无消息") +
+                " / " + (e.cause?.javaClass?.simpleName ?: "-")
+            debugLog(contextHolder, "POST FAIL " + path + " :: " + detail +
+                "\n" + e.stackTraceToString().take(500))
+            -1 to detail
+        }
     }
 
     /** 把 Supabase 的英文错误翻成人话 */

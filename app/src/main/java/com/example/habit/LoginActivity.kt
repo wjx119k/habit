@@ -82,33 +82,40 @@ class LoginActivity : AppCompatActivity() {
             // Supabase 用邮箱登录，这里先挡一下明显不是邮箱的输入
 
             // 走 Supabase 登录（失败返回中文提示，成功返回 null）
-            var error = SupabaseAuth.login(this, SupabaseAuth.toEmail(name), pwd)
-            // 老账号兼容：早期版本直接用用户名当邮箱注册，这里再试一次原始值
-            if (error != null && name.contains("@").not()) {
-                val retry = SupabaseAuth.login(this, name, pwd)
-                if (retry == null) error = null
-            }
-            if (error == null) {
-                // 登录成功：把云端数据拉回来
-                Thread {
-                    val payload = SupabaseSync.pull(this)
-                    runOnUiThread {
-                        payload?.let { SupabaseSync.restore(this, it) }
-                        Toast.makeText(
-                            this,
-                            getString(R.string.auth_login_success, name),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        setResult(RESULT_OK)
-                        finish()
-                        @Suppress("DEPRECATION")
-                        overridePendingTransition(android.R.anim.fade_in, R.anim.slide_out_down)
+            // 关键：网络请求必须在后台线程，否则 Android 直接抛 NetworkOnMainThreadException
+            findViewById<MaterialButton>(R.id.btnLoginSubmit).isEnabled = false
+            Thread {
+                var error = SupabaseAuth.login(this, SupabaseAuth.toEmail(name), pwd)
+                // 老账号兼容：早期版本直接用用户名当邮箱注册
+                if (error != null && !name.contains("@")) {
+                    if (SupabaseAuth.login(this, name, pwd) == null) error = null
+                }
+                val result = error
+                runOnUiThread {
+                    findViewById<MaterialButton>(R.id.btnLoginSubmit).isEnabled = true
+                    if (result == null) {
+                        // 登录成功：把云端数据拉回来
+                        Thread {
+                            val payload = SupabaseSync.pull(this)
+                            runOnUiThread {
+                                payload?.let { SupabaseSync.restore(this, it) }
+                                Toast.makeText(
+                                    this,
+                                    getString(R.string.auth_login_success, name),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                setResult(RESULT_OK)
+                                finish()
+                                @Suppress("DEPRECATION")
+                                overridePendingTransition(android.R.anim.fade_in, R.anim.slide_out_down)
+                            }
+                        }.start()
+                    } else {
+                        layoutPassword.error = result
+                        editPassword.requestFocus()
                     }
-                }.start()
-            } else {
-                layoutPassword.error = error
-                editPassword.requestFocus()
-            }
+                }
+            }.start()
         }
 
         // 注册
