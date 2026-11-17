@@ -63,6 +63,9 @@ class PointsChartView @JvmOverloads constructor(
     /** 双指缩放：记录上一帧两指间距 */
     private var lastPinchSpan = 0f
 
+    /** 双指过程中忽略单指拖动 */
+    private var isPinching = false
+
     /** 双指缩放：自己记录两指间距，不依赖 ScaleGestureDetector */
 
     private val gestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
@@ -88,6 +91,7 @@ class PointsChartView @JvmOverloads constructor(
             distanceX: Float,
             distanceY: Float
         ): Boolean {
+            if (isPinching) return false
             val w = width.toFloat().coerceAtLeast(1f)
             viewEndFrac = (viewEndFrac + distanceX / w * viewSpanFrac).coerceIn(viewSpanFrac, 1f)
             clampWindow()
@@ -101,23 +105,26 @@ class PointsChartView @JvmOverloads constructor(
         when (event.actionMasked) {
             android.view.MotionEvent.ACTION_DOWN -> {
                 isPressed = true
-                // 关键：告诉外面的 NestedScrollView「别抢我的手势」
                 parent?.requestDisallowInterceptTouchEvent(true)
             }
             android.view.MotionEvent.ACTION_UP,
             android.view.MotionEvent.ACTION_CANCEL -> {
                 isPressed = false
+                isPinching = false
+                lastPinchSpan = 0f
                 parent?.requestDisallowInterceptTouchEvent(false)
                 performClick()
             }
         }
-        // ---- 双指缩放（自己算，避免 ScaleGestureDetector 在某些机型不触发）----
-        when (event.actionMasked) {
-            android.view.MotionEvent.ACTION_POINTER_DOWN -> {
-                if (event.pointerCount >= 2) lastPinchSpan = spanOf(event)
-            }
-            android.view.MotionEvent.ACTION_MOVE -> {
-                if (event.pointerCount >= 2) {
+
+        // ---- 双指缩放：自己算间距，不依赖 ScaleGestureDetector ----
+        if (event.pointerCount >= 2) {
+            when (event.actionMasked) {
+                android.view.MotionEvent.ACTION_POINTER_DOWN -> {
+                    isPinching = true
+                    lastPinchSpan = spanOf(event)
+                }
+                android.view.MotionEvent.ACTION_MOVE -> {
                     val span = spanOf(event)
                     if (lastPinchSpan > 0f && span > 0f) {
                         val factor = span / lastPinchSpan
@@ -126,15 +133,12 @@ class PointsChartView @JvmOverloads constructor(
                             lastPinchSpan = span
                         }
                     }
-                } else {
-                    gestureDetector.onTouchEvent(event)
                 }
             }
-            android.view.MotionEvent.ACTION_POINTER_UP,
-            android.view.MotionEvent.ACTION_UP,
-            android.view.MotionEvent.ACTION_CANCEL -> lastPinchSpan = 0f
-            else -> gestureDetector.onTouchEvent(event)
         }
+
+        // 手势检测始终收到事件（双击、单指拖动都靠它）
+        gestureDetector.onTouchEvent(event)
         invalidate()
         return true
     }
