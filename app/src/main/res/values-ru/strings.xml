@@ -439,4 +439,6 @@
     <string name="tag_neither">· Ни то, ни другое</string>
     <string name="splash_tap_hint">Коснитесь экрана, чтобы продолжить</string>
     <string name="toast_points_cleared">Баллы обнулены</string>
+    <string name="backup_danger_title">Опасная зона</string>
+    <string name="backup_danger_desc">Обнуляет баллы всех планов и разовых задач. История сохраняется. Отменить нельзя.</string>
 </resources>

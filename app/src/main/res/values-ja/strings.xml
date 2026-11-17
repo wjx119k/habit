@@ -439,4 +439,6 @@
     <string name="tag_neither">· どちらでもない</string>
     <string name="splash_tap_hint">画面をタップして続行</string>
     <string name="toast_points_cleared">ポイントをクリアしました</string>
+    <string name="backup_danger_title">危険な操作</string>
+    <string name="backup_danger_desc">すべてのプランと単発タスクのポイントを消します。履歴は残ります。元に戻せません。</string>
 </resources>

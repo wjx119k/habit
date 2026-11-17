@@ -459,4 +459,6 @@
     <string name="tag_neither">· 不紧急 · 不重要</string>
     <string name="splash_tap_hint">轻触屏幕继续</string>
     <string name="toast_points_cleared">积分已清空</string>
+    <string name="backup_danger_title">危险操作</string>
+    <string name="backup_danger_desc">清空所有计划与临时任务的积分，历史记录保留。此操作不可撤销。</string>
 </resources>

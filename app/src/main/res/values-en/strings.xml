@@ -443,4 +443,6 @@
     <string name="tag_neither">· Neither</string>
     <string name="splash_tap_hint">Tap anywhere to continue</string>
     <string name="toast_points_cleared">Points cleared</string>
+    <string name="backup_danger_title">Danger zone</string>
+    <string name="backup_danger_desc">Clears points on all plans and one-off tasks. History is kept. This cannot be undone.</string>
 </resources>
