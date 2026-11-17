@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="project_empty">まだプランがありません</string>
     <string name="add_project">新しいプラン</string>
@@ -456,4 +456,6 @@
     <string name="verify_hint">スライドして確認</string>
     <string name="verify_passed">確認済み</string>
     <string name="verify_required">先にスライダーを動かしてください</string>
+    <string name="verify_title">確認</string>
+    <string name="verify_dialog_desc">スライダーを右端まで動かしてください。</string>
 </resources>

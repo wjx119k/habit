@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="project_empty">У вас пока нет планов</string>
     <string name="add_project">Новый план</string>
@@ -456,4 +456,6 @@
     <string name="verify_hint">Потяните для проверки</string>
     <string name="verify_passed">Проверено</string>
     <string name="verify_required">Сначала потяните ползунок</string>
+    <string name="verify_title">Проверка</string>
+    <string name="verify_dialog_desc">Перетащите ползунок до упора вправо.</string>
 </resources>

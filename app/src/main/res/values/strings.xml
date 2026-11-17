@@ -1,4 +1,4 @@
-<resources>
+﻿<resources>
     <string name="app_name">Habit</string>
 
     <!-- 启动页 -->
@@ -476,4 +476,6 @@
     <string name="verify_hint">拖动滑块验证</string>
     <string name="verify_passed">验证通过</string>
     <string name="verify_required">请先拖动滑块完成验证</string>
+    <string name="verify_title">人机验证</string>
+    <string name="verify_dialog_desc">按住滑块拖到最右边，确认你不是自动脚本</string>
 </resources>

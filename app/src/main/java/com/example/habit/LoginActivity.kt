@@ -24,6 +24,9 @@ import com.google.android.material.textfield.TextInputLayout
  */
 class LoginActivity : AppCompatActivity() {
 
+    /** 是否已通过人机验证（本页有效） */
+    private var verified = false
+
     /** 注册成功后，登录页也一起关掉，直接回到个人主页 */
     private val registerLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -36,6 +39,39 @@ class LoginActivity : AppCompatActivity() {
         }
 
 
+    /** 滑块人机验证弹窗：拖到最右才算通过 */
+    private fun showVerifyDialog() {
+        val view = layoutInflater.inflate(R.layout.dialog_verify, null)
+        val seek = view.findViewById<android.widget.SeekBar>(R.id.seekVerify)
+        val hint = view.findViewById<TextView>(R.id.tvVerifyHint)
+
+        val dialog = com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.verify_title)
+            .setView(view)
+            .setNegativeButton(R.string.action_cancel, null)
+            .create()
+
+        seek.setOnSeekBarChangeListener(object : android.widget.SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(
+                sb: android.widget.SeekBar?,
+                progress: Int,
+                fromUser: Boolean
+            ) {
+                if (progress >= 100) {
+                    hint.setText(R.string.verify_passed)
+                    verified = true
+                    dialog.dismiss()
+                    // 验证通过后自动继续登录
+                    findViewById<MaterialButton>(R.id.btnLoginSubmit).performClick()
+                }
+            }
+
+            override fun onStartTrackingTouch(sb: android.widget.SeekBar?) {}
+            override fun onStopTrackingTouch(sb: android.widget.SeekBar?) {}
+        })
+
+        dialog.show()
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -83,6 +119,11 @@ class LoginActivity : AppCompatActivity() {
 
             // 走 Supabase 登录（失败返回中文提示，成功返回 null）
             // 关键：网络请求必须在后台线程，否则 Android 直接抛 NetworkOnMainThreadException
+            // 人机验证：先过滑块，才允许发登录请求
+            if (!verified) {
+                showVerifyDialog()
+                return@setOnClickListener
+            }
             findViewById<MaterialButton>(R.id.btnLoginSubmit).isEnabled = false
             Thread {
                 var error = SupabaseAuth.login(this, SupabaseAuth.toEmail(name), pwd)
@@ -123,3 +164,4 @@ class LoginActivity : AppCompatActivity() {
     }
 
 }
+

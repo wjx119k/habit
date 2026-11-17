@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Habit</string>
     <string name="splash_tagline">A good habit builds everything</string>
@@ -460,4 +460,6 @@
     <string name="verify_hint">Drag to verify</string>
     <string name="verify_passed">Verified</string>
     <string name="verify_required">Please drag the slider first</string>
+    <string name="verify_title">Quick check</string>
+    <string name="verify_dialog_desc">Drag the slider to the far right to confirm you are human.</string>
 </resources>
