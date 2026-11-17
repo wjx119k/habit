@@ -64,6 +64,8 @@ class PomodoroActivity : AppCompatActivity() {
 
     private fun start() {
         running = true
+        // 排一个系统闹钟：切到后台/锁屏也能响
+        PomodoroAlarm.schedule(this, System.currentTimeMillis() + remainingMs, focusing)
         btnPrimary.setText(R.string.pomodoro_pause)
         timer = object : CountDownTimer(remainingMs, 200) {
             override fun onTick(millisUntilFinished: Long) {
@@ -81,6 +83,7 @@ class PomodoroActivity : AppCompatActivity() {
 
     private fun pause() {
         running = false
+        PomodoroAlarm.cancel(this)
         btnPrimary.setText(R.string.pomodoro_start)
         timer?.cancel()
         timer = null
@@ -88,6 +91,7 @@ class PomodoroActivity : AppCompatActivity() {
 
     private fun stopTimer() {
         running = false
+        PomodoroAlarm.cancel(this)
         btnPrimary.setText(R.string.pomodoro_start)
         timer?.cancel()
         timer = null
@@ -96,6 +100,7 @@ class PomodoroActivity : AppCompatActivity() {
     /** 一个阶段结束：提示 + 自动切到另一个阶段 */
     private fun finishPhase() {
         stopTimer()
+        PomodoroAlarm.showNotification(this, focusing)
         if (focusing) {
             completedCount++
             Toast.makeText(this, R.string.pomodoro_focus_done, Toast.LENGTH_LONG).show()

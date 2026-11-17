@@ -1,31 +1,29 @@
 package com.example.habit
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.card.MaterialCardView
-import org.json.JSONArray
-import org.json.JSONObject
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 /**
- * 艾森豪威尔矩阵：按「重要 × 紧急」把任务分到四个格子。
+ * 艾森豪威尔矩阵。
  *
- *   重要 + 紧急   → 立刻做
- *   重要 + 不紧急 → 安排时间做
- *   紧急 + 不重要 → 尽量交给别人
- *   都不紧急     → 有空再说
+ * 和「临时任务」是同一套数据：
+ *   这里加的每一条，都会写进 TempTaskStore，并带上象限标记（quadrant）。
+ *   所以：
+ *     · 在矩阵里加的任务，会出现在计划页的「临时任务」里
+ *     · 在计划页勾掉它，这里立刻显示为划掉状态
+ *     · 分数由临时任务的规则统一管理（默认 3 分，可在计划页改）
  *
- * 每个格子：输入框 + 添加按钮 + 任务列表（点任务可删除）。
- * 数据存本机 habit_eisenhower。
+ * 为什么不各存一份？
+ *   同一个任务被记录两次，用户永远搞不清"我到底做完没有"。
  */
 class EisenhowerActivity : AppCompatActivity() {
 
@@ -44,8 +42,6 @@ class EisenhowerActivity : AppCompatActivity() {
         Quadrant("drop", R.string.eisen_drop, R.id.listDrop, R.id.inputDrop, R.id.btnAddDrop)
     )
 
-    private val data = mutableMapOf<String, MutableList<String>>()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_eisenhower)
@@ -58,29 +54,42 @@ class EisenhowerActivity : AppCompatActivity() {
 
         findViewById<ImageButton>(R.id.btnEisenBack).setOnClickListener { finish() }
 
-        load()
-
         quadrants.forEach { q ->
-            data.getOrPut(q.key) { mutableListOf() }
-
             val input = findViewById<EditText>(q.inputId)
             findViewById<MaterialButton>(q.addId).setOnClickListener {
                 val text = input.text.toString().trim()
                 if (text.isEmpty()) return@setOnClickListener
-                data.getValue(q.key).add(text)
+                val tasks = TempTaskStore.load(this)
+                tasks.add(
+                    TempTask(
+                        title = text,
+                        points = DEFAULT_POINTS,
+                        quadrant = q.key
+                    )
+                )
+                TempTaskStore.save(this, tasks)
                 input.setText("")
-                save()
-                render(q)
+                refreshAll()
             }
-            render(q)
         }
+
+        refreshAll()
     }
 
-    /** 重新渲染某个格子的任务列表 */
-    private fun render(q: Quadrant) {
+    override fun onResume() {
+        super.onResume()
+        // 从计划页勾完任务回来，状态要跟着变
+        refreshAll()
+    }
+
+    private fun refreshAll() {
+        val tasks = TempTaskStore.load(this)
+        quadrants.forEach { q -> render(q, tasks.filter { it.quadrant == q.key }) }
+    }
+
+    private fun render(q: Quadrant, items: List<TempTask>) {
         val container = findViewById<LinearLayout>(q.containerId)
         container.removeAllViews()
-        val items = data.getOrPut(q.key) { mutableListOf() }
 
         if (items.isEmpty()) {
             container.addView(TextView(this).apply {
@@ -92,56 +101,39 @@ class EisenhowerActivity : AppCompatActivity() {
             return
         }
 
-        items.forEachIndexed { i, task ->
+        items.forEach { task ->
             container.addView(TextView(this).apply {
-                text = "· $task"
+                text = "· " + task.title
                 textSize = 15f
                 setTextColor(0xFFE6E8EC.toInt())
                 setPadding(dp(4), dp(8), dp(4), dp(8))
-                setOnClickListener { confirmDelete(q, i, task) }
+                if (task.done) {
+                    paintFlags = paintFlags or android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
+                    alpha = 0.45f
+                }
+                setOnClickListener { confirmRemove(task) }
             })
         }
     }
 
-    private fun confirmDelete(q: Quadrant, index: Int, task: String) {
-        com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
-            .setMessage(getString(R.string.eisen_delete_confirm, task))
+    /** 从矩阵里移除（同时从临时任务里删掉） */
+    private fun confirmRemove(task: TempTask) {
+        MaterialAlertDialogBuilder(this)
+            .setMessage(getString(R.string.eisen_remove_confirm, task.title))
             .setNegativeButton(R.string.action_cancel, null)
             .setPositiveButton(R.string.action_confirm) { _, _ ->
-                data.getValue(q.key).removeAt(index)
-                save()
-                render(q)
+                val tasks = TempTaskStore.load(this)
+                tasks.removeAll { it.id == task.id }
+                TempTaskStore.save(this, tasks)
+                refreshAll()
             }
             .show()
     }
 
-    // ---------------- 存储 ----------------
-
-    private fun prefs() = getSharedPreferences("habit_eisenhower", Context.MODE_PRIVATE)
-
-    private fun load() {
-        val raw = prefs().getString("data", "") ?: ""
-        if (raw.isBlank()) return
-        runCatching {
-            val obj = JSONObject(raw)
-            quadrants.forEach { q ->
-                val arr = obj.optJSONArray(q.key) ?: JSONArray()
-                val list = mutableListOf<String>()
-                for (i in 0 until arr.length()) list.add(arr.optString(i))
-                data[q.key] = list
-            }
-        }
-    }
-
-    private fun save() {
-        val obj = JSONObject()
-        data.forEach { (k, v) ->
-            val arr = JSONArray()
-            v.forEach { arr.put(it) }
-            obj.put(k, arr)
-        }
-        prefs().edit().putString("data", obj.toString()).apply()
-    }
-
     private fun dp(v: Int) = (v * resources.displayMetrics.density).toInt()
+
+    private companion object {
+        /** 矩阵里新建的任务默认值，可在计划页的临时任务里看到并完成 */
+        const val DEFAULT_POINTS = 3.0
+    }
 }

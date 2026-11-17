@@ -415,4 +415,8 @@
     <string name="sub_privacy">Где хранятся и куда уходят данные</string>
     <string name="feedback_subject">Отзыв о Habit</string>
     <string name="feedback_body_template">\n\n— не удаляйте, это помогает отладке —\nВерсия: %1$s\nУстройство: %2$s\nСистема: %3$s</string>
+    <string name="pomodoro_channel_name">Будильник помодоро</string>
+    <string name="pomodoro_channel_desc">Сигнал по окончании фокуса</string>
+    <string name="pomodoro_notification_body">Нажмите, чтобы вернуться</string>
+    <string name="eisen_remove_confirm">Удалить «%1$s» из матрицы и разовых задач?</string>
 </resources>

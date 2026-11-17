@@ -419,4 +419,8 @@
     <string name="sub_privacy">Where data lives and where it goes</string>
     <string name="feedback_subject">Habit feedback</string>
     <string name="feedback_body_template">\n\n— please keep this, it helps me debug —\nVersion: %1$s\nDevice: %2$s\nSystem: %3$s</string>
+    <string name="pomodoro_channel_name">Pomodoro alarm</string>
+    <string name="pomodoro_channel_desc">Alarm when a focus session ends</string>
+    <string name="pomodoro_notification_body">Tap to return to the pomodoro</string>
+    <string name="eisen_remove_confirm">Remove "%1$s" from the matrix and one-off tasks?</string>
 </resources>

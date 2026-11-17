@@ -435,4 +435,8 @@
     <string name="sub_privacy">数据存在哪、传到哪</string>
     <string name="feedback_subject">Habit 使用反馈</string>
     <string name="feedback_body_template">\n\n— 以下信息请保留，方便定位问题 —\n版本：%1$s\n机型：%2$s\n系统：%3$s</string>
+    <string name="pomodoro_channel_name">番茄钟提醒</string>
+    <string name="pomodoro_channel_desc">专注结束时的闹钟提醒</string>
+    <string name="pomodoro_notification_body">点一下回到番茄钟</string>
+    <string name="eisen_remove_confirm">把「%1$s」从矩阵和临时任务里一起移除？</string>
 </resources>

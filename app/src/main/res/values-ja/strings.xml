@@ -415,4 +415,8 @@
     <string name="sub_privacy">データの保存先と送信先</string>
     <string name="feedback_subject">Habit フィードバック</string>
     <string name="feedback_body_template">\n\n— 以下はそのまま残してください —\nバージョン：%1$s\n端末：%2$s\nシステム：%3$s</string>
+    <string name="pomodoro_channel_name">ポモドーロ通知</string>
+    <string name="pomodoro_channel_desc">集中終了時のアラーム</string>
+    <string name="pomodoro_notification_body">タップでポモドーロに戻る</string>
+    <string name="eisen_remove_confirm">「%1$s」をマトリクスと単発タスクから削除しますか？</string>
 </resources>

@@ -18,7 +18,9 @@ data class TempTask(
     val title: String,
     val points: Double,
     val done: Boolean = false,
-    val createdAt: Long = System.currentTimeMillis()
+    val createdAt: Long = System.currentTimeMillis(),
+    /** 归属象限：空 = 普通临时任务；do/plan/delegate/drop = 来自艾森豪威尔矩阵 */
+    val quadrant: String = ""
 ) {
     fun toJson(): JSONObject = JSONObject().apply {
         put("id", id)
@@ -26,6 +28,7 @@ data class TempTask(
         put("points", points)
         put("done", done)
         put("createdAt", createdAt)
+        put("quadrant", quadrant)
     }
 
     companion object {
@@ -34,7 +37,8 @@ data class TempTask(
             title = o.optString("title"),
             points = o.optDouble("points", 0.0),
             done = o.optBoolean("done", false),
-            createdAt = o.optLong("createdAt")
+            createdAt = o.optLong("createdAt"),
+            quadrant = o.optString("quadrant")
         )
     }
 }
