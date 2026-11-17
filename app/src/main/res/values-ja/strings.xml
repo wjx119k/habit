@@ -437,4 +437,5 @@
     <string name="tag_important">⭐ 重要・緊急でない</string>
     <string name="tag_urgent">⚡ 緊急・重要でない</string>
     <string name="tag_neither">· どちらでもない</string>
+    <string name="splash_tap_hint">画面をタップして続行</string>
 </resources>

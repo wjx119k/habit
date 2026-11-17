@@ -20,7 +20,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 class SplashActivity : AppCompatActivity() {
 
     private lateinit var tagline: SplashTextAnimationView
-    private lateinit var btnSkip: TextView
+    private lateinit var tvTapHint: TextView
     private var leaving = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,14 +30,31 @@ class SplashActivity : AppCompatActivity() {
         playIntroAnimation()
 
         tagline = findViewById(R.id.splashTagline)
-        btnSkip = findViewById(R.id.btnSkip)
+        tvTapHint = findViewById(R.id.tvTapHint)
 
         tagline.onFinished = { leave() }
         tagline.start()
 
-        // 1.2 秒后才出现「跳过」，避免一进来就闪着按钮
-        btnSkip.postDelayed({ if (!leaving) btnSkip.visibility = View.VISIBLE }, 1200L)
-        btnSkip.setOnClickListener {
+        // 1.2 秒后底部浮现「轻触屏幕继续」，并轻微呼吸
+        tvTapHint.postDelayed({
+            if (leaving) return@postDelayed
+            tvTapHint.visibility = View.VISIBLE
+            tvTapHint.alpha = 0f
+            tvTapHint.animate().alpha(0.75f).setDuration(400).start()
+            tvTapHint.animate()
+                .alpha(0.35f)
+                .setStartDelay(400)
+                .setDuration(900)
+                .withEndAction {
+                    if (!leaving) {
+                        tvTapHint.animate().alpha(0.85f).setDuration(900).start()
+                    }
+                }
+                .start()
+        }, 1200L)
+
+        // 整屏任意位置点击都能继续
+        findViewById<View>(android.R.id.content).setOnClickListener {
             it.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY)
             leave()
         }
@@ -65,7 +82,7 @@ class SplashActivity : AppCompatActivity() {
     private fun leave() {
         if (leaving) return
         leaving = true
-        btnSkip.visibility = View.GONE
+        tvTapHint.visibility = View.GONE
 
         val root = findViewById<View>(android.R.id.content)
         root.animate()

@@ -50,19 +50,19 @@
 
     </LinearLayout>
 
-    <!-- 跳过：右上角，点一下直接进入 -->
+    <!-- 轻触屏幕继续：底部居中，整屏都能点 -->
     <TextView
-        android:id="@+id/btnSkip"
+        android:id="@+id/tvTapHint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|end"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="20dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="64dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:padding="10dp"
-        android:text="@string/splash_skip"
+        android:letterSpacing="0.08"
+        android:padding="12dp"
+        android:text="@string/splash_tap_hint"
         android:textColor="?android:attr/textColorSecondary"
-        android:textSize="14sp"
+        android:textSize="15sp"
         android:visibility="gone" />
 
 </FrameLayout>
