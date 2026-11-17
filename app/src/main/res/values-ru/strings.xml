@@ -390,4 +390,8 @@
     <string name="temp_task_delete">Удалить</string>
     <string name="temp_tasks_clear_done">Убрать выполненные</string>
     <string name="temp_tasks_clear_confirm">Убрать %1$d выполненных задач? Баллы останутся.</string>
+    <string name="new_goal">+ Новая цель</string>
+    <string name="create_goal_title">Создать</string>
+    <string name="create_option_plan">План привычки (каждый день)</string>
+    <string name="create_option_temp">Разовая задача (один раз)</string>
 </resources>

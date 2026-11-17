@@ -394,4 +394,8 @@
     <string name="temp_task_delete">Delete</string>
     <string name="temp_tasks_clear_done">Clear completed</string>
     <string name="temp_tasks_clear_confirm">Clear %1$d completed tasks? Points already earned stay.</string>
+    <string name="new_goal">+ New goal</string>
+    <string name="create_goal_title">Create</string>
+    <string name="create_option_plan">Habit plan (repeats daily)</string>
+    <string name="create_option_temp">One-off task (done once)</string>
 </resources>

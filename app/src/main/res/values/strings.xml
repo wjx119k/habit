@@ -410,4 +410,8 @@
     <string name="temp_task_delete">删除</string>
     <string name="temp_tasks_clear_done">清除已完成</string>
     <string name="temp_tasks_clear_confirm">清除 %1$d 个已完成的任务？（已获得的积分不会收回）</string>
+    <string name="new_goal">＋ 新建目标</string>
+    <string name="create_goal_title">新建</string>
+    <string name="create_option_plan">长期计划（每天反复做）</string>
+    <string name="create_option_temp">临时任务（做完划掉，一次性）</string>
 </resources>

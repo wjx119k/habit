@@ -153,9 +153,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        findViewById<View>(R.id.btnAddProject).setOnClickListener {
-            showProjectSheet(existing = null, index = -1)
-        }
+        findViewById<View>(R.id.btnAddProject).setOnClickListener { showCreateChooser() }
 
         // 工具页三张卡片
         findViewById<View>(R.id.cardPomodoro).setOnClickListener {
@@ -169,7 +167,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         // 临时任务
-        findViewById<View>(R.id.btnAddTempTask).setOnClickListener { showTempTaskDialog() }
         findViewById<View>(R.id.btnClearDoneTemp).setOnClickListener { clearDoneTempTasks() }
         renderTempTasks()
 
@@ -1029,6 +1026,30 @@ class MainActivity : AppCompatActivity() {
             }
             list.addView(row)
         }
+    }
+
+    /**
+     * 新建目标的统一入口。
+     *
+     * 为什么合并？
+     *   两个区块各放一个"添加"按钮，用户要先想清楚"这算计划还是任务"；
+     *   合成一个「＋ 新建目标」，点开再选，认知负担更小。
+     */
+    private fun showCreateChooser() {
+        val options = arrayOf(
+            getString(R.string.create_option_plan),
+            getString(R.string.create_option_temp)
+        )
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.create_goal_title)
+            .setItems(options) { _, which ->
+                when (which) {
+                    0 -> showProjectSheet(existing = null, index = -1)
+                    1 -> showTempTaskDialog()
+                }
+            }
+            .setNegativeButton(R.string.action_cancel, null)
+            .show()
     }
 
     /** 误触关闭弹窗后，底部提示「点击返回」重新打开 */

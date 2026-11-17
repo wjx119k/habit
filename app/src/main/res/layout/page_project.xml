@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:padding="8dp"
-            android:text="@string/new_plan"
+            android:text="@string/new_goal"
             android:textAppearance="?attr/textAppearanceLabelLarge"
             android:textColor="?attr/colorPrimary" />
     </LinearLayout>
@@ -81,17 +81,7 @@
                     android:text="@string/temp_tasks_clear_done"
                     android:textAppearance="?attr/textAppearanceLabelLarge"
                     android:textColor="?attr/colorOnSurfaceVariant" />
-
-                <TextView
-                    android:id="@+id/btnAddTempTask"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:padding="8dp"
-                    android:text="@string/temp_tasks_add"
-                    android:textAppearance="?attr/textAppearanceLabelLarge"
-                    android:textColor="?attr/colorPrimary" />
-            </LinearLayout>
+</LinearLayout>
 
             <LinearLayout
                 android:id="@+id/tempTaskList"
