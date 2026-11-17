@@ -14,4 +14,5 @@
     <!-- 成就页：未解锁灰色 / 已解锁绿色 -->
     <color name="locked_gray">#FF8A8A8A</color>
     <color name="unlocked_green">#FF2E7D32</color>
+    <color name="verify_hint_color">#9AA4B2</color>
 </resources>

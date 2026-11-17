@@ -453,4 +453,7 @@
     <string name="feedback_sent">Спасибо за отзыв</string>
     <string name="feedback_too_short">Нужно минимум 3 символа</string>
     <string name="feedback_need_login">Сначала войдите</string>
+    <string name="verify_hint">Потяните для проверки</string>
+    <string name="verify_passed">Проверено</string>
+    <string name="verify_required">Сначала потяните ползунок</string>
 </resources>

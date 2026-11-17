@@ -453,4 +453,7 @@
     <string name="feedback_sent">已提交，谢谢你的回饋</string>
     <string name="feedback_too_short">至少写 3 个字</string>
     <string name="feedback_need_login">请先登入，登入后才能提交回饋</string>
+    <string name="verify_hint">拖動滑块驗證</string>
+    <string name="verify_passed">驗證通过</string>
+    <string name="verify_required">请先拖動滑块完成驗證</string>
 </resources>

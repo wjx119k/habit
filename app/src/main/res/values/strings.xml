@@ -473,4 +473,7 @@
     <string name="feedback_sent">已提交，谢谢你的反馈</string>
     <string name="feedback_too_short">至少写 3 个字</string>
     <string name="feedback_need_login">请先登录，登录后才能提交反馈</string>
+    <string name="verify_hint">拖动滑块验证</string>
+    <string name="verify_passed">验证通过</string>
+    <string name="verify_required">请先拖动滑块完成验证</string>
 </resources>

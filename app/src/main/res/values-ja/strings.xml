@@ -453,4 +453,7 @@
     <string name="feedback_sent">ありがとうございました</string>
     <string name="feedback_too_short">3文字以上で入力してください</string>
     <string name="feedback_need_login">先にログインしてください</string>
+    <string name="verify_hint">スライドして確認</string>
+    <string name="verify_passed">確認済み</string>
+    <string name="verify_required">先にスライダーを動かしてください</string>
 </resources>
