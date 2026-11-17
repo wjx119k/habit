@@ -396,6 +396,15 @@
     <string name="temp_tasks_clear_confirm">Clear %1$d completed tasks? Points already earned stay.</string>
     <string name="new_goal">+ New goal</string>
     <string name="create_goal_title">Create</string>
-    <string name="create_option_plan">Habit plan (repeats daily)</string>
-    <string name="create_option_temp">One-off task (done once)</string>
+    <string name="create_option_plan">Repeats every day, scores repeatedly</string>
+    <string name="create_option_temp">Crossed out once done</string>
+    <string name="create_option_plan_short">Habit plan</string>
+    <string name="create_option_temp_short">One-off task</string>
+    <string name="graduate_title">Habit formed</string>
+    <string name="graduate_confirm">Is "%1$s" already part of who you are?\n\nIt will be removed from the list; the history stays.</string>
+    <string name="graduate_action">Yes, graduate</string>
+    <string name="graduate_history">Graduated: %1$s</string>
+    <string name="graduate_congrats_title">Congratulations 🎓</string>
+    <string name="graduate_congrats_body">"%1$s" has graduated.\n\nIt earned you %2$s points in total.\nNo more reminders — it is part of you now.\n\nGo build the next one.</string>
+    <string name="graduate_congrats_ok">Keep going</string>
 </resources>

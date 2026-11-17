@@ -392,6 +392,15 @@
     <string name="temp_tasks_clear_confirm">Убрать %1$d выполненных задач? Баллы останутся.</string>
     <string name="new_goal">+ Новая цель</string>
     <string name="create_goal_title">Создать</string>
-    <string name="create_option_plan">План привычки (каждый день)</string>
-    <string name="create_option_temp">Разовая задача (один раз)</string>
+    <string name="create_option_plan">Каждый день, баллы повторяются</string>
+    <string name="create_option_temp">Выполнил — вычеркнул</string>
+    <string name="create_option_plan_short">План привычки</string>
+    <string name="create_option_temp_short">Разовая задача</string>
+    <string name="graduate_title">Привычка сформирована</string>
+    <string name="graduate_confirm">«%1$s» уже стало частью вас?\n\nПривычка уйдёт из списка, история сохранится.</string>
+    <string name="graduate_action">Да, выпустить</string>
+    <string name="graduate_history">Выпуск: %1$s</string>
+    <string name="graduate_congrats_title">Поздравляем 🎓</string>
+    <string name="graduate_congrats_body">«%1$s» выпущена.\n\nВсего %2$s баллов.\nНапоминания больше не нужны.\n\nПереходите к следующей.</string>
+    <string name="graduate_congrats_ok">Дальше</string>
 </resources>

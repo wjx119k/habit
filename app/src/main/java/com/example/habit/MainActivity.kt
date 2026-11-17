@@ -84,6 +84,7 @@ class MainActivity : AppCompatActivity() {
         projectList = findViewById(R.id.projectList)
         projectAdapter = ProjectAdapter(
             onEdit = { index -> showProjectSheet(existing = projects[index], index = index) },
+            onGraduate = { index -> graduateProject(index) },
             onAdd = { index -> onAddPoint(index) },
             onMinus = { index -> onMinusPoint(index) }
         )
@@ -1036,19 +1037,56 @@ class MainActivity : AppCompatActivity() {
      *   合成一个「＋ 新建目标」，点开再选，认知负担更小。
      */
     private fun showCreateChooser() {
-        val options = arrayOf(
-            getString(R.string.create_option_plan),
-            getString(R.string.create_option_temp)
-        )
-        MaterialAlertDialogBuilder(this)
+        val content = layoutInflater.inflate(R.layout.dialog_create_goal, null)
+        val dialog = MaterialAlertDialogBuilder(this)
             .setTitle(R.string.create_goal_title)
-            .setItems(options) { _, which ->
-                when (which) {
-                    0 -> showProjectSheet(existing = null, index = -1)
-                    1 -> showTempTaskDialog()
-                }
-            }
+            .setView(content)
             .setNegativeButton(R.string.action_cancel, null)
+            .create()
+
+        content.findViewById<View>(R.id.choicePlan).setOnClickListener {
+            dialog.dismiss()
+            showProjectSheet(existing = null, index = -1)
+        }
+        content.findViewById<View>(R.id.choiceTemp).setOnClickListener {
+            dialog.dismiss()
+            showTempTaskDialog()
+        }
+        dialog.show()
+    }
+
+    /**
+     * 习惯"毕业"：用户认为这个习惯已经养成，确认后把它从列表里去掉。
+     *
+     * 不是"删除"——删除是放弃，毕业是达成，所以文案完全不同。
+     */
+    private fun graduateProject(index: Int) {
+        val project = projects.getOrNull(index) ?: return
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.graduate_title)
+            .setMessage(getString(R.string.graduate_confirm, project.name))
+            .setNegativeButton(R.string.action_cancel, null)
+            .setPositiveButton(R.string.graduate_action) { _, _ ->
+                projects.removeAt(index)
+                ProjectStore.save(this, projects)
+                recordHistory(
+                    getString(R.string.graduate_history, project.name),
+                    0.0,
+                    project.id,
+                    0.0
+                )
+                renderProjects(animate = false)
+                showGraduationCongrats(project.name, project.points)
+            }
+            .show()
+    }
+
+    /** 毕业祝贺 */
+    private fun showGraduationCongrats(name: String, points: Double) {
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.graduate_congrats_title)
+            .setMessage(getString(R.string.graduate_congrats_body, name, Points.format(points)))
+            .setPositiveButton(R.string.graduate_congrats_ok, null)
             .show()
     }
 

@@ -392,6 +392,15 @@
     <string name="temp_tasks_clear_confirm">清除 %1$d 个已完成的任務？（已获得的積分不会收回）</string>
     <string name="new_goal">＋ 新建目标</string>
     <string name="create_goal_title">新建</string>
-    <string name="create_option_plan">长期計畫（每天反复做）</string>
-    <string name="create_option_temp">臨時任務（做完划掉，一次性）</string>
+    <string name="create_option_plan">每天反覆做，可反覆加分</string>
+    <string name="create_option_temp">做完劃掉，只做一次</string>
+    <string name="create_option_plan_short">长期计划</string>
+    <string name="create_option_temp_short">臨時任務</string>
+    <string name="graduate_title">已养成这个習慣</string>
+    <string name="graduate_confirm">「%1$s」现在已经成为你的習慣了吗？\n\n确认后它会从列表里移除，記錄会保留在歷史里。</string>
+    <string name="graduate_action">是的，毕业</string>
+    <string name="graduate_history">毕业：%1$s</string>
+    <string name="graduate_congrats_title">恭喜你 🎓</string>
+    <string name="graduate_congrats_body">「%1$s」已经毕业了。\n\n它陪了你这么久，累计 %2$s 分。\n从此不用再提醒——它已经是你的本能。\n\n去养成下一个吧。</string>
+    <string name="graduate_congrats_ok">继续前行</string>
 </resources>

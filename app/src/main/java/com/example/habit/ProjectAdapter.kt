@@ -17,7 +17,8 @@ import com.google.android.material.button.MaterialButton
 class ProjectAdapter(
     private val onEdit: (Int) -> Unit,
     private val onAdd: (Int) -> Unit,
-    private val onMinus: (Int) -> Unit
+    private val onMinus: (Int) -> Unit,
+    private val onGraduate: (Int) -> Unit = {}
 ) : RecyclerView.Adapter<ProjectAdapter.Holder>() {
 
     private val items = mutableListOf<Project>()
@@ -61,6 +62,10 @@ class ProjectAdapter(
         holder.reward.text = ctx.getString(R.string.points_reward, Points.format(project.rewardPoints))
         holder.penalty.text = ctx.getString(R.string.points_penalty, Points.format(project.penaltyPoints))
 
+        holder.btnGraduate.setOnClickListener {
+            val pos = holder.adapterPosition
+            if (pos != RecyclerView.NO_POSITION) onGraduate(pos)
+        }
         holder.btnEdit.setOnClickListener {
             val pos = holder.adapterPosition
             if (pos != RecyclerView.NO_POSITION) onEdit(pos)
@@ -85,6 +90,7 @@ class ProjectAdapter(
         val reward: TextView = view.findViewById(R.id.tvReward)
         val penalty: TextView = view.findViewById(R.id.tvPenalty)
         val btnEdit: MaterialButton = view.findViewById(R.id.btnEdit)
+        val btnGraduate: android.widget.ImageButton = view.findViewById(R.id.ivGraduate)
         val btnAddPoint: MaterialButton = view.findViewById(R.id.btnAddPoint)
         val btnMinusPoint: MaterialButton = view.findViewById(R.id.btnMinusPoint)
     }
