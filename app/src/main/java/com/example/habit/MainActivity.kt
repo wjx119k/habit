@@ -923,6 +923,12 @@ class MainActivity : AppCompatActivity() {
         dialog.show()
     }
 
+    override fun onStop() {
+        super.onStop()
+        // 退到后台前把还没推的改动立刻发出去
+        SupabaseSync.flush(this)
+    }
+
     override fun onResume() {
         super.onResume()
         // 从登录页返回时刷新昵称

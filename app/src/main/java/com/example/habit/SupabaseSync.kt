@@ -115,7 +115,19 @@ object SupabaseSync {
             Thread { runCatching { push(app) } }.start()
         }
         pendingPush = runnable
-        mainHandler.postDelayed(runnable, 2000L)
+        mainHandler.postDelayed(runnable, 800L)
+    }
+
+    /**
+     * 立刻推送（不等防抖）。
+     * 用于 App 退到后台、退出登录、清数据之前——避免"刚改完就切走"把改动丢掉。
+     */
+    fun flush(context: Context) {
+        if (!SupabaseAuth.isLoggedIn(context)) return
+        pendingPush?.let { mainHandler.removeCallbacks(it) }
+        pendingPush = null
+        val app = context.applicationContext
+        Thread { runCatching { push(app) } }.start()
     }
 
     /** 删除云端那一行数据（注销账号时用） */

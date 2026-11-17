@@ -68,6 +68,7 @@ class ProfileActivity : AppCompatActivity() {
                     val remoteOk = SupabaseSync.deleteRemote(this)
                     runOnUiThread {
                         SupabaseSync.wipeLocal(this)
+                        SupabaseSync.flush(this)
                         SupabaseAuth.logout(this)
                         Toast.makeText(
                             this,
@@ -110,6 +111,7 @@ class ProfileActivity : AppCompatActivity() {
                         confirmDeleteAccount()
                     }
                     .setPositiveButton(R.string.action_confirm) { _, _ ->
+                        SupabaseSync.flush(this)
                         SupabaseAuth.logout(this)
                         Toast.makeText(
                             this,
