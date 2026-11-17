@@ -994,6 +994,13 @@ class MainActivity : AppCompatActivity() {
         tempTasks.clear()
         tempTasks.addAll(TempTaskStore.load(this))
 
+        // 排序：未完成在前 → 紧急·重要 → 重要 → 紧急 → 都不 → 无属性
+        tempTasks.sortWith(
+            compareBy<TempTask> { it.done }
+                .thenBy { quadrantOrder(it.quadrant) }
+                .thenBy { it.createdAt }
+        )
+
         if (tempTasks.isEmpty()) {
             list.visibility = View.GONE
             return
@@ -1232,6 +1239,15 @@ class MainActivity : AppCompatActivity() {
         renderTempTasks()
         tvTotalPoints.text = Points.format(availablePoints())
         Toast.makeText(this, R.string.temp_task_undone, Toast.LENGTH_SHORT).show()
+    }
+
+    /** 排序权重：数字越小越靠前 */
+    private fun quadrantOrder(quadrant: String): Int = when (quadrant) {
+        "do" -> 0
+        "plan" -> 1
+        "delegate" -> 2
+        "drop" -> 3
+        else -> 4
     }
 
     /** 象限 → 人话标签 */
