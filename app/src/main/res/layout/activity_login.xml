@@ -173,18 +173,9 @@
                 <ImageView
                     android:layout_width="46dp"
                     android:layout_height="46dp"
-                    android:contentDescription="@null"
+                    android:contentDescription="@string/login_with_google"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_google" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:maxLines="1"
-                    android:text="@string/login_with_google"
-                    android:textColor="?attr/colorOnSurfaceVariant"
-                    android:textSize="9sp" />
 
             </LinearLayout>
 
@@ -203,18 +194,9 @@
                 <ImageView
                     android:layout_width="46dp"
                     android:layout_height="46dp"
-                    android:contentDescription="@null"
+                    android:contentDescription="@string/login_with_qq"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_qq" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:maxLines="1"
-                    android:text="@string/login_with_qq"
-                    android:textColor="?attr/colorOnSurfaceVariant"
-                    android:textSize="9sp" />
 
             </LinearLayout>
 
@@ -233,18 +215,9 @@
                 <ImageView
                     android:layout_width="46dp"
                     android:layout_height="46dp"
-                    android:contentDescription="@null"
+                    android:contentDescription="@string/login_with_wechat"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_wechat" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:maxLines="1"
-                    android:text="@string/login_with_wechat"
-                    android:textColor="?attr/colorOnSurfaceVariant"
-                    android:textSize="9sp" />
 
             </LinearLayout>
 
@@ -263,18 +236,9 @@
                 <ImageView
                     android:layout_width="46dp"
                     android:layout_height="46dp"
-                    android:contentDescription="@null"
+                    android:contentDescription="@string/login_with_github"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_github" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:maxLines="1"
-                    android:text="@string/login_with_github"
-                    android:textColor="?attr/colorOnSurfaceVariant"
-                    android:textSize="9sp" />
 
             </LinearLayout>
 
