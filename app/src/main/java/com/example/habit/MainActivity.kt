@@ -1,4 +1,4 @@
-package com.example.habit
+﻿package com.example.habit
 
 import android.app.DatePickerDialog
 import android.app.Dialog
@@ -166,6 +166,13 @@ class MainActivity : AppCompatActivity() {
 
         // 临时任务
         findViewById<View>(R.id.btnClearDoneTemp).setOnClickListener { clearDoneTempTasks() }
+        tempExpanded = prefsUi().getBoolean("temp_expanded", false)
+        findViewById<View>(R.id.rowTempHeader).setOnClickListener {
+            tempExpanded = !tempExpanded
+            prefsUi().edit().putBoolean("temp_expanded", tempExpanded).apply()
+            applyTempExpanded(true)
+            if (tempExpanded) renderTempTasks()
+        }
         renderTempTasks()
 
         setupWinterEgg()
@@ -959,7 +966,28 @@ class MainActivity : AppCompatActivity() {
     //  临时任务
     // ============================================================
 
-    private fun renderTempTasks() {
+        /** 临时任务区是否展开（记住用户选择） */
+    private var tempExpanded = false
+
+    private fun prefsUi() = getSharedPreferences("habit_ui", MODE_PRIVATE)
+
+    /** 应用折叠状态：收起时隐藏列表并旋转箭头 */
+    private fun applyTempExpanded(animate: Boolean) {
+        val list = findViewById<android.widget.LinearLayout>(R.id.tempTaskList)
+        val chevron = findViewById<android.widget.TextView>(R.id.ivTempChevron)
+        val target = if (tempExpanded) 1f else 0f
+        if (animate) {
+            chevron.animate().rotation(tempExpandedHeadDeg()).setDuration(180).start()
+        } else {
+            chevron.rotation = tempExpandedHeadDeg()
+        }
+        list.visibility = if (tempExpanded) View.VISIBLE else View.GONE
+        chevron.alpha = 1f
+        @Suppress("UNUSED_EXPRESSION") target
+    }
+
+    private fun tempExpandedHeadDeg(): Float = if (tempExpanded) 90f else 0f
+private fun renderTempTasks() {
         val list = findViewById<LinearLayout>(R.id.tempTaskList) ?: return
         list.removeAllViews()
 
@@ -973,10 +1001,18 @@ class MainActivity : AppCompatActivity() {
                 .thenBy { it.createdAt }
         )
 
+        val countView = findViewById<TextView>(R.id.tvTempCount)
+        val undone = tempTasks.count { !it.done }
+        countView.text = if (tempTasks.isEmpty()) "" else undone.toString() + "/" + tempTasks.size.toString()
+
         if (tempTasks.isEmpty()) {
             list.visibility = View.GONE
+            findViewById<View>(R.id.cardTempTasks).visibility = View.GONE
             return
         }
+        findViewById<View>(R.id.cardTempTasks).visibility = View.VISIBLE
+        applyTempExpanded(false)
+        if (!tempExpanded) return
         list.visibility = View.VISIBLE
 
         tempTasks.forEach { task ->
@@ -1292,3 +1328,6 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
     }
 }
+
+
+
