@@ -1003,7 +1003,23 @@ private fun renderTempTasks() {
 
         val countView = findViewById<TextView>(R.id.tvTempCount)
         val undone = tempTasks.count { !it.done }
-        countView.text = if (tempTasks.isEmpty()) "" else undone.toString() + "/" + tempTasks.size.toString()
+        // 收起时也能一眼看到"还有几件急事"：紧急未完成 > 0 就加 🔥 并变红
+        val urgentUndone = tempTasks.count {
+            !it.done && (it.quadrant == "do" || it.quadrant == "delegate")
+        }
+        countView.text = if (tempTasks.isEmpty()) {
+            ""
+        } else if (urgentUndone > 0) {
+            "🔥 " + urgentUndone.toString() + "  " + undone.toString() + "/" + tempTasks.size.toString()
+        } else {
+            undone.toString() + "/" + tempTasks.size.toString()
+        }
+        countView.setTextColor(
+            androidx.core.content.ContextCompat.getColor(
+                this,
+                if (urgentUndone > 0) R.color.temp_urgent else R.color.verify_hint_color
+            )
+        )
 
         if (tempTasks.isEmpty()) {
             list.visibility = View.GONE
@@ -1328,6 +1344,7 @@ private fun renderTempTasks() {
         super.onDestroy()
     }
 }
+
 
 
 
