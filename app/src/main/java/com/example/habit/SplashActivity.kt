@@ -1,4 +1,4 @@
-package com.example.habit
+﻿package com.example.habit
 
 import android.content.Intent
 import android.os.Bundle
@@ -22,6 +22,7 @@ class SplashActivity : AppCompatActivity() {
     private lateinit var tagline: SplashTextAnimationView
     private lateinit var tvTapHint: TextView
     private var leaving = false
+    private var blinkAnimator: android.animation.ObjectAnimator? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,17 +41,20 @@ class SplashActivity : AppCompatActivity() {
             if (leaving) return@postDelayed
             tvTapHint.visibility = View.VISIBLE
             tvTapHint.alpha = 0f
-            tvTapHint.animate().alpha(0.75f).setDuration(400).start()
-            tvTapHint.animate()
-                .alpha(0.35f)
-                .setStartDelay(400)
-                .setDuration(900)
-                .withEndAction {
-                    if (!leaving) {
-                        tvTapHint.animate().alpha(0.85f).setDuration(900).start()
-                    }
+            // 先淡入，然后进入「轻微闪烁」的循环呼吸效果
+            tvTapHint.animate().alpha(0.85f).setDuration(500).withEndAction {
+                if (leaving) return@withEndAction
+                val blink = android.animation.ObjectAnimator.ofFloat(
+                    tvTapHint, "alpha", 0.85f, 0.32f
+                ).apply {
+                    duration = 850
+                    repeatMode = android.animation.ValueAnimator.REVERSE
+                    repeatCount = android.animation.ValueAnimator.INFINITE
+                    interpolator = android.view.animation.AccelerateDecelerateInterpolator()
                 }
-                .start()
+                blinkAnimator = blink
+                blink.start()
+            }.start()
         }, 1200L)
 
         // 整屏任意位置点击都能继续
@@ -82,6 +86,7 @@ class SplashActivity : AppCompatActivity() {
     private fun leave() {
         if (leaving) return
         leaving = true
+        blinkAnimator?.cancel()
         tvTapHint.visibility = View.GONE
 
         val root = findViewById<View>(android.R.id.content)
@@ -136,3 +141,5 @@ class SplashActivity : AppCompatActivity() {
         finish()
     }
 }
+
+

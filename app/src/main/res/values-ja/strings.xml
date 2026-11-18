@@ -458,6 +458,9 @@
     <string name="verify_required">先にスライダーを動かしてください</string>
     <string name="verify_title">確認</string>
     <string name="verify_dialog_desc">スライダーを右端まで動かしてください。</string>
+    <string name="splash_tagline_ja">良い習慣が未来をつくる</string>
+    <string name="splash_tagline_ru">Хорошая привычка строит будущее</string>
 </resources>
+
 
 

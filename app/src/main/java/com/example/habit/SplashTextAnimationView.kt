@@ -11,16 +11,18 @@ import android.view.View
 import kotlin.math.sin
 
 /**
- * 启动页的标语动画。
+ * 启动页标语的动画。
  *
- * 三轮循环，每轮三个动作：
- *   1. 英文句子"从左往右"被写出来（用手写体 + 逐字显现模拟笔迹）
- *   2. 倒放：文字从右往左消失（相当于把写字过程倒着播一遍）
- *   3. 中文"好习惯成就大未来"一个字一个字打出来（打字机风格）
+ * 现在的播放顺序（一轮约 11 秒）：
+ *   1. 英文 "A good habit builds everything" —— 手写笔迹，从左往右写出来
+ *   2. 倒放：英文从右往左擦掉（像把写字过程倒着播一遍）
+ *   3. 中文「好习惯成就大未来」—— 打字机，一个字一个字冒出
+ *   4. 日语「良い習慣が未来をつくる」—— 打字机
+ *   5. 俄语「Хорошая привычка строит будущее」—— 打字机
  *
- * 为什么自己画而不直接用 TextView + 动画？
- *   因为要"写到一半停住"这种效果，View 动画做不到——
- *   必须自己控制"画到第几个字、画多宽"。
+ * 为什么自己画而不用 TextView + 动画？
+ *   因为要「写到一半停住」这种效果，View 动画做不到——
+ *   必须自己控制「画到第几个字、画多宽」。
  */
 class SplashTextAnimationView @JvmOverloads constructor(
     context: Context,
@@ -32,42 +34,59 @@ class SplashTextAnimationView @JvmOverloads constructor(
 
     private val english: String = context.getString(R.string.splash_tagline)
     private val chinese: String = context.getString(R.string.splash_tagline_cn)
+    private val japanese: String = context.getString(R.string.splash_tagline_ja)
+    private val russian: String = context.getString(R.string.splash_tagline_ru)
 
-    private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+    private val englishPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         textSize = sp(17f)
         color = 0xFF9AA4B2.toInt()
         typeface = Typeface.create("cursive", Typeface.NORMAL)
     }
 
-    private val cnPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        textSize = sp(19f)
+    private val cnPaint = typePaint(18f)
+    private val jaPaint = typePaint(18f)
+    private val ruPaint = typePaint(17f)
+
+    private fun typePaint(size: Float) = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        textSize = sp(size)
         color = 0xFF9AA4B2.toInt()
         typeface = Typeface.create("serif", Typeface.BOLD)
-        letterSpacing = 0.06f
+        letterSpacing = 0.04f
+    }
+
+    private val cursorPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = 0xFF7C8798.toInt()
+        strokeWidth = 2f
     }
 
     private var startAt = 0L
     private var started = false
     private var finished = false
 
-    // 每个动作的时长（毫秒）
+    // 每段时长（毫秒）
     private val writeMs = 2200L      // 手写英文
-    private val eraseMs = 1200L      // 倒放擦除
-    private val typeMs = 1600L       // 打字机中文
-    private val holdMs = 1200L       // 中文停留
-    private val cycleMs = writeMs + eraseMs + typeMs + holdMs
-    private val cycles = 2           // 循环两轮（约 12 秒）
+    private val eraseMs = 1100L      // 倒放擦除
+    private val typeMs = 1500L       // 打字机（每种语言）
+    private val holdMs = 900L        // 停留
 
-    /**
-     * 视图尺寸确定后，把字号缩到"正好放得下"。
-     * 不这么做的话，17sp 的英文句子比视图还宽，两边会被裁掉。
-     */
+    private val tWrite = writeMs
+    private val tErase = tWrite + eraseMs
+    private val tCn = tErase + typeMs
+    private val tCnHold = tCn + holdMs
+    private val tJa = tCnHold + typeMs
+    private val tJaHold = tJa + holdMs
+    private val tRu = tJaHold + typeMs
+    private val tEnd = tRu + holdMs
+
+    /** 视图尺寸确定后，把字号缩到「正好放得下」 */
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         val maxWidth = w * 0.92f
         if (maxWidth <= 0f) return
-        fitTextSize(paint, english, maxWidth)
+        fitTextSize(englishPaint, english, maxWidth)
         fitTextSize(cnPaint, chinese, maxWidth)
+        fitTextSize(jaPaint, japanese, maxWidth)
+        fitTextSize(ruPaint, russian, maxWidth)
     }
 
     private fun fitTextSize(target: Paint, text: String, maxWidth: Float) {
@@ -85,7 +104,7 @@ class SplashTextAnimationView @JvmOverloads constructor(
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val width = MeasureSpec.getSize(widthMeasureSpec)
-        val height = (paint.textSize * 2.4f).toInt()
+        val height = (englishPaint.textSize * 2.4f).toInt()
         setMeasuredDimension(width, height)
     }
 
@@ -93,9 +112,7 @@ class SplashTextAnimationView @JvmOverloads constructor(
         if (!started) return
 
         val elapsed = SystemClock.elapsedRealtime() - startAt
-        val total = cycleMs * cycles
-
-        if (elapsed >= total) {
+        if (elapsed >= tEnd) {
             if (!finished) {
                 finished = true
                 onFinished?.invoke()
@@ -103,97 +120,88 @@ class SplashTextAnimationView @JvmOverloads constructor(
             return
         }
 
-        val inCycle = elapsed % cycleMs
         val cx = width / 2f
 
         when {
-            // ① 手写：从左往右逐渐露出
-            inCycle < writeMs -> {
-                val p = inCycle.toFloat() / writeMs
-                drawWritingEnglish(canvas, cx, p)
-            }
+            // ① 手写英文：从左往右逐渐露出
+            elapsed < tWrite -> drawWriting(canvas, cx, elapsed.toFloat() / writeMs)
 
             // ② 倒放：从右往左逐渐消失
-            inCycle < writeMs + eraseMs -> {
-                val p = (inCycle - writeMs).toFloat() / eraseMs
-                drawWritingEnglish(canvas, cx, 1f - p)
-            }
+            elapsed < tErase ->
+                drawWriting(canvas, cx, 1f - (elapsed - tWrite).toFloat() / eraseMs)
 
-            // ③ 打字机：中文逐字出现
-            inCycle < writeMs + eraseMs + typeMs -> {
-                val p = (inCycle - writeMs - eraseMs).toFloat() / typeMs
-                drawTypingChinese(canvas, cx, p)
-            }
+            // ③ 中文打字机
+            elapsed < tCn -> drawTyping(canvas, cnPaint, chinese, cx, (elapsed - tErase).toFloat() / typeMs)
 
-            // ④ 停留
-            else -> {
-                drawTypingChinese(canvas, cx, 1f)
-            }
+            // ④ 中文停留
+            elapsed < tCnHold -> drawTyping(canvas, cnPaint, chinese, cx, 1f)
+
+            // ⑤ 日语打字机
+            elapsed < tJa -> drawTyping(canvas, jaPaint, japanese, cx, (elapsed - tCnHold).toFloat() / typeMs)
+
+            // ⑥ 日语停留
+            elapsed < tJaHold -> drawTyping(canvas, jaPaint, japanese, cx, 1f)
+
+            // ⑦ 俄语打字机
+            elapsed < tRu -> drawTyping(canvas, ruPaint, russian, cx, (elapsed - tJaHold).toFloat() / typeMs)
+
+            // ⑧ 俄语停留
+            else -> drawTyping(canvas, ruPaint, russian, cx, 1f)
         }
 
         invalidate()
     }
 
     /**
-     * 英文：一个字一个字"写"出来，像笔尖从左往右走。
+     * 英文：一个字一个字「写」出来，像笔尖从左往右走。
      *
-     * 为什么用"截取子串"而不是"裁剪画布"？
+     * 为什么用「截取子串」而不是裁剪画布？
      *   裁剪是相对坐标，遇到居中/内边距容易错位；
-     *   直接画前 N 个字符，起点固定，从左边长出来，视觉上就是手写过程。
+     *   直接画前 N 个字符，起点固定，视觉上就是手写过程。
      */
-    private fun drawWritingEnglish(canvas: Canvas, cx: Float, progress: Float) {
+    private fun drawWriting(canvas: Canvas, cx: Float, progress: Float) {
         if (progress <= 0f) return
 
         val count = (english.length * progress).toInt().coerceIn(0, english.length)
         if (count == 0) return
         val shown = english.substring(0, count)
 
-        val fullWidth = paint.measureText(english)
+        val fullWidth = englishPaint.measureText(english)
         val left = cx - fullWidth / 2f
-        val textY = height / 2f - (paint.descent() + paint.ascent()) / 2f
+        val textY = height / 2f - (englishPaint.descent() + englishPaint.ascent()) / 2f
 
         // 轻微的手写抖动（幅度很小，不然像在发抖）
         val jitter = sin(progress * 12f) * 0.8f
+        canvas.drawText(shown, left, textY + jitter, englishPaint)
 
-        canvas.drawText(shown, left, textY + jitter, paint)
-
-        // 正在写的时候，末尾有一小段"笔尖"
+        // 正在写的时候，末尾有一小段「笔尖」
         if (progress < 1f) {
-            val tipX = left + paint.measureText(shown)
-            val tip = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                color = 0xFF7C8798.toInt()
-                strokeWidth = 2.2f
-                strokeCap = Paint.Cap.ROUND
-            }
+            val tipX = left + englishPaint.measureText(shown)
             canvas.drawLine(
-                tipX, textY + paint.ascent() * 0.75f,
-                tipX, textY + paint.descent() * 0.75f, tip
+                tipX, textY + englishPaint.ascent() * 0.75f,
+                tipX, textY + englishPaint.descent() * 0.75f, cursorPaint
             )
         }
     }
 
-    /** 中文：一个字一个字打出来 */
-    private fun drawTypingChinese(canvas: Canvas, cx: Float, progress: Float) {
-        val count = (chinese.length * progress).toInt().coerceIn(0, chinese.length)
+    /** 打字机：一个字一个字打出来 */
+    private fun drawTyping(canvas: Canvas, paint: Paint, text: String, cx: Float, progress: Float) {
+        val count = (text.length * progress).toInt().coerceIn(0, text.length)
         if (count == 0) return
-        val shown = chinese.substring(0, count)
+        val shown = text.substring(0, count)
 
-        val textY = height / 2f - (cnPaint.descent() + cnPaint.ascent()) / 2f
-        // 用全宽来计算居中位置，避免"每打一个字就跳一下"
-        val fullWidth = cnPaint.measureText(chinese)
-        val left = cx - fullWidth / 2f
-
-        cnPaint.alpha = 255
-        canvas.drawText(shown, left, textY, cnPaint)
+        val textY = height / 2f - (paint.descent() + paint.ascent()) / 2f
+        // 用全宽来计算居中位置，避免「每打一个字就跳一下」
+        val left = cx - paint.measureText(text) / 2f
+        canvas.drawText(shown, left, textY, paint)
 
         // 光标：正在打字时显示一条竖线
         if (progress < 1f) {
-            val cursorX = left + cnPaint.measureText(shown) + 2f
-            val cursorPaint = Paint().apply {
-                color = 0xFF7C8798.toInt()
-                strokeWidth = 2f
-            }
-            canvas.drawLine(cursorX, textY + cnPaint.ascent(), cursorX, textY + cnPaint.descent(), cursorPaint)
+            val cursorX = left + paint.measureText(shown) + 2f
+            canvas.drawLine(
+                cursorX, textY + paint.ascent(),
+                cursorX, textY + paint.descent(), cursorPaint
+            )
         }
     }
 

@@ -462,5 +462,8 @@
     <string name="verify_required">Please drag the slider first</string>
     <string name="verify_title">Quick check</string>
     <string name="verify_dialog_desc">Drag the slider to the far right to confirm you are human.</string>
+    <string name="splash_tagline_ja">良い習慣が未来をつくる</string>
+    <string name="splash_tagline_ru">Хорошая привычка строит будущее</string>
 </resources>
+
 
