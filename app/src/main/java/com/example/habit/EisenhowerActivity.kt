@@ -1,4 +1,4 @@
-package com.example.habit
+﻿package com.example.habit
 
 import android.os.Bundle
 import android.view.View
@@ -128,7 +128,7 @@ class EisenhowerActivity : AppCompatActivity() {
         if (items.isEmpty()) {
             container.addView(TextView(this).apply {
                 text = getString(R.string.eisen_empty)
-                setTextColor(0xFF9AA4B2.toInt())
+                setTextColor(themeColor(com.google.android.material.R.attr.colorOnSurfaceVariant))
                 textSize = 13f
                 setPadding(0, dp(6), 0, dp(6))
             })
@@ -139,7 +139,7 @@ class EisenhowerActivity : AppCompatActivity() {
             container.addView(TextView(this).apply {
                 text = "· " + task.title
                 textSize = 15f
-                setTextColor(0xFFE6E8EC.toInt())
+                setTextColor(themeColor(com.google.android.material.R.attr.colorOnSurface))
                 setPadding(dp(4), dp(8), dp(4), dp(8))
                 if (task.done) {
                     paintFlags = paintFlags or android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
@@ -164,6 +164,19 @@ class EisenhowerActivity : AppCompatActivity() {
             .show()
     }
 
+    /** 从当前主题里取颜色（纯白主题下也能看清） */
+    private fun themeColor(attr: Int): Int {
+        val ta = obtainStyledAttributes(intArrayOf(attr))
+        val color = ta.getColor(0, if (isDarkTheme()) 0xFFE6E8EC.toInt() else 0xFF1B1B1F.toInt())
+        ta.recycle()
+        return color
+    }
+
+    private fun isDarkTheme(): Boolean {
+        val mask = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
+        return mask == android.content.res.Configuration.UI_MODE_NIGHT_YES
+    }
+
     private fun dp(v: Int) = (v * resources.displayMetrics.density).toInt()
 
     private companion object {
@@ -171,3 +184,4 @@ class EisenhowerActivity : AppCompatActivity() {
         const val DEFAULT_POINTS = 3.0
     }
 }
+
