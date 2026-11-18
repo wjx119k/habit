@@ -94,8 +94,8 @@
     <string name="settings_title">Настройки</string>
     <string name="settings_app">Приложение</string>
     <string name="settings_app_desc">Язык, оформление, скрытие значка</string>
-    <string name="settings_notifications">Уведомления</string>
-    <string name="settings_notifications_desc">Напоминания и push</string>
+    <string name="settings_notifications">Настройки уведомлений</string>
+    <string name="settings_notifications_desc">Баннеры, звук и режим «не беспокоить»</string>
     <string name="settings_privacy">Конфиденциальность</string>
     <string name="settings_privacy_desc">Данные и разрешения</string>
     <string name="settings_about">О приложении</string>
@@ -466,6 +466,7 @@
     <string name="task_remind_past">Это время уже прошло, выберите другое</string>
     <string name="task_remind_stop">Остановить</string>
 </resources>
+
 
 
 

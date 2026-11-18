@@ -101,8 +101,8 @@
     <string name="settings_title">Settings</string>
     <string name="settings_app">App</string>
     <string name="settings_app_desc">Language, appearance, hidden icon</string>
-    <string name="settings_notifications">Notifications</string>
-    <string name="settings_notifications_desc">Reminder time and push</string>
+    <string name="settings_notifications">Notification settings</string>
+    <string name="settings_notifications_desc">Banners, sound and Do Not Disturb</string>
     <string name="settings_privacy">Privacy</string>
     <string name="settings_privacy_desc">Data and permissions</string>
     <string name="settings_about">About</string>
@@ -470,6 +470,7 @@
     <string name="task_remind_past">That time has passed, pick another</string>
     <string name="task_remind_stop">Stop ringing</string>
 </resources>
+
 
 
 

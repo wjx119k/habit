@@ -94,8 +94,8 @@
     <string name="settings_title">設定</string>
     <string name="settings_app">アプリ</string>
     <string name="settings_app_desc">言語、外観、アイコンを隠す</string>
-    <string name="settings_notifications">通知</string>
-    <string name="settings_notifications_desc">リマインダーとプッシュ</string>
+    <string name="settings_notifications">通知の設定</string>
+    <string name="settings_notifications_desc">バナー・着信音・サイレントモード</string>
     <string name="settings_privacy">プライバシー</string>
     <string name="settings_privacy_desc">データと権限</string>
     <string name="settings_about">このアプリについて</string>
@@ -466,6 +466,7 @@
     <string name="task_remind_past">過去の時刻です。選び直してください</string>
     <string name="task_remind_stop">停止</string>
 </resources>
+
 
 
 

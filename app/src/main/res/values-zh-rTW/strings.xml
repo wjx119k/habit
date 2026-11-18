@@ -94,8 +94,8 @@
     <string name="settings_title">設定</string>
     <string name="settings_app">應用程式</string>
     <string name="settings_app_desc">語言、外觀、隱藏圖示</string>
-    <string name="settings_notifications">通知</string>
-    <string name="settings_notifications_desc">提醒時間與推送</string>
+    <string name="settings_notifications">通知權限</string>
+    <string name="settings_notifications_desc">橫幅、鈴聲與勿擾</string>
     <string name="settings_privacy">隱私</string>
     <string name="settings_privacy_desc">資料與權限</string>
     <string name="settings_about">關於</string>
@@ -466,6 +466,7 @@
     <string name="task_remind_past">這個時間已經過去了，請重新選擇</string>
     <string name="task_remind_stop">停止鈴聲</string>
 </resources>
+
 
 
 

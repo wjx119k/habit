@@ -1,4 +1,4 @@
-package com.example.habit
+﻿package com.example.habit
 
 import android.content.Intent
 import android.os.Bundle
@@ -40,9 +40,10 @@ class SettingsActivity : AppCompatActivity() {
             overridePendingTransition(R.anim.slide_in_right, android.R.anim.fade_out)
         }
         bindRow(R.id.rowNotifications, R.drawable.ic_notification, R.string.settings_notifications, R.string.settings_notifications_desc) {
-            startActivity(Intent(this, NotificationsActivity::class.java))
-            @Suppress("DEPRECATION")
-            overridePendingTransition(R.anim.slide_in_right, android.R.anim.fade_out)
+            // 直接跳到系统的本应用通知设置：横幅、铃声、免打扰例外都在那里开
+            if (!openSystemNotificationSettings()) {
+                startActivity(Intent(this, NotificationsActivity::class.java))
+            }
         }
         bindRow(R.id.rowBackup, R.drawable.ic_share, R.string.settings_backup, R.string.settings_backup_desc) {
             startActivity(Intent(this, BackupActivity::class.java))
@@ -57,6 +58,29 @@ class SettingsActivity : AppCompatActivity() {
         // "关于"已从设置里移除：Me 页已有一个独立入口
     }
 
+    /**
+     * 打开系统的「本应用通知设置」。
+     *
+     * 为什么不在 App 里自己做一套？
+     *   横幅、铃声、免打扰例外这些开关只有系统页面才能改，
+     *   应用内做的开关改不了这些，反而让用户以为开了却没生效。
+     */
+    private fun openSystemNotificationSettings(): Boolean = runCatching {
+        val intent = Intent(android.provider.Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
+            putExtra(android.provider.Settings.EXTRA_APP_PACKAGE, packageName)
+        }
+        startActivity(intent)
+        true
+    }.getOrElse {
+        runCatching {
+            startActivity(
+                Intent(
+                    android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                    android.net.Uri.parse("package:" + packageName)
+                )
+            )
+        }.isSuccess
+    }
     private fun bindRow(rowId: Int, iconRes: Int, titleRes: Int, subtitleRes: Int, onClick: () -> Unit) {
         val row = findViewById<View>(rowId)
         row.findViewById<ImageView>(R.id.ivRowIcon).setImageResource(iconRes)
@@ -65,3 +89,4 @@ class SettingsActivity : AppCompatActivity() {
         row.setOnClickListener { onClick() }
     }
 }
+
