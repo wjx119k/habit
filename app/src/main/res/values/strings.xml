@@ -76,7 +76,7 @@
     <string name="profile_back">返回</string>
     <string name="profile_points_label">我的积分</string>
     <string name="profile_login_button">登录 / 注册</string>
-    <string name="profile_placeholder">登录后可以同步数据、跨设备使用</string>
+    <string name="profile_placeholder">登录后可以在应用内直接给作者反馈</string>
     <!-- Store 栏目（功能后续补充） -->
     <string name="tab_store">商店</string>
     <string name="store_placeholder">Store 功能开发中</string>
@@ -480,7 +480,13 @@
     <string name="verify_dialog_desc">按住滑块拖到最右边，确认你不是自动脚本</string>
     <string name="splash_tagline_ja">良い習慣が未来をつくる</string>
     <string name="splash_tagline_ru">Хорошая привычка строит будущее</string>
+    <string name="task_remind_none">提醒时间：不提醒</string>
+    <string name="task_remind_set">提醒时间：%1$s</string>
+    <string name="task_remind_title">任务提醒</string>
+    <string name="task_remind_past">这个时间已经过去了，请重新选择</string>
 </resources>
+
+
 
 
 

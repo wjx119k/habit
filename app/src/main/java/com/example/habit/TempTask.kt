@@ -1,4 +1,4 @@
-package com.example.habit
+﻿package com.example.habit
 
 import android.content.Context
 import org.json.JSONArray
@@ -20,7 +20,9 @@ data class TempTask(
     val done: Boolean = false,
     val createdAt: Long = System.currentTimeMillis(),
     /** 归属象限：空 = 普通临时任务；do/plan/delegate/drop = 来自艾森豪威尔矩阵 */
-    val quadrant: String = ""
+    val quadrant: String = "",
+    /** 提醒时间戳；0 = 不提醒 */
+    val remindAt: Long = 0L
 ) {
     fun toJson(): JSONObject = JSONObject().apply {
         put("id", id)
@@ -29,6 +31,7 @@ data class TempTask(
         put("done", done)
         put("createdAt", createdAt)
         put("quadrant", quadrant)
+        put("remindAt", remindAt)
     }
 
     companion object {
@@ -38,7 +41,8 @@ data class TempTask(
             points = o.optDouble("points", 0.0),
             done = o.optBoolean("done", false),
             createdAt = o.optLong("createdAt"),
-            quadrant = o.optString("quadrant")
+            quadrant = o.optString("quadrant"),
+            remindAt = o.optLong("remindAt")
         )
     }
 }
@@ -83,3 +87,5 @@ object TempTaskStore {
     private fun prefs(context: Context) =
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 }
+
+

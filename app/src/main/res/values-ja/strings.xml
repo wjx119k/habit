@@ -60,7 +60,7 @@
     <string name="profile_back">戻る</string>
     <string name="profile_points_label">マイポイント</string>
     <string name="profile_login_button">ログイン / 新規登録</string>
-    <string name="profile_placeholder">ログインするとデータを同期できます</string>
+    <string name="profile_placeholder">ログインするとアプリ内から作者にフィードバックを送れます</string>
 
     <string name="store_placeholder">Store は開発中です</string>
     <string name="store_hint">ポイントショップや特典をここに追加予定です</string>
@@ -460,7 +460,13 @@
     <string name="verify_dialog_desc">スライダーを右端まで動かしてください。</string>
     <string name="splash_tagline_ja">良い習慣が未来をつくる</string>
     <string name="splash_tagline_ru">Хорошая привычка строит будущее</string>
+    <string name="task_remind_none">リマインダー：なし</string>
+    <string name="task_remind_set">リマインダー：%1$s</string>
+    <string name="task_remind_title">タスクのリマインダー</string>
+    <string name="task_remind_past">過去の時刻です。選び直してください</string>
 </resources>
+
+
 
 
 

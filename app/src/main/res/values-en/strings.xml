@@ -67,7 +67,7 @@
     <string name="profile_back">Back</string>
     <string name="profile_points_label">My points</string>
     <string name="profile_login_button">Sign in / Sign up</string>
-    <string name="profile_placeholder">Sign in to sync your data across devices</string>
+    <string name="profile_placeholder">Sign in to send feedback from inside the app</string>
 
     <string name="store_placeholder">Store is coming soon</string>
     <string name="store_hint">A points mall, rewards and more will appear here</string>
@@ -464,6 +464,12 @@
     <string name="verify_dialog_desc">Drag the slider to the far right to confirm you are human.</string>
     <string name="splash_tagline_ja">良い習慣が未来をつくる</string>
     <string name="splash_tagline_ru">Хорошая привычка строит будущее</string>
+    <string name="task_remind_none">Reminder: off</string>
+    <string name="task_remind_set">Reminder: %1$s</string>
+    <string name="task_remind_title">Task reminder</string>
+    <string name="task_remind_past">That time has passed, pick another</string>
 </resources>
+
+
 
 

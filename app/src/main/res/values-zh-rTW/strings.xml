@@ -60,7 +60,7 @@
     <string name="profile_back">返回</string>
     <string name="profile_points_label">我的積分</string>
     <string name="profile_login_button">登入 / 註冊</string>
-    <string name="profile_placeholder">登入後可以同步資料、跨裝置使用</string>
+    <string name="profile_placeholder">登入後可以在應用內直接給作者回饋</string>
 
     <string name="store_placeholder">Store 功能開發中</string>
     <string name="store_hint">這裡以後會放積分商城、兌換和更多玩法</string>
@@ -460,7 +460,13 @@
     <string name="verify_dialog_desc">按住滑桿拖到最右边，确认你不是自动脚本</string>
     <string name="splash_tagline_ja">良い習慣が未来をつくる</string>
     <string name="splash_tagline_ru">Хорошая привычка строит будущее</string>
+    <string name="task_remind_none">提醒時間：不提醒</string>
+    <string name="task_remind_set">提醒時間：%1$s</string>
+    <string name="task_remind_title">任務提醒</string>
+    <string name="task_remind_past">這個時間已經過去了，請重新選擇</string>
 </resources>
+
+
 
 
 

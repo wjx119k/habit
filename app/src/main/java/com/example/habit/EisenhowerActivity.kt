@@ -89,6 +89,48 @@ class EisenhowerActivity : AppCompatActivity() {
         editPoints.setText(Points.format(DEFAULT_POINTS))
         editTitle.requestFocus()
 
+        // 提醒时间：先选日期再选时间，选完显示在那一行上
+        val tvRemind = content.findViewById<android.widget.TextView>(R.id.tvEisenRemind)
+        var remindAt = 0L
+        fun showRemindLabel() {
+            tvRemind.text = if (remindAt <= 0L) {
+                getString(R.string.task_remind_none)
+            } else {
+                val fmt = java.text.SimpleDateFormat("MM-dd HH:mm", java.util.Locale.getDefault())
+                getString(R.string.task_remind_set, fmt.format(java.util.Date(remindAt)))
+            }
+        }
+        tvRemind.setOnClickListener {
+            val cal = java.util.Calendar.getInstance()
+            android.app.DatePickerDialog(
+                this,
+                { _, y, m, d ->
+                    android.app.TimePickerDialog(
+                        this,
+                        { _, hh, mm ->
+                            val c = java.util.Calendar.getInstance()
+                            c.set(y, m, d, hh, mm, 0)
+                            c.set(java.util.Calendar.MILLISECOND, 0)
+                            if (c.timeInMillis > System.currentTimeMillis()) {
+                                remindAt = c.timeInMillis
+                                showRemindLabel()
+                            } else {
+                                android.widget.Toast.makeText(
+                                    this, R.string.task_remind_past, android.widget.Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        },
+                        cal.get(java.util.Calendar.HOUR_OF_DAY),
+                        cal.get(java.util.Calendar.MINUTE),
+                        true
+                    ).show()
+                },
+                cal.get(java.util.Calendar.YEAR),
+                cal.get(java.util.Calendar.MONTH),
+                cal.get(java.util.Calendar.DAY_OF_MONTH)
+            ).show()
+        }
+
         val dialog = MaterialAlertDialogBuilder(this)
             .setTitle(R.string.eisen_dialog_title)
             .setView(content)
@@ -107,8 +149,18 @@ class EisenhowerActivity : AppCompatActivity() {
                     return@setPositiveButton
                 }
                 val tasks = TempTaskStore.load(this)
-                tasks.add(TempTask(title = title, points = points, quadrant = q.key))
+                val task = TempTask(
+                    title = title,
+                    points = points,
+                    quadrant = q.key,
+                    remindAt = remindAt
+                )
+                tasks.add(task)
                 TempTaskStore.save(this, tasks)
+                // 有提醒时间就排一个系统闹钟（到点弹通知 + 响铃）
+                if (remindAt > 0L) {
+                    TempTaskAlarm.schedule(this, task.id, task.title, remindAt)
+                }
                 refreshAll()
             }
             .create()
@@ -159,6 +211,7 @@ class EisenhowerActivity : AppCompatActivity() {
                 val tasks = TempTaskStore.load(this)
                 tasks.removeAll { it.id == task.id }
                 TempTaskStore.save(this, tasks)
+                TempTaskAlarm.cancel(this, task.id)
                 refreshAll()
             }
             .show()
@@ -184,4 +237,5 @@ class EisenhowerActivity : AppCompatActivity() {
         const val DEFAULT_POINTS = 3.0
     }
 }
+
 

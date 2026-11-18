@@ -60,7 +60,7 @@
     <string name="profile_back">Назад</string>
     <string name="profile_points_label">Мои баллы</string>
     <string name="profile_login_button">Вход / Регистрация</string>
-    <string name="profile_placeholder">Войдите, чтобы синхронизировать данные</string>
+    <string name="profile_placeholder">Войдите, чтобы отправить отзыв прямо из приложения</string>
 
     <string name="store_placeholder">Store в разработке</string>
     <string name="store_hint">Здесь появятся магазин баллов и награды</string>
@@ -460,7 +460,13 @@
     <string name="verify_dialog_desc">Перетащите ползунок до упора вправо.</string>
     <string name="splash_tagline_ja">良い習慣が未来をつくる</string>
     <string name="splash_tagline_ru">Хорошая привычка строит будущее</string>
+    <string name="task_remind_none">Напоминание: выкл</string>
+    <string name="task_remind_set">Напоминание: %1$s</string>
+    <string name="task_remind_title">Напоминание о задаче</string>
+    <string name="task_remind_past">Это время уже прошло, выберите другое</string>
 </resources>
+
+
 
 
 
