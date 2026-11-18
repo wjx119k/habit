@@ -140,6 +140,12 @@ object TempTaskAlarm {
     fun ensureChannel(context: Context) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        // 清理历史遗留通道：早期版本用过 habit_task_reminder，
+        // 换 v2 是为了改铃声（Android 通道创建后声音不可改），
+        // 旧通道会残留在"通知管理"里显示成第二条「任务提醒」，这里删掉。
+        runCatching { nm.deleteNotificationChannel("habit_task_reminder") }
+
         if (nm.getNotificationChannel(CHANNEL_ID) != null) return
 
         // 用「闹钟」音频流：即使手机静音/振动模式，闹钟声也会响
@@ -200,6 +206,7 @@ class TempTaskAlarmReceiver : BroadcastReceiver() {
         }
     }
 }
+
 
 
 

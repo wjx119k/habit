@@ -175,6 +175,9 @@ class MainActivity : AppCompatActivity() {
         }
         renderTempTasks()
 
+        // 启动时确保提醒通道存在，并清掉历史遗留的旧通道
+        TempTaskAlarm.ensureChannel(this)
+
         setupWinterEgg()
 
         bottomNav.selectedItemId = R.id.nav_project
@@ -1344,6 +1347,7 @@ private fun renderTempTasks() {
         super.onDestroy()
     }
 }
+
 
 
 
