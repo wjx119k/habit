@@ -22,6 +22,21 @@ import androidx.core.app.NotificationManagerCompat
  */
 object TempTaskAlarm {
 
+    /** 正在响的铃声，用户点「停止铃声」时用它停掉 */
+    private var playingRingtone: android.media.Ringtone? = null
+
+    /** 停止正在响的铃声 */
+    fun stopRing() {
+        runCatching { playingRingtone?.stop() }
+        playingRingtone = null
+    }
+
+    /** 记录正在响的铃声 */
+    fun setPlaying(ringtone: android.media.Ringtone?) {
+        stopRing()
+        playingRingtone = ringtone
+    }
+
     private const val CHANNEL_ID = "habit_task_reminder_v2"
     private const val CHANNEL_NAME = "任务提醒"
 
@@ -90,6 +105,14 @@ object TempTaskAlarm {
             .setSound(android.media.RingtoneManager.getDefaultUri(android.media.RingtoneManager.TYPE_ALARM))
             .setVibrate(longArrayOf(0, 400, 200, 400))
             .setAutoCancel(true)
+            .setOngoing(true)
+            // 锁屏或息屏时也强制弹出，形成"从顶部降下来"的效果
+            .setFullScreenIntent(contentPi, true)
+            .addAction(
+                0,
+                context.getString(R.string.task_remind_stop),
+                stopIntent(context, taskId)
+            )
             .setContentIntent(contentPi)
             .build()
 
@@ -97,6 +120,22 @@ object TempTaskAlarm {
             NotificationManagerCompat.from(context).notify(taskId.hashCode(), notification)
         }
     }
+
+    /** 「停止铃声」按钮的 PendingIntent */
+    private fun stopIntent(context: Context, taskId: String): PendingIntent {
+        val intent = Intent(context, TempTaskAlarmReceiver::class.java).apply {
+            action = ACTION_STOP_RING
+            putExtra("notifId", taskId.hashCode())
+        }
+        return PendingIntent.getBroadcast(
+            context,
+            taskId.hashCode() + 7,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+    }
+
+    const val ACTION_STOP_RING = "com.example.habit.STOP_RING"
 
     fun ensureChannel(context: Context) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
@@ -131,6 +170,14 @@ object TempTaskAlarm {
 /** 闹钟到点后由系统调用 */
 class TempTaskAlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
+        // 「停止铃声」按钮
+        if (intent.action == TempTaskAlarm.ACTION_STOP_RING) {
+            TempTaskAlarm.stopRing()
+            val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            runCatching { nm.cancel(intent.getIntExtra("notifId", 0)) }
+            return
+        }
+
         val title = intent.getStringExtra("title").orEmpty()
         val taskId = intent.getStringExtra("taskId").orEmpty()
         TempTaskAlarm.notifyNow(context, taskId, title)
@@ -149,8 +196,11 @@ class TempTaskAlarmReceiver : BroadcastReceiver() {
                 .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION)
                 .build()
             ringtone?.play()
+            TempTaskAlarm.setPlaying(ringtone)
         }
     }
 }
+
+
 
 

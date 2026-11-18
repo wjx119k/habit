@@ -464,7 +464,9 @@
     <string name="task_remind_set">Напоминание: %1$s</string>
     <string name="task_remind_title">Напоминание о задаче</string>
     <string name="task_remind_past">Это время уже прошло, выберите другое</string>
+    <string name="task_remind_stop">Остановить</string>
 </resources>
+
 
 
 

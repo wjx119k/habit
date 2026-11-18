@@ -464,7 +464,9 @@
     <string name="task_remind_set">提醒時間：%1$s</string>
     <string name="task_remind_title">任務提醒</string>
     <string name="task_remind_past">這個時間已經過去了，請重新選擇</string>
+    <string name="task_remind_stop">停止鈴聲</string>
 </resources>
+
 
 
 

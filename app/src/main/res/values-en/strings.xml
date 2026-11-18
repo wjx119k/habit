@@ -468,7 +468,9 @@
     <string name="task_remind_set">Reminder: %1$s</string>
     <string name="task_remind_title">Task reminder</string>
     <string name="task_remind_past">That time has passed, pick another</string>
+    <string name="task_remind_stop">Stop ringing</string>
 </resources>
+
 
 
 
