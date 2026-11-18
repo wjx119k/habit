@@ -1,4 +1,4 @@
-package com.example.habit
+﻿package com.example.habit
 
 import android.app.AlarmManager
 import android.app.NotificationChannel
@@ -22,7 +22,7 @@ import androidx.core.app.NotificationManagerCompat
  */
 object TempTaskAlarm {
 
-    private const val CHANNEL_ID = "habit_task_reminder"
+    private const val CHANNEL_ID = "habit_task_reminder_v2"
     private const val CHANNEL_NAME = "任务提醒"
 
     /** 安排一个提醒；triggerAt 在过去则忽略 */
@@ -87,6 +87,8 @@ object TempTaskAlarm {
             .setStyle(NotificationCompat.BigTextStyle().bigText(title))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setCategory(NotificationCompat.CATEGORY_ALARM)
+            .setSound(android.media.RingtoneManager.getDefaultUri(android.media.RingtoneManager.TYPE_ALARM))
+            .setVibrate(longArrayOf(0, 400, 200, 400))
             .setAutoCancel(true)
             .setContentIntent(contentPi)
             .build()
@@ -101,16 +103,28 @@ object TempTaskAlarm {
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (nm.getNotificationChannel(CHANNEL_ID) != null) return
 
+        // 用「闹钟」音频流：即使手机静音/振动模式，闹钟声也会响
+        val attrs = android.media.AudioAttributes.Builder()
+            .setUsage(android.media.AudioAttributes.USAGE_ALARM)
+            .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION)
+            .build()
+        val alarmUri = android.media.RingtoneManager.getDefaultUri(
+            android.media.RingtoneManager.TYPE_ALARM
+        )
+
         val channel = NotificationChannel(
             CHANNEL_ID,
             CHANNEL_NAME,
             NotificationManager.IMPORTANCE_HIGH
         ).apply {
             description = "临时任务到点提醒"
+            setSound(alarmUri, attrs)
             enableVibration(true)
+            vibrationPattern = longArrayOf(0, 400, 200, 400)
             enableLights(true)
+            runCatching { setBypassDnd(true) }   // 没有勿扰例外权限时会抛异常，忽略即可
         }
-        nm.createNotificationChannel(channel)
+        runCatching { nm.createNotificationChannel(channel) }
     }
 }
 
@@ -120,5 +134,23 @@ class TempTaskAlarmReceiver : BroadcastReceiver() {
         val title = intent.getStringExtra("title").orEmpty()
         val taskId = intent.getStringExtra("taskId").orEmpty()
         TempTaskAlarm.notifyNow(context, taskId, title)
+
+        // 兜底：不管通知通道有没有响，这里都直接播一次闹铃，
+        // 走 USAGE_ALARM，静音模式也压不住
+        runCatching {
+            val uri = android.media.RingtoneManager.getDefaultUri(
+                android.media.RingtoneManager.TYPE_ALARM
+            ) ?: android.media.RingtoneManager.getDefaultUri(
+                android.media.RingtoneManager.TYPE_NOTIFICATION
+            )
+            val ringtone = android.media.RingtoneManager.getRingtone(context, uri)
+            ringtone?.audioAttributes = android.media.AudioAttributes.Builder()
+                .setUsage(android.media.AudioAttributes.USAGE_ALARM)
+                .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build()
+            ringtone?.play()
+        }
     }
 }
+
+
