@@ -51,6 +51,15 @@ class DeveloperIntroActivity : AppCompatActivity() {
     )
 
     private var index = 0
+    private var finished = false
+
+    /** 当前句的自动推进任务，手动点击时要能取消 */
+    private var pendingAdvance: Runnable? = null
+
+    // 触摸手势
+    private var downX = 0f
+    private var downY = 0f
+    private var dragging = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,7 +83,48 @@ class DeveloperIntroActivity : AppCompatActivity() {
         // 文字落在人物身前那片浅色留白上
         monologue.anchorY = 0.70f   // 落在她身前的浅色衣物上，字最干净
 
-        findViewById<View>(R.id.introRoot).setOnClickListener { leave() }
+        // 触摸：按下点灯、拖动做视差、轻点推进、收尾后轻点返回
+        findViewById<View>(R.id.introRoot).setOnTouchListener { _, event ->
+            when (event.actionMasked) {
+                android.view.MotionEvent.ACTION_DOWN -> {
+                    downX = event.x
+                    downY = event.y
+                    dragging = false
+                    monologue.lightUp(event.x, event.y)
+                    true
+                }
+
+                android.view.MotionEvent.ACTION_MOVE -> {
+                    val dx = event.x - downX
+                    val dy = event.y - downY
+                    if (!dragging && (kotlin.math.abs(dx) > dp(10f) || kotlin.math.abs(dy) > dp(10f))) {
+                        dragging = true
+                    }
+                    monologue.moveLight(event.x, event.y)
+
+                    // 水平拖动 = 轻微视差，像歪头看这张画
+                    if (dragging) {
+                        val parallax = (dx * 0.05f).coerceIn(-dp(16f), dp(16f))
+                        findViewById<android.widget.ImageView>(R.id.ivIntroBg).translationX = parallax
+                    }
+                    true
+                }
+
+                android.view.MotionEvent.ACTION_UP, android.view.MotionEvent.ACTION_CANCEL -> {
+                    monologue.fadeLight()
+                    // 松手回正
+                    findViewById<android.widget.ImageView>(R.id.ivIntroBg).animate()
+                        .translationX(0f).setDuration(420).start()
+
+                    if (!dragging) {
+                        if (finished) leave() else advance()
+                    }
+                    true
+                }
+
+                else -> false
+            }
+        }
 
         // 画面从白里缓缓浮出，同时极慢地推近 —— 静图也要有呼吸
         val bg = findViewById<android.widget.ImageView>(R.id.ivIntroBg)
@@ -103,14 +153,27 @@ class DeveloperIntroActivity : AppCompatActivity() {
         val revealMs = if (line.serif) 820L else 720L
         monologue.show(line.main, line.whisper, line.serif, line.size, revealMs)
 
-        handler.postDelayed({
+        val task = Runnable {
             monologue.hide(if (line.serif) 640L else 540L)
-            handler.postDelayed({ showNext() }, if (line.serif) 880L else 760L)
-        }, revealMs + line.hold)
+            val next = Runnable { showNext() }
+            pendingAdvance = next
+            handler.postDelayed(next, if (line.serif) 880L else 760L)
+        }
+        pendingAdvance = task
+        handler.postDelayed(task, revealMs + line.hold)
+    }
+
+    /** 读者轻点：不等自然节奏，立刻推进到下一句 */
+    private fun advance() {
+        pendingAdvance?.let { handler.removeCallbacks(it) }
+        pendingAdvance = null
+        monologue.hide(220)
+        handler.postDelayed({ showNext() }, 240L)
     }
 
     /** 收尾：细线从中心生长 → 签名浮现 → 返回提示 */
     private fun finishSequence() {
+        finished = true
         val lp = rule.layoutParams as FrameLayout.LayoutParams
         lp.gravity = Gravity.TOP or Gravity.CENTER_HORIZONTAL
         lp.topMargin = (monologue.height * monologue.anchorY + dp(52f)).toInt()
@@ -154,6 +217,8 @@ class DeveloperIntroActivity : AppCompatActivity() {
         super.onDestroy()
     }
 }
+
+
 
 
 

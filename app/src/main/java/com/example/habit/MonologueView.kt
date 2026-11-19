@@ -53,6 +53,11 @@ class MonologueView @JvmOverloads constructor(
     /** 逐词浮现时每个词的透明度 */
     private val wordAlphas = FloatArray(16)
 
+    /** 指尖处的柔光：位置与透明度 */
+    private var touchX = -1f
+    private var touchY = -1f
+    private var touchGlowAlpha = 0f
+
     private var mainText = ""
     private var whisperText = ""
     private var reveal = 0f
@@ -129,6 +134,39 @@ class MonologueView @JvmOverloads constructor(
         }
     }
 
+    /** 手指按下时，在指尖点亮一团柔光 */
+    fun lightUp(x: Float, y: Float) {
+        touchX = x
+        touchY = y
+        ValueAnimator.ofFloat(touchGlowAlpha, 1f).apply {
+            duration = 260
+            addUpdateListener {
+                touchGlowAlpha = it.animatedValue as Float
+                invalidate()
+            }
+            start()
+        }
+    }
+
+    /** 跟手移动 */
+    fun moveLight(x: Float, y: Float) {
+        touchX = x
+        touchY = y
+        invalidate()
+    }
+
+    /** 抬手后柔光散开 */
+    fun fadeLight() {
+        ValueAnimator.ofFloat(touchGlowAlpha, 0f).apply {
+            duration = 520
+            addUpdateListener {
+                touchGlowAlpha = it.animatedValue as Float
+                invalidate()
+            }
+            start()
+        }
+    }
+
     /** 淡出整块 */
     fun hide(duration: Long = 560) {
         animator?.cancel()
@@ -165,6 +203,23 @@ class MonologueView @JvmOverloads constructor(
             android.graphics.Shader.TileMode.CLAMP
         )
         canvas.drawCircle(cx, baseY - dp(10f), glowRadius, glowPaint)
+
+        // 指尖柔光：读者触碰哪里，哪里就亮起来
+        if (touchGlowAlpha > 0.01f && touchX >= 0f) {
+            val bloom = Paint(Paint.ANTI_ALIAS_FLAG)
+            val r = dp(120f)
+            bloom.shader = android.graphics.RadialGradient(
+                touchX, touchY, r,
+                intArrayOf(
+                    (touchGlowAlpha * 0x4A).toInt() shl 24 or 0xFFFFFF,
+                    (touchGlowAlpha * 0x16).toInt() shl 24 or 0xFFFFFF,
+                    0x00FFFFFF
+                ),
+                floatArrayOf(0f, 0.5f, 1f),
+                android.graphics.Shader.TileMode.CLAMP
+            )
+            canvas.drawCircle(touchX, touchY, r, bloom)
+        }
 
         // ② 逐词揭开：每个词比前一个晚一点点出现
         drawWords(canvas, cx, baseY)
@@ -227,4 +282,5 @@ class MonologueView @JvmOverloads constructor(
         super.onDetachedFromWindow()
     }
 }
+
 
