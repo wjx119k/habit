@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- 收尾暗角：让画面在结束时"沉下去"一点 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:type="radial"
+        android:centerX="0.5"
+        android:centerY="0.5"
+        android:gradientRadius="1100"
+        android:startColor="#00000000"
+        android:centerColor="#06000000"
+        android:endColor="#38000000" />
+</shape>

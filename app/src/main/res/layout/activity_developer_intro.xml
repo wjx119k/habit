@@ -23,6 +23,13 @@
         android:layout_height="match_parent"
         android:background="@drawable/bg_scrim_bottom" />
 
+    <View
+        android:id="@+id/introVignette"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:background="@drawable/bg_vignette" />
+
     <com.example.habit.MonologueView
         android:id="@+id/monologue"
         android:layout_width="match_parent"
@@ -62,3 +69,4 @@
         android:textSize="11sp" />
 
 </FrameLayout>
+

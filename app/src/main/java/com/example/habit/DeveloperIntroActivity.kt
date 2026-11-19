@@ -76,6 +76,20 @@ class DeveloperIntroActivity : AppCompatActivity() {
 
         findViewById<View>(R.id.introRoot).setOnClickListener { leave() }
 
+        // 画面从白里缓缓浮出，同时极慢地推近 —— 静图也要有呼吸
+        val bg = findViewById<android.widget.ImageView>(R.id.ivIntroBg)
+        bg.alpha = 0f
+        bg.scaleX = 1f
+        bg.scaleY = 1f
+        bg.animate().alpha(1f).setDuration(900).start()
+        bg.animate()
+            .scaleX(1.07f)
+            .scaleY(1.07f)
+            .translationY(-dp(14f))
+            .setDuration(26000)
+            .setInterpolator(android.view.animation.LinearInterpolator())
+            .start()
+
         handler.postDelayed({ showNext() }, 700L)
     }
 
@@ -116,6 +130,9 @@ class DeveloperIntroActivity : AppCompatActivity() {
             start()
         }
 
+        // 暗角缓缓压下，画面"沉"下去
+        findViewById<View>(R.id.introVignette).animate().alpha(1f).setDuration(1400).start()
+
         handler.postDelayed({ sign.animate().alpha(0.6f).setDuration(800).start() }, 620L)
         handler.postDelayed({ hint.animate().alpha(0.42f).setDuration(900).start() }, 1200L)
     }
@@ -137,4 +154,6 @@ class DeveloperIntroActivity : AppCompatActivity() {
         super.onDestroy()
     }
 }
+
+
 

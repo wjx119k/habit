@@ -1,4 +1,4 @@
-package com.example.habit
+﻿package com.example.habit
 
 /**
  * 开发者信息。
@@ -58,7 +58,7 @@ object Developers {
             bioRes = R.string.dev_bio_wan,
             joinedYear = 2026,
             joinedMonth = 11,
-            avatarRes = R.drawable.avatar_wan,
+                avatarRes = null,   // 用默认的「W」首字母头像
             focusRes = listOf(
                 R.string.focus_product,
                 R.string.focus_ui,
@@ -88,3 +88,4 @@ object Developers {
         )
     )
 }
+
