@@ -38,11 +38,13 @@ class DeveloperIntroActivity : AppCompatActivity() {
         val whisper: String,
         val serif: Boolean,
         val size: Float,
-        val hold: Long
+        val hold: Long,
+        val flicker: Boolean = false
     )
 
     private val script = listOf(
-        Line("Hello, I'm Wan", "", serif = false, size = 23f, hold = 1200),
+        Line("Hello,", "", serif = false, size = 26f, hold = 900, flicker = true),
+        Line("I'm Wan", "", serif = false, size = 26f, hold = 1100),
         Line("I make small things", "with quiet hands", serif = false, size = 23f, hold = 1150),
         Line("For love", "the quiet kind", serif = true, size = 32f, hold = 900),
         Line("For happiness", "the kind that stays", serif = true, size = 32f, hold = 900),
@@ -151,7 +153,7 @@ class DeveloperIntroActivity : AppCompatActivity() {
 
         val line = script[index++]
         val revealMs = if (line.serif) 820L else 720L
-        monologue.show(line.main, line.whisper, line.serif, line.size, revealMs)
+        monologue.show(line.main, line.whisper, line.serif, line.size, revealMs, line.flicker)
 
         val task = Runnable {
             monologue.hide(if (line.serif) 640L else 540L)
@@ -217,6 +219,7 @@ class DeveloperIntroActivity : AppCompatActivity() {
         super.onDestroy()
     }
 }
+
 
 
 

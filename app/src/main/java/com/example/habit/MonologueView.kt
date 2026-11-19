@@ -59,7 +59,8 @@ class MonologueView @JvmOverloads constructor(
     private var touchGlowAlpha = 0f
 
     /** 第一个词的闪烁亮度（0~1）：先像灯管一样闪几下，再定住 */
-    private var firstWordPulse = 0f
+    private var firstWordPulse = 1f
+    private var flickerActive = false
 
     private var mainText = ""
     private var whisperText = ""
@@ -95,7 +96,7 @@ class MonologueView @JvmOverloads constructor(
     }
 
     /** 显示一句：主文 + 可选的耳语 */
-    fun show(text: String, whisper: String, serif: Boolean, sizeSp: Float, revealMs: Long = 760) {
+    fun show(text: String, whisper: String, serif: Boolean, sizeSp: Float, revealMs: Long = 760, flicker: Boolean = false) {
         mainText = text
         whisperText = whisper
         mainPaint.textSize = sp(sizeSp)
@@ -111,19 +112,24 @@ class MonologueView @JvmOverloads constructor(
         whisperAnimator?.cancel()
         whisperAlpha = 0f
 
-        // 第一个词先"哒、哒、哒"闪三下（约 700ms），亮度从暗到亮，最后定住
-        firstWordPulse = 0f
-        ValueAnimator.ofFloat(0f, 0.92f, 0.05f, 0.95f, 0.08f, 1f, 1f).apply {
-            duration = 700
-            addUpdateListener {
-                firstWordPulse = it.animatedValue as Float
-                invalidate()
+        // 只有被点名的句子（如 "Hello,"）才闪；频率调低：两次呼吸，共 1.2 秒
+        flickerActive = flicker
+        if (flicker) {
+            firstWordPulse = 0f
+            ValueAnimator.ofFloat(0f, 0.85f, 0.12f, 0.9f, 1f).apply {
+                duration = 1200
+                addUpdateListener {
+                    firstWordPulse = it.animatedValue as Float
+                    invalidate()
+                }
+                start()
             }
-            start()
+        } else {
+            firstWordPulse = 1f
         }
 
         animator = ValueAnimator.ofFloat(0f, 1f).apply {
-            startDelay = 620
+            startDelay = if (flicker) 1150L else 0L
             duration = revealMs
             interpolator = DecelerateInterpolator(1.6f)
             addUpdateListener {
@@ -265,7 +271,7 @@ class MonologueView @JvmOverloads constructor(
             val local = ((reveal * (1f + 0.18f * words.size)) - 0.18f * i).coerceIn(0f, 1f)
 
             // 第一个词：先单独闪烁几下，再跟着整句走
-            val effAlpha = if (i == 0) {
+            val effAlpha = if (i == 0 && flickerActive) {
                 kotlin.math.max(local, if (reveal < 1f) firstWordPulse * (1f - reveal) else 0f)
             } else {
                 local
@@ -305,6 +311,7 @@ class MonologueView @JvmOverloads constructor(
         super.onDetachedFromWindow()
     }
 }
+
 
 
 
