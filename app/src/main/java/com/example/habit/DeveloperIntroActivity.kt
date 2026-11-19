@@ -1,26 +1,28 @@
-package com.example.habit
+﻿package com.example.habit
 
 import android.animation.ValueAnimator
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.DecelerateInterpolator
+import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 
 /**
- * 点「Wan」后播放的极简独白。
+ * 点「Wan」后播放的独白。
  *
- * 设计逻辑（按"语气"分层）：
- *   · 前两句是陈述：细体、小字、从中心揭开
- *   · 后四句是告白：衬线斜体、大字、节奏逐渐放缓
- *   · 句与句之间留白约 0.3 秒，最后一句停 2.4 秒
- *   · 收尾不是"结束"，而是一条细线从中心长出来 + 一个极小的 WAN 签名
+ * 画面是一张插画（戴耳机的女孩，天空与风），文字压在她身前的浅色留白上。
  *
- * 全程不出现按钮、颜色、图标——只有黑与白。
+ * 结构上分两层：
+ *   · 主文（大）：一句陈述 → 四句「For xxx」的告白
+ *   · 耳语（小）：晚 140ms 浮现，像话说完之后，心里又轻轻补了一句
+ *
+ * 节奏：句间留白约 0.9 秒，最后一句停 2.4 秒，然后一条细线从中心长出来。
  */
 class DeveloperIntroActivity : AppCompatActivity() {
 
@@ -30,15 +32,22 @@ class DeveloperIntroActivity : AppCompatActivity() {
     private lateinit var hint: TextView
     private val handler = Handler(Looper.getMainLooper())
 
-    private data class Line(val text: String, val serif: Boolean, val size: Float, val hold: Long)
+    /** 一句台词：主文、耳语、是否衬线、字号、停留 */
+    private data class Line(
+        val main: String,
+        val whisper: String,
+        val serif: Boolean,
+        val size: Float,
+        val hold: Long
+    )
 
     private val script = listOf(
-        Line("Hello, my name is Wan", serif = false, size = 24f, hold = 1500),
-        Line("I do lots of things", serif = false, size = 24f, hold = 1200),
-        Line("For love", serif = true, size = 34f, hold = 950),
-        Line("For happiness", serif = true, size = 34f, hold = 950),
-        Line("For the world", serif = true, size = 34f, hold = 950),
-        Line("For myself", serif = true, size = 34f, hold = 2400)
+        Line("Hello, I'm Wan", "", serif = false, size = 23f, hold = 1200),
+        Line("I make small things", "with quiet hands", serif = false, size = 23f, hold = 1150),
+        Line("For love", "the quiet kind", serif = true, size = 32f, hold = 900),
+        Line("For happiness", "the kind that stays", serif = true, size = 32f, hold = 900),
+        Line("For the world", "a little softer than before", serif = true, size = 32f, hold = 900),
+        Line("For myself", "still on the way", serif = true, size = 32f, hold = 2200)
     )
 
     private var index = 0
@@ -47,9 +56,11 @@ class DeveloperIntroActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_developer_intro)
 
+        // 画是浅色的，状态栏图标要变深
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.statusBarColor = 0xFFFFFFFF.toInt()
-        window.navigationBarColor = 0xFFFFFFFF.toInt()
+        window.statusBarColor = android.graphics.Color.TRANSPARENT
+        window.navigationBarColor = android.graphics.Color.TRANSPARENT
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         WindowCompat.getInsetsController(window, window.decorView).apply {
             isAppearanceLightStatusBars = true
             isAppearanceLightNavigationBars = true
@@ -60,10 +71,12 @@ class DeveloperIntroActivity : AppCompatActivity() {
         sign = findViewById(R.id.tvIntroSign)
         hint = findViewById(R.id.tvIntroHint)
 
+        // 文字落在人物身前那片浅色留白上
+        monologue.anchorY = 0.70f   // 落在她身前的浅色衣物上，字最干净
+
         findViewById<View>(R.id.introRoot).setOnClickListener { leave() }
 
-        // 先留 800ms 纯白，让眼睛适应"空"
-        handler.postDelayed({ showNext() }, 800L)
+        handler.postDelayed({ showNext() }, 700L)
     }
 
     private fun showNext() {
@@ -73,22 +86,26 @@ class DeveloperIntroActivity : AppCompatActivity() {
         }
 
         val line = script[index++]
-        val revealMs = if (line.serif) 820L else 700L
-        monologue.show(line.text, line.serif, line.size, revealMs)
+        val revealMs = if (line.serif) 820L else 720L
+        monologue.show(line.main, line.whisper, line.serif, line.size, revealMs)
 
         handler.postDelayed({
-            monologue.hide(if (line.serif) 620L else 520L)
-            handler.postDelayed({ showNext() }, if (line.serif) 900L else 780L)
+            monologue.hide(if (line.serif) 640L else 540L)
+            handler.postDelayed({ showNext() }, if (line.serif) 880L else 760L)
         }, revealMs + line.hold)
     }
 
     /** 收尾：细线从中心生长 → 签名浮现 → 返回提示 */
     private fun finishSequence() {
-        val targetWidth = (resources.displayMetrics.density * 44).toInt()
+        val lp = rule.layoutParams as FrameLayout.LayoutParams
+        lp.gravity = Gravity.TOP or Gravity.CENTER_HORIZONTAL
+        lp.topMargin = (monologue.height * monologue.anchorY + dp(52f)).toInt()
+        rule.layoutParams = lp
 
         rule.alpha = 0f
-        rule.animate().alpha(1f).setDuration(600).start()
-        ValueAnimator.ofInt(0, targetWidth).apply {
+        rule.animate().alpha(0.55f).setDuration(600).start()
+
+        ValueAnimator.ofInt(0, dp(46f).toInt()).apply {
             duration = 900
             interpolator = DecelerateInterpolator(1.4f)
             addUpdateListener {
@@ -99,13 +116,8 @@ class DeveloperIntroActivity : AppCompatActivity() {
             start()
         }
 
-        handler.postDelayed({
-            sign.animate().alpha(0.75f).setDuration(800).start()
-        }, 620L)
-
-        handler.postDelayed({
-            hint.animate().alpha(0.45f).setDuration(900).start()
-        }, 1200L)
+        handler.postDelayed({ sign.animate().alpha(0.6f).setDuration(800).start() }, 620L)
+        handler.postDelayed({ hint.animate().alpha(0.42f).setDuration(900).start() }, 1200L)
     }
 
     private fun leave() {
@@ -118,8 +130,11 @@ class DeveloperIntroActivity : AppCompatActivity() {
             .start()
     }
 
+    private fun dp(v: Float) = v * resources.displayMetrics.density
+
     override fun onDestroy() {
         handler.removeCallbacksAndMessages(null)
         super.onDestroy()
     }
 }
+

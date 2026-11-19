@@ -1,49 +1,64 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<!-- 开发者独白：没有按钮、没有标题栏，只有一句话和白纸 -->
+<!-- 开发者独白：一张画 + 几句自言自语 -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/introRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_monologue"
+    android:background="#F4F6FA"
     android:clickable="true"
     android:focusable="true">
+
+    <ImageView
+        android:id="@+id/ivIntroBg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_wan" />
+
+    <!-- 底部柔白，文字才压得住 -->
+    <View
+        android:id="@+id/introScrim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_scrim_bottom" />
 
     <com.example.habit.MonologueView
         android:id="@+id/monologue"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!-- 收尾：一条从中心长出来的细线 -->
     <View
         android:id="@+id/introRule"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="96dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="0dp"
         android:alpha="0"
-        android:background="#D8D8DC" />
+        android:background="#66707E" />
 
     <TextView
         android:id="@+id/tvIntroSign"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="150dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="148dp"
         android:alpha="0"
-        android:letterSpacing="0.42"
+        android:letterSpacing="0.45"
         android:text="WAN"
-        android:textColor="#111111"
-        android:textSize="11sp" />
+        android:textColor="#1B1F26"
+        android:textSize="10sp" />
 
     <TextView
         android:id="@+id/tvIntroHint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="72dp"
+        android:layout_marginBottom="64dp"
         android:alpha="0"
         android:text="@string/intro_tap_back"
-        android:textColor="#111111"
+        android:textColor="#2A2E36"
         android:textSize="11sp" />
 
 </FrameLayout>
