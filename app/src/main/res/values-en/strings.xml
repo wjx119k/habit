@@ -469,7 +469,9 @@
     <string name="task_remind_title">Task reminder</string>
     <string name="task_remind_past">That time has passed, pick another</string>
     <string name="task_remind_stop">Stop ringing</string>
+    <string name="intro_tap_back">Tap anywhere to go back</string>
 </resources>
+
 
 
 

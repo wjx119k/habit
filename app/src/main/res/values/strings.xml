@@ -485,7 +485,9 @@
     <string name="task_remind_title">任务提醒</string>
     <string name="task_remind_past">这个时间已经过去了，请重新选择</string>
     <string name="task_remind_stop">停止铃声</string>
+    <string name="intro_tap_back">轻触屏幕返回</string>
 </resources>
+
 
 
 

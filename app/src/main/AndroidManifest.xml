@@ -111,6 +111,11 @@
 
         <!-- 开发者详情 -->
         <activity
+            android:name=".DeveloperIntroActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Habit" />
+
+        <activity
             android:name=".DeveloperDetailActivity"
             android:exported="false" />
 
@@ -180,5 +185,6 @@
     </application>
 
 </manifest>
+
 
 

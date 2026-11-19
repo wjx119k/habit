@@ -465,7 +465,9 @@
     <string name="task_remind_title">Напоминание о задаче</string>
     <string name="task_remind_past">Это время уже прошло, выберите другое</string>
     <string name="task_remind_stop">Остановить</string>
+    <string name="intro_tap_back">Коснитесь, чтобы вернуться</string>
 </resources>
+
 
 
 

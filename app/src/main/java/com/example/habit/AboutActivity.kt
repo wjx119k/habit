@@ -1,4 +1,4 @@
-package com.example.habit
+﻿package com.example.habit
 
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -180,6 +180,13 @@ class AboutActivity : AppCompatActivity() {
 
             // 点整张卡片进入开发者详情
             card.setOnClickListener {
+                // Wan 播放极简独白；其它开发者照旧进详情页
+                if (developer.name == "Wan") {
+                    startActivity(Intent(this, DeveloperIntroActivity::class.java))
+                    @Suppress("DEPRECATION")
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                    return@setOnClickListener
+                }
                 startActivity(
                     Intent(this, DeveloperDetailActivity::class.java).apply {
                         putExtra(DeveloperDetailActivity.EXTRA_INDEX, index)
@@ -400,3 +407,4 @@ class AboutActivity : AppCompatActivity() {
 
     private fun dp(value: Int): Int = (value * resources.displayMetrics.density).toInt()
 }
+
