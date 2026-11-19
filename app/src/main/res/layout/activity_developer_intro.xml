@@ -1,24 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<!-- 开发者独白：纯白背景，只有一句话在中间呼吸 -->
+<!-- 开发者独白：没有按钮、没有标题栏，只有一句话和白纸 -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/introRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFFFF"
+    android:background="@drawable/bg_monologue"
     android:clickable="true"
     android:focusable="true">
 
-    <TextView
-        android:id="@+id/tvIntroLine"
+    <com.example.habit.MonologueView
+        android:id="@+id/monologue"
         android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- 收尾：一条从中心长出来的细线 -->
+    <View
+        android:id="@+id/introRule"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="96dp"
+        android:alpha="0"
+        android:background="#D8D8DC" />
+
+    <TextView
+        android:id="@+id/tvIntroSign"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginTop="150dp"
         android:alpha="0"
-        android:gravity="center"
-        android:lineSpacingMultiplier="1.25"
-        android:paddingHorizontal="36dp"
+        android:letterSpacing="0.42"
+        android:text="WAN"
         android:textColor="#111111"
-        android:textSize="27sp" />
+        android:textSize="11sp" />
 
     <TextView
         android:id="@+id/tvIntroHint"
@@ -29,6 +44,6 @@
         android:alpha="0"
         android:text="@string/intro_tap_back"
         android:textColor="#111111"
-        android:textSize="12sp" />
+        android:textSize="11sp" />
 
 </FrameLayout>

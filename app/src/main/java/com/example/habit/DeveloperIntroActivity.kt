@@ -1,10 +1,12 @@
-﻿package com.example.habit
+package com.example.habit
 
+import android.animation.ValueAnimator
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.view.WindowManager
+import android.view.animation.DecelerateInterpolator
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
@@ -12,40 +14,39 @@ import androidx.core.view.WindowCompat
 /**
  * 点「Wan」后播放的极简独白。
  *
- * 设计思路：
- *   · 纯白背景、无标题栏、无按钮 —— 只有一个句子在屏幕中央呼吸
- *   · 节奏"慢、短、留白"：每句停留 1.1~1.6 秒，中间有 0.35 秒的空白，
- *     留白比文字更重要，屏幕才不吵
- *   · 前两句用系统无衬线细体（陈述事实），
- *     "For xxx" 四句换成衬线斜体（情绪），靠字形完成"从自我介绍到告白"的转折
- *   · 最后一句停留最久，然后才浮出"轻触屏幕返回"
+ * 设计逻辑（按"语气"分层）：
+ *   · 前两句是陈述：细体、小字、从中心揭开
+ *   · 后四句是告白：衬线斜体、大字、节奏逐渐放缓
+ *   · 句与句之间留白约 0.3 秒，最后一句停 2.4 秒
+ *   · 收尾不是"结束"，而是一条细线从中心长出来 + 一个极小的 WAN 签名
+ *
+ * 全程不出现按钮、颜色、图标——只有黑与白。
  */
 class DeveloperIntroActivity : AppCompatActivity() {
 
-    private lateinit var tvLine: TextView
-    private lateinit var tvHint: TextView
+    private lateinit var monologue: MonologueView
+    private lateinit var rule: View
+    private lateinit var sign: TextView
+    private lateinit var hint: TextView
     private val handler = Handler(Looper.getMainLooper())
 
-    /** 一句台词：文字、是否用衬线体、停留时长 */
-    private data class Line(val text: String, val serif: Boolean, val hold: Int)
+    private data class Line(val text: String, val serif: Boolean, val size: Float, val hold: Long)
 
     private val script = listOf(
-        Line("Hello, my name is Wan", serif = false, hold = 1700),
-        Line("I do lots of things", serif = false, hold = 1400),
-        Line("For love", serif = true, hold = 1100),
-        Line("For happiness", serif = true, hold = 1100),
-        Line("For the world", serif = true, hold = 1100),
-        Line("For myself", serif = true, hold = 2600)
+        Line("Hello, my name is Wan", serif = false, size = 24f, hold = 1500),
+        Line("I do lots of things", serif = false, size = 24f, hold = 1200),
+        Line("For love", serif = true, size = 34f, hold = 950),
+        Line("For happiness", serif = true, size = 34f, hold = 950),
+        Line("For the world", serif = true, size = 34f, hold = 950),
+        Line("For myself", serif = true, size = 34f, hold = 2400)
     )
 
     private var index = 0
-    private var finished = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_developer_intro)
 
-        // 白底 + 浅色状态栏图标，才像"系统画面"
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = 0xFFFFFFFF.toInt()
         window.navigationBarColor = 0xFFFFFFFF.toInt()
@@ -54,17 +55,17 @@ class DeveloperIntroActivity : AppCompatActivity() {
             isAppearanceLightNavigationBars = true
         }
 
-        tvLine = findViewById(R.id.tvIntroLine)
-        tvHint = findViewById(R.id.tvIntroHint)
+        monologue = findViewById(R.id.monologue)
+        rule = findViewById(R.id.introRule)
+        sign = findViewById(R.id.tvIntroSign)
+        hint = findViewById(R.id.tvIntroHint)
 
-        // 整屏点击返回
         findViewById<View>(R.id.introRoot).setOnClickListener { leave() }
 
-        // 先留 900ms 的纯白，再开始说话
-        handler.postDelayed({ showNext() }, 900L)
+        // 先留 800ms 纯白，让眼睛适应"空"
+        handler.postDelayed({ showNext() }, 800L)
     }
 
-    /** 播下一句：淡入 → 停留 → 淡出 → 下一句 */
     private fun showNext() {
         if (index >= script.size) {
             finishSequence()
@@ -72,44 +73,39 @@ class DeveloperIntroActivity : AppCompatActivity() {
         }
 
         val line = script[index++]
-        tvLine.typeface = if (line.serif) {
-            android.graphics.Typeface.create("serif", android.graphics.Typeface.ITALIC)
-        } else {
-            android.graphics.Typeface.create("sans-serif-light", android.graphics.Typeface.NORMAL)
-        }
-        // 字号随"语气"变化：自我介绍小而克制，"For xxx" 更大、更像告白
-        tvLine.textSize = if (line.serif) 32f else 24f
-        tvLine.text = line.text
-        tvLine.alpha = 0f
-        tvLine.translationY = 8f
-        tvLine.letterSpacing = if (line.serif) 0.04f else 0.01f
-
-        val fadeIn = 700L
-        val fadeOut = 620L
-        val gap = 320L
-
-        tvLine.animate()
-            .alpha(1f)
-            .translationY(0f)
-            .setDuration(fadeIn)
-            .start()
+        val revealMs = if (line.serif) 820L else 700L
+        monologue.show(line.text, line.serif, line.size, revealMs)
 
         handler.postDelayed({
-            tvLine.animate()
-                .alpha(0f)
-                .translationY(-8f)
-                .setDuration(fadeOut)
-                .withEndAction {
-                    handler.postDelayed({ showNext() }, gap)
-                }
-                .start()
-        }, fadeIn + line.hold)
+            monologue.hide(if (line.serif) 620L else 520L)
+            handler.postDelayed({ showNext() }, if (line.serif) 900L else 780L)
+        }, revealMs + line.hold)
     }
 
-    /** 全部说完：浮出返回提示 */
+    /** 收尾：细线从中心生长 → 签名浮现 → 返回提示 */
     private fun finishSequence() {
-        finished = true
-        tvHint.animate().alpha(0.55f).setDuration(700).start()
+        val targetWidth = (resources.displayMetrics.density * 44).toInt()
+
+        rule.alpha = 0f
+        rule.animate().alpha(1f).setDuration(600).start()
+        ValueAnimator.ofInt(0, targetWidth).apply {
+            duration = 900
+            interpolator = DecelerateInterpolator(1.4f)
+            addUpdateListener {
+                val w = it.animatedValue as Int
+                rule.layoutParams.width = w
+                rule.requestLayout()
+            }
+            start()
+        }
+
+        handler.postDelayed({
+            sign.animate().alpha(0.75f).setDuration(800).start()
+        }, 620L)
+
+        handler.postDelayed({
+            hint.animate().alpha(0.45f).setDuration(900).start()
+        }, 1200L)
     }
 
     private fun leave() {
@@ -117,7 +113,7 @@ class DeveloperIntroActivity : AppCompatActivity() {
         handler.removeCallbacksAndMessages(null)
         findViewById<View>(R.id.introRoot).animate()
             .alpha(0f)
-            .setDuration(280)
+            .setDuration(320)
             .withEndAction { finish() }
             .start()
     }
@@ -127,4 +123,3 @@ class DeveloperIntroActivity : AppCompatActivity() {
         super.onDestroy()
     }
 }
-
