@@ -58,6 +58,9 @@ class MonologueView @JvmOverloads constructor(
     private var touchY = -1f
     private var touchGlowAlpha = 0f
 
+    /** 第一个词的闪烁亮度（0~1）：先像灯管一样闪几下，再定住 */
+    private var firstWordPulse = 0f
+
     private var mainText = ""
     private var whisperText = ""
     private var reveal = 0f
@@ -108,7 +111,21 @@ class MonologueView @JvmOverloads constructor(
         whisperAnimator?.cancel()
         whisperAlpha = 0f
 
+        // 先让第一个词闪三下（约 320ms），其余句子随后才展开
+        firstWordPulse = 0f
+        ValueAnimator.ofFloat(0f, 1f).apply {
+            duration = 340
+            addUpdateListener {
+                val q = it.animatedValue as Float
+                // |sin| 制造三次明暗，末尾自然回到 1
+                firstWordPulse = (kotlin.math.abs(kotlin.math.sin((q * Math.PI * 3.0).toFloat())) * 0.85f + 0.15f).toFloat()
+                invalidate()
+            }
+            start()
+        }
+
         animator = ValueAnimator.ofFloat(0f, 1f).apply {
+            startDelay = 300
             duration = revealMs
             interpolator = DecelerateInterpolator(1.6f)
             addUpdateListener {
@@ -250,7 +267,9 @@ class MonologueView @JvmOverloads constructor(
             val local = ((reveal * (1f + 0.18f * words.size)) - 0.18f * i).coerceIn(0f, 1f)
             if (local <= 0f) { x += widths[i] + spaceWidth; return@forEachIndexed }
 
-            mainPaint.alpha = (local * 255).toInt().coerceIn(0, 255)
+            // 第一个词：闪烁的亮度可以盖过揭示进度，像灯管"打了两下"才亮稳
+            val effAlpha = if (i == 0) kotlin.math.max(local, firstWordPulse * (1f - reveal)) else local
+            mainPaint.alpha = (effAlpha * 255).toInt().coerceIn(0, 255)
             mainPaint.textAlign = Paint.Align.LEFT
             val wordRise = (1f - local) * dp(5f) + rise
             canvas.drawText(word, x, baseY + wordRise, mainPaint)
@@ -282,5 +301,7 @@ class MonologueView @JvmOverloads constructor(
         super.onDetachedFromWindow()
     }
 }
+
+
 
 
