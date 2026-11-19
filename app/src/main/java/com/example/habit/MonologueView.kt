@@ -111,21 +111,19 @@ class MonologueView @JvmOverloads constructor(
         whisperAnimator?.cancel()
         whisperAlpha = 0f
 
-        // 先让第一个词闪三下（约 320ms），其余句子随后才展开
+        // 第一个词先"哒、哒、哒"闪三下（约 700ms），亮度从暗到亮，最后定住
         firstWordPulse = 0f
-        ValueAnimator.ofFloat(0f, 1f).apply {
-            duration = 340
+        ValueAnimator.ofFloat(0f, 0.92f, 0.05f, 0.95f, 0.08f, 1f, 1f).apply {
+            duration = 700
             addUpdateListener {
-                val q = it.animatedValue as Float
-                // |sin| 制造三次明暗，末尾自然回到 1
-                firstWordPulse = (kotlin.math.abs(kotlin.math.sin((q * Math.PI * 3.0).toFloat())) * 0.85f + 0.15f).toFloat()
+                firstWordPulse = it.animatedValue as Float
                 invalidate()
             }
             start()
         }
 
         animator = ValueAnimator.ofFloat(0f, 1f).apply {
-            startDelay = 300
+            startDelay = 620
             duration = revealMs
             interpolator = DecelerateInterpolator(1.6f)
             addUpdateListener {
@@ -201,7 +199,7 @@ class MonologueView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         drawDust(canvas)
-        if (mainText.isEmpty() || alphaValue <= 0.01f) return
+        if (mainText.isEmpty() || (alphaValue <= 0.01f && firstWordPulse <= 0.01f)) return
 
         val cx = width / 2f
         val baseY = height * anchorY - (mainPaint.descent() + mainPaint.ascent()) / 2f + rise
@@ -265,10 +263,16 @@ class MonologueView @JvmOverloads constructor(
         words.forEachIndexed { i, word ->
             // 每个词比前一个晚 18% 的进度
             val local = ((reveal * (1f + 0.18f * words.size)) - 0.18f * i).coerceIn(0f, 1f)
-            if (local <= 0f) { x += widths[i] + spaceWidth; return@forEachIndexed }
 
-            // 第一个词：闪烁的亮度可以盖过揭示进度，像灯管"打了两下"才亮稳
-            val effAlpha = if (i == 0) kotlin.math.max(local, firstWordPulse * (1f - reveal)) else local
+            // 第一个词：先单独闪烁几下，再跟着整句走
+            val effAlpha = if (i == 0) {
+                kotlin.math.max(local, if (reveal < 1f) firstWordPulse * (1f - reveal) else 0f)
+            } else {
+                local
+            }
+
+            if (effAlpha <= 0.01f) { x += widths[i] + spaceWidth; return@forEachIndexed }
+
             mainPaint.alpha = (effAlpha * 255).toInt().coerceIn(0, 255)
             mainPaint.textAlign = Paint.Align.LEFT
             val wordRise = (1f - local) * dp(5f) + rise
@@ -301,6 +305,8 @@ class MonologueView @JvmOverloads constructor(
         super.onDetachedFromWindow()
     }
 }
+
+
 
 
 
