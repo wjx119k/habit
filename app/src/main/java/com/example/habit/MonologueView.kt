@@ -117,11 +117,11 @@ class MonologueView @JvmOverloads constructor(
         if (flicker) {
             firstWordPulse = 0f
             // 一边渐显、一边闪烁：整体亮度在往上爬，中途明暗交替三次
-            // 先快速渐显到全亮（约 0.25 秒），再在原地闪 5 次，最后定格
+            // 慢慢渐显（约 1 秒），再轻轻闪两次，最后定格——频率比之前低
             ValueAnimator.ofFloat(
-                0f, 1f, 0.35f, 0.95f, 0.4f, 1f, 0.45f, 1f, 0.5f, 1f, 0.6f, 1f
+                0f, 0.35f, 0.7f, 1f, 0.45f, 1f, 0.5f, 1f, 1f
             ).apply {
-                duration = 2600
+                duration = 2400
                 addUpdateListener {
                     firstWordPulse = it.animatedValue as Float
                     invalidate()
@@ -133,7 +133,7 @@ class MonologueView @JvmOverloads constructor(
         }
 
         animator = ValueAnimator.ofFloat(0f, 1f).apply {
-            startDelay = if (flicker) 2550L else 0L
+            startDelay = if (flicker) 2350L else 0L
             duration = revealMs
             interpolator = DecelerateInterpolator(1.6f)
             addUpdateListener {
@@ -324,6 +324,7 @@ class MonologueView @JvmOverloads constructor(
         super.onDetachedFromWindow()
     }
 }
+
 
 
 

@@ -142,8 +142,8 @@ class DeveloperIntroActivity : AppCompatActivity() {
             .setInterpolator(android.view.animation.LinearInterpolator())
             .start()
 
-        // 进来立刻开始：不再等 0.7 秒的空白
-        showNext()
+        // 进来先留半秒空白（让人先看见画面），再开始说话
+        handler.postDelayed({ showNext() }, 520L)
     }
 
     private fun showNext() {
@@ -220,6 +220,7 @@ class DeveloperIntroActivity : AppCompatActivity() {
         super.onDestroy()
     }
 }
+
 
 
 
