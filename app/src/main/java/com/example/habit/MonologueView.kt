@@ -139,7 +139,8 @@ class MonologueView @JvmOverloads constructor(
                 val p = it.animatedValue as Float
                 reveal = p
                 alphaValue = (p * 1.35f).coerceAtMost(1f)
-                rise = (1f - p) * dp(6f)
+                // 闪烁句（Hello）只做渐显，不做"从下往上滑"的位移
+                rise = if (flickerActive) 0f else (1f - p) * dp(6f)
                 invalidate()
             }
             start()
@@ -284,7 +285,7 @@ class MonologueView @JvmOverloads constructor(
 
             mainPaint.alpha = (effAlpha * 255).toInt().coerceIn(0, 255)
             mainPaint.textAlign = Paint.Align.LEFT
-            val wordRise = (1f - local) * dp(5f) + rise
+            val wordRise = if (flickerActive) 0f else (1f - local) * dp(5f) + rise
             canvas.drawText(word, x, baseY + wordRise, mainPaint)
             x += widths[i] + spaceWidth
         }
@@ -314,6 +315,7 @@ class MonologueView @JvmOverloads constructor(
         super.onDetachedFromWindow()
     }
 }
+
 
 
 
