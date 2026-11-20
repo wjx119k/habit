@@ -117,9 +117,10 @@ class MonologueView @JvmOverloads constructor(
         if (flicker) {
             firstWordPulse = 0f
             // 一边渐显、一边闪烁：整体亮度在往上爬，中途明暗交替三次
-            // 慢慢渐显（约 1 秒），再轻轻闪两次，最后定格——频率比之前低
+            // 亮度变化全部用同一个慢节拍：每 0.3 秒一步
+            // 0 → 1 用 4 步（1.2 秒渐显），之后两次明暗也各占两步，节奏完全一致
             ValueAnimator.ofFloat(
-                0f, 0.35f, 0.7f, 1f, 0.45f, 1f, 0.5f, 1f, 1f
+                0f, 0.25f, 0.5f, 0.75f, 1f, 0.55f, 1f, 0.6f, 1f
             ).apply {
                 duration = 2400
                 addUpdateListener {
@@ -324,6 +325,7 @@ class MonologueView @JvmOverloads constructor(
         super.onDetachedFromWindow()
     }
 }
+
 
 
 
