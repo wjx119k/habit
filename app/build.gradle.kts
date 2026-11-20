@@ -1,4 +1,4 @@
-plugins {
+﻿plugins {
     alias(libs.plugins.android.application)
 }
 
@@ -12,8 +12,8 @@ android {
         applicationId = "com.example.habit"
         minSdk = 24
         targetSdk = 37
-        versionCode = 2
-        versionName = "beta1.1"
+        versionCode = 3
+        versionName = "1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
