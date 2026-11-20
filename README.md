@@ -14,6 +14,8 @@
 ![Version](https://img.shields.io/badge/version-1.1-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
+**简体中文** · [繁體中文](README.zh-TW.md) · [English](README.en.md) · [日本語](README.ja.md) · [Русский](README.ru.md)
+
 </div>
 
 ---
@@ -240,5 +242,6 @@ keytool -genkeypair -v -keystore habit-release.jks \
 <div align="center">
 <sub>© 2026 Wan · Habit</sub>
 </div>
+
 
 
