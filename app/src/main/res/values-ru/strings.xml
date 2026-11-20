@@ -469,7 +469,13 @@
     <string name="task_due_none">Срок: нет</string>
     <string name="task_due_set">Срок: %1$s</string>
     <string name="task_due_overdue">Просрочено</string>
+    <string name="auto_urgent_title">Авто-срочность</string>
+    <string name="auto_urgent_subtitle">Срок в пределах N дней = срочно</string>
+    <string name="auto_urgent_unit">дн.</string>
+    <string name="auto_urgent_off">Выкл</string>
+    <string name="auto_urgent_desc">Задачи со сроком менее %1$d дн. считаются срочными</string>
 </resources>
+
 
 
 

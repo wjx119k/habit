@@ -489,7 +489,13 @@
     <string name="task_due_none">截止日期：不设置</string>
     <string name="task_due_set">截止日期：%1$s</string>
     <string name="task_due_overdue">已逾期</string>
+    <string name="auto_urgent_title">自动紧急</string>
+    <string name="auto_urgent_subtitle">截止前 N 天内视为紧急</string>
+    <string name="auto_urgent_unit">天</string>
+    <string name="auto_urgent_off">关闭（不自动判定）</string>
+    <string name="auto_urgent_desc">距离截止不足 %1$d 天时，自动标记为紧急</string>
 </resources>
+
 
 
 

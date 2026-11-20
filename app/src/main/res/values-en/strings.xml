@@ -473,7 +473,13 @@
     <string name="task_due_none">Due: none</string>
     <string name="task_due_set">Due: %1$s</string>
     <string name="task_due_overdue">Overdue</string>
+    <string name="auto_urgent_title">Auto-urgent</string>
+    <string name="auto_urgent_subtitle">Due within N days counts as urgent</string>
+    <string name="auto_urgent_unit">days</string>
+    <string name="auto_urgent_off">Off</string>
+    <string name="auto_urgent_desc">Tasks due within %1$d day(s) are marked urgent automatically</string>
 </resources>
+
 
 
 

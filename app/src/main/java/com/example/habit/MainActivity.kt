@@ -1009,9 +1009,8 @@ private fun renderTempTasks() {
         val countView = findViewById<TextView>(R.id.tvTempCount)
         val undone = tempTasks.count { !it.done }
         // 收起时也能一眼看到"还有几件急事"：紧急未完成 > 0 就加 🔥 并变红
-        val urgentUndone = tempTasks.count {
-            !it.done && (it.quadrant == "do" || it.quadrant == "delegate")
-        }
+        // 紧急判定统一走 AutoUrgent：象限紧急 + 临近截止（天数可在设置里调）
+        val urgentUndone = tempTasks.count { AutoUrgent.isUrgent(this, it) }
         countView.text = if (tempTasks.isEmpty()) {
             ""
         } else if (urgentUndone > 0) {
@@ -1063,7 +1062,10 @@ private fun renderTempTasks() {
                 dueView.visibility = View.GONE
             }
 
-            title.text = task.title
+            // 原本不紧急、但因临近截止被自动判为紧急时，标题后加一个 🔥
+            val autoUrgent = !task.done && AutoUrgent.isUrgent(this, task) &&
+                task.quadrant != "do" && task.quadrant != "delegate"
+            title.text = if (autoUrgent) task.title + "  🔥" else task.title
             points.text = "+" + Points.format(task.points)
 
             // 紧急 / 重要 属性（来自艾森豪威尔象限）
@@ -1370,6 +1372,7 @@ private fun renderTempTasks() {
         super.onDestroy()
     }
 }
+
 
 
 

@@ -469,7 +469,13 @@
     <string name="task_due_none">期限：なし</string>
     <string name="task_due_set">期限：%1$s</string>
     <string name="task_due_overdue">期限切れ</string>
+    <string name="auto_urgent_title">自動的に緊急</string>
+    <string name="auto_urgent_subtitle">期限まで N 日以内は緊急扱い</string>
+    <string name="auto_urgent_unit">日</string>
+    <string name="auto_urgent_off">オフ</string>
+    <string name="auto_urgent_desc">期限まで %1$d 日を切ると自動で緊急にします</string>
 </resources>
+
 
 
 

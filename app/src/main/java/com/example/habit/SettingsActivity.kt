@@ -39,6 +39,9 @@ class SettingsActivity : AppCompatActivity() {
             @Suppress("DEPRECATION")
             overridePendingTransition(R.anim.slide_in_right, android.R.anim.fade_out)
         }
+        bindRow(R.id.rowAutoUrgent, R.drawable.ic_clock, R.string.auto_urgent_title, R.string.auto_urgent_subtitle) {
+            showAutoUrgentDialog()
+        }
         bindRow(R.id.rowNotifications, R.drawable.ic_notification, R.string.settings_notifications, R.string.settings_notifications_desc) {
             // 直接跳到系统的本应用通知设置：横幅、铃声、免打扰例外都在那里开
             if (!openSystemNotificationSettings()) {
@@ -81,6 +84,32 @@ class SettingsActivity : AppCompatActivity() {
             )
         }.isSuccess
     }
+    /** 自动紧急：选天数，0 = 关闭 */
+    private fun showAutoUrgentDialog() {
+        val options = (0..AutoUrgent.MAX_DAYS).map {
+            if (it == 0) getString(R.string.auto_urgent_off)
+            else it.toString() + " " + getString(R.string.auto_urgent_unit)
+        }.toTypedArray()
+
+        com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.auto_urgent_title)
+            .setSingleChoiceItems(options, AutoUrgent.days(this)) { dialog, which ->
+                AutoUrgent.setDays(this, which)
+                dialog.dismiss()
+                refreshAutoUrgentSubtitle()
+            }
+            .setNegativeButton(R.string.action_cancel, null)
+            .show()
+    }
+
+    /** 把当前设置写回那一行的小字 */
+    private fun refreshAutoUrgentSubtitle() {
+        val days = AutoUrgent.days(this)
+        findViewById<TextView>(R.id.rowAutoUrgent)
+            .findViewById<TextView>(R.id.tvRowSubtitle)
+            .text = if (days == 0) getString(R.string.auto_urgent_subtitle)
+            else getString(R.string.auto_urgent_desc, days)
+    }
     private fun bindRow(rowId: Int, iconRes: Int, titleRes: Int, subtitleRes: Int, onClick: () -> Unit) {
         val row = findViewById<View>(rowId)
         row.findViewById<ImageView>(R.id.ivRowIcon).setImageResource(iconRes)
@@ -89,4 +118,5 @@ class SettingsActivity : AppCompatActivity() {
         row.setOnClickListener { onClick() }
     }
 }
+
 
