@@ -11,7 +11,7 @@
 ![Android](https://img.shields.io/badge/Android-7.0%2B-3DDC84?logo=android&logoColor=white)
 ![Kotlin](https://img.shields.io/badge/Kotlin-2.x-7F52FF?logo=kotlin&logoColor=white)
 ![Material 3](https://img.shields.io/badge/Material-3-757575?logo=materialdesign&logoColor=white)
-![Version](https://img.shields.io/badge/version-beta1.0-blue)
+![Version](https://img.shields.io/badge/version-1.1-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 </div>
@@ -27,7 +27,7 @@ Habit 把「坚持」变成看得见的数字：
 - **每完成一次，加分**；每违背一次，减分
 - 攒下的积分能**兑换成自己定的小奖励**（看一集剧、一杯奶茶、睡个懒觉）
 - 连续坚持会解锁**成就**，也会被记录成**连续天数**
-- 数据全部存在你手机本地，**不联网、不注册、不上传**
+- 习惯数据全部存在你手机本地；登录只用于身份与反馈，**不做云端同步**
 
 ---
 
@@ -57,6 +57,27 @@ Habit 把「坚持」变成看得见的数字：
 | 自律大神 | 所有计划累计连续加分 5000 次 |
 
 解锁后永久保留，也可以一键清空重新挑战。
+
+### 工具页
+
+- **番茄钟**：25 分钟专注 + 5 分钟休息，到点走系统闹钟（闹钟铃声），离开页面再回来接着计时
+- **记忆卡片**：自定义问答卡片，翻牌复习
+- **艾森豪威尔法则**：重要 / 紧急四象限，与临时任务共用一套数据
+
+### 临时任务
+
+- 一次性任务：做完自动划掉并加分
+- 可设 **截止日期**（逾期标红）与 **提醒时间**（系统闹钟，通知带「停止铃声」）
+- 按截止日期排序，快到期的靠前
+- **自动紧急**：设置里可选 N 天，临近截止的非紧急任务会自动改写象限（可回退）
+- 列表可折叠，收起时显示 `🔥 紧急数 / 未完成数`
+
+### 账号与反馈（可选）
+
+- 用 Supabase 做身份验证；用户名自动映射为 `用户名@habit.local`
+- 登录后可**在应用内直接给作者发反馈**（不需要邮箱）
+- 登录前有**滑块人机验证**
+- **不做云端数据同步**：数据只在本机，可用「设置 → 数据与备份」导出 JSON
 
 ### 其他
 
@@ -108,9 +129,9 @@ Habit 把「坚持」变成看得见的数字：
 | 构建 | Gradle 9 + AGP 9（内置 Kotlin 支持） |
 | UI | XML 布局 + Material 3（不使用 Compose） |
 | 目标 | minSdk 24 / targetSdk 37 / compileSdk 37 |
-| 存储 | SharedPreferences + org.json（无数据库、无网络） |
+| 存储 | SharedPreferences + org.json（无数据库）；账号与反馈走 Supabase REST |
 | 动画 | View 动画 + 自定义 View `onDraw` |
-| 依赖 | 仅 AndroidX + Material（无第三方库） |
+| 依赖 | AndroidX + Material（无第三方 SDK，网络层用原生 HttpURLConnection） |
 
 ---
 
@@ -140,6 +161,18 @@ Habit/
 │   │   ├── AboutActivity.kt          关于页
 │   │   ├── Developer.kt              开发者数据
 │   │   ├── DeveloperDetailActivity.kt 开发者详情
+│   │   ├── DeveloperIntroActivity.kt 开发者独白（插画 + 诗意文本）
+│   │   ├── MonologueView.kt          独白画面的自绘 View
+│   │   ├── TempTask.kt               临时任务模型与存储
+│   │   ├── TempTaskAlarm.kt          临时任务提醒（系统闹钟）
+│   │   ├── AutoUrgent.kt             自动紧急（改写象限）
+│   │   ├── EisenhowerActivity.kt     艾森豪威尔四象限
+│   │   ├── PomodoroActivity.kt       番茄钟
+│   │   ├── FlashcardsActivity.kt     记忆卡片
+│   │   ├── FeedbackActivity.kt       应用内反馈
+│   │   ├── FeedbackSender.kt         反馈提交
+│   │   ├── SupabaseAuth.kt           账号（Supabase 身份验证）
+│   │   ├── PointsChartView.kt        历史曲线（手绘 + 手势）
 │   │   └── LegalActivity.kt          用户协议 / 隐私政策 / 开源许可
 │   └── res/
 │       ├── layout/                   25 个布局
@@ -183,9 +216,9 @@ keytool -genkeypair -v -keystore habit-release.jks \
 
 ## 说明
 
-- 应用**不申请任何敏感权限**，不联网，不收集任何个人信息
+- 不读取通讯录、相册、位置；无广告、无埋点统计。仅使用网络权限登录与提交反馈
 - 卸载应用或清除数据会永久删除所有记录，请自行留意
-- 本项目在真机（荣耀 Magic8 Pro / Android 17）上完成全部功能验证
+- 本项目在真机（荣耀 BKQ-AN10 / Android 17）上完成全部功能验证
 
 ---
 
@@ -207,3 +240,5 @@ keytool -genkeypair -v -keystore habit-release.jks \
 <div align="center">
 <sub>© 2026 Wan · Habit</sub>
 </div>
+
+
