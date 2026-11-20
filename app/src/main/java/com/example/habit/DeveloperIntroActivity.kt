@@ -43,7 +43,7 @@ class DeveloperIntroActivity : AppCompatActivity() {
     )
 
     private val script = listOf(
-        Line("Hello", "", serif = false, size = 28f, hold = 950, flicker = true),
+        Line("Hello", "", serif = false, size = 28f, hold = 2400, flicker = true),
         Line("I'm Wan", "", serif = false, size = 26f, hold = 1100),
         Line("I make small things", "with quiet hands", serif = false, size = 23f, hold = 1150),
         Line("For love", "the quiet kind", serif = true, size = 32f, hold = 900),
@@ -219,6 +219,7 @@ class DeveloperIntroActivity : AppCompatActivity() {
         super.onDestroy()
     }
 }
+
 
 
 
