@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!--
-  个人主页（全屏）。
-  目前是"未登录"状态：大图标 + 应用名 + 积分 + 登录按钮。
+  涓汉涓婚〉锛堝叏灞忥級銆?
+  鐩墠鏄?鏈櫥褰?鐘舵€侊細澶у浘鏍?+ 搴旂敤鍚?+ 绉垎 + 鐧诲綍鎸夐挳銆?
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -11,7 +11,7 @@
     android:background="?android:attr/colorBackground"
     android:orientation="vertical">
 
-    <!-- 顶栏：返回 + 标题 -->
+    <!-- 椤舵爮锛氳繑鍥?+ 鏍囬 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
             android:paddingTop="24dp"
             android:paddingBottom="32dp">
 
-            <!-- 用户头像（圆形容器 + 人形图标） -->
+            <!-- 鐢ㄦ埛澶村儚锛堝渾褰㈠鍣?+ 浜哄舰鍥炬爣锛?-->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="96dp"
                 android:layout_height="96dp"
@@ -75,7 +75,7 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- 用户名 -->
+            <!-- 鐢ㄦ埛鍚?-->
             <TextView
                 android:id="@+id/tvProfileName"
                 android:layout_width="wrap_content"
@@ -85,7 +85,7 @@
                 android:textAppearance="?attr/textAppearanceHeadlineSmall"
                 android:textColor="?attr/colorOnSurface" />
 
-            <!-- 积分卡 -->
+            <!-- 本周小结：完成 / 违背 / 净变化 -->
             <com.google.android.material.card.MaterialCardView
                 style="@style/Widget.Material3.CardView.Filled"
                 android:layout_width="match_parent"
@@ -96,28 +96,99 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:orientation="vertical"
-                    android:paddingVertical="22dp">
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="18dp">
 
                     <TextView
+                        android:id="@+id/tvWeekTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/profile_points_label"
+                        android:text="@string/profile_week_title"
                         android:textAppearance="?attr/textAppearanceLabelLarge"
                         android:textColor="?attr/colorOnSurfaceVariant" />
 
-                    <TextView
-                        android:id="@+id/tvProfilePoints"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="0"
-                        android:textAppearance="?attr/textAppearanceDisplaySmall"
-                        android:textColor="?attr/colorPrimary" />
+                        android:layout_marginTop="12dp"
+                        android:baselineAligned="false"
+                        android:orientation="horizontal">
 
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvWeekPlus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textAppearance="?attr/textAppearanceHeadlineSmall"
+                                android:textColor="?attr/colorPrimary" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="@string/profile_week_done"
+                                android:textAppearance="?attr/textAppearanceLabelSmall"
+                                android:textColor="?attr/colorOnSurfaceVariant" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvWeekMinus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textAppearance="?attr/textAppearanceHeadlineSmall"
+                                android:textColor="?attr/colorError" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="@string/profile_week_missed"
+                                android:textAppearance="?attr/textAppearanceLabelSmall"
+                                android:textColor="?attr/colorOnSurfaceVariant" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvWeekStreak"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textAppearance="?attr/textAppearanceHeadlineSmall"
+                                android:textColor="?attr/colorOnSurface" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="@string/profile_week_streak"
+                                android:textAppearance="?attr/textAppearanceLabelSmall"
+                                android:textColor="?attr/colorOnSurfaceVariant" />
+                        </LinearLayout>
+
+                    </LinearLayout>
                 </LinearLayout>
-
             </com.google.android.material.card.MaterialCardView>
 
             <TextView

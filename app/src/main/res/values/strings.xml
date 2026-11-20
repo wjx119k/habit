@@ -494,7 +494,12 @@
     <string name="auto_urgent_unit">天</string>
     <string name="auto_urgent_off">关闭（不自动判定）</string>
     <string name="auto_urgent_desc">距离截止不足 %1$d 天时，自动标记为紧急</string>
+    <string name="profile_week_title">本周小结</string>
+    <string name="profile_week_done">完成</string>
+    <string name="profile_week_missed">违背</string>
+    <string name="profile_week_streak">连续</string>
 </resources>
+
 
 
 

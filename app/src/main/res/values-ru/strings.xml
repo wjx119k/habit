@@ -474,7 +474,12 @@
     <string name="auto_urgent_unit">дн.</string>
     <string name="auto_urgent_off">Выкл</string>
     <string name="auto_urgent_desc">Задачи со сроком менее %1$d дн. считаются срочными</string>
+    <string name="profile_week_title">На этой неделе</string>
+    <string name="profile_week_done">Сделано</string>
+    <string name="profile_week_missed">Пропущено</string>
+    <string name="profile_week_streak">Серия</string>
 </resources>
+
 
 
 

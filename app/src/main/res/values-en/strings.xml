@@ -478,7 +478,12 @@
     <string name="auto_urgent_unit">days</string>
     <string name="auto_urgent_off">Off</string>
     <string name="auto_urgent_desc">Tasks due within %1$d day(s) are marked urgent automatically</string>
+    <string name="profile_week_title">This week</string>
+    <string name="profile_week_done">Done</string>
+    <string name="profile_week_missed">Missed</string>
+    <string name="profile_week_streak">Streak</string>
 </resources>
+
 
 
 
