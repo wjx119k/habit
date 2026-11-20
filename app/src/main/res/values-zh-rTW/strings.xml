@@ -478,7 +478,12 @@
     <string name="profile_week_done">完成</string>
     <string name="profile_week_missed">違背</string>
     <string name="profile_week_streak">連續</string>
+    <string name="settings_section_appearance">外觀</string>
+    <string name="settings_section_plugins">外掛</string>
+    <string name="settings_plugins_desc">外掛功能暫未開發，之後會支援自訂模組</string>
+    <string name="settings_plugins">外掛（暫未開發）</string>
 </resources>
+
 
 
 

@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- 应用设置：语言 / 界面（「隐藏图标」功能已移除） -->
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- 搴旂敤璁剧疆锛氳瑷€ / 鐣岄潰锛堛€岄殣钘忓浘鏍囥€嶅姛鑳藉凡绉婚櫎锛?-->
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/appSettingsRoot"
@@ -43,7 +43,16 @@
 
         </LinearLayout>
 
-        <!-- 语言 -->
+        <!-- 璇█ -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="6dp"
+            android:text="@string/settings_section_appearance"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
+            android:textColor="?attr/colorOnSurfaceVariant" />
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardLanguage"
             style="@style/Widget.Material3.CardView.Filled"
@@ -100,7 +109,7 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- 界面（浅色/深色/跟随系统） -->
+        <!-- 鐣岄潰锛堟祬鑹?娣辫壊/璺熼殢绯荤粺锛?-->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardTheme"
             style="@style/Widget.Material3.CardView.Filled"
@@ -155,6 +164,65 @@
 
             </LinearLayout>
 
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="22dp"
+            android:text="@string/settings_section_plugins"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
+            android:textColor="?attr/colorOnSurfaceVariant" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardPlugins"
+            style="@style/Widget.Material3.CardView.Filled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:cardCornerRadius="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="18dp"
+                android:paddingVertical="18dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:alpha="0.5"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_settings"
+                    app:tint="?attr/colorOnSurfaceVariant" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_plugins"
+                        android:textAppearance="?attr/textAppearanceBodyLarge"
+                        android:textColor="?attr/colorOnSurface" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="@string/settings_plugins_desc"
+                        android:textAppearance="?attr/textAppearanceBodySmall"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+                </LinearLayout>
+
+            </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>

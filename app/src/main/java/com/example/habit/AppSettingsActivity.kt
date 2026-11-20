@@ -1,4 +1,4 @@
-package com.example.habit
+﻿package com.example.habit
 
 import android.os.Bundle
 import android.view.View
@@ -54,6 +54,15 @@ class AppSettingsActivity : AppCompatActivity() {
 
         findViewById<View>(R.id.cardLanguage).setOnClickListener { showLanguageDialog() }
         findViewById<View>(R.id.cardTheme).setOnClickListener { showThemeDialog() }
+
+        // 插件：暂未开发，点击给出明确说明，不做假按钮
+        findViewById<View>(R.id.cardPlugins).setOnClickListener {
+            MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.settings_plugins)
+                .setMessage(R.string.settings_plugins_desc)
+                .setPositiveButton(R.string.action_confirm, null)
+                .show()
+        }
 
         refreshValues()
     }
@@ -123,3 +132,4 @@ class AppSettingsActivity : AppCompatActivity() {
             .show()
     }
 }
+

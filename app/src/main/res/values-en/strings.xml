@@ -482,7 +482,12 @@
     <string name="profile_week_done">Done</string>
     <string name="profile_week_missed">Missed</string>
     <string name="profile_week_streak">Streak</string>
+    <string name="settings_section_appearance">Appearance</string>
+    <string name="settings_section_plugins">Plugins</string>
+    <string name="settings_plugins_desc">Plugins are not available yet</string>
+    <string name="settings_plugins">Plugins（Coming soon）</string>
 </resources>
+
 
 
 

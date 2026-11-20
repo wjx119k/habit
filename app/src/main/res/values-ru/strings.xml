@@ -478,7 +478,12 @@
     <string name="profile_week_done">Сделано</string>
     <string name="profile_week_missed">Пропущено</string>
     <string name="profile_week_streak">Серия</string>
+    <string name="settings_section_appearance">Внешний вид</string>
+    <string name="settings_section_plugins">Плагины</string>
+    <string name="settings_plugins_desc">Плагины пока не реализованы</string>
+    <string name="settings_plugins">Плагины（Скоро）</string>
 </resources>
+
 
 
 

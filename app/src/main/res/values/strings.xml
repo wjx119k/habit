@@ -498,7 +498,12 @@
     <string name="profile_week_done">完成</string>
     <string name="profile_week_missed">违背</string>
     <string name="profile_week_streak">连续</string>
+    <string name="settings_section_appearance">外观</string>
+    <string name="settings_section_plugins">插件</string>
+    <string name="settings_plugins_desc">插件功能暂未开发，后续会支持自定义模块</string>
+    <string name="settings_plugins">插件（暂未开发）</string>
 </resources>
+
 
 
 

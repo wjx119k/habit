@@ -478,7 +478,12 @@
     <string name="profile_week_done">達成</string>
     <string name="profile_week_missed">失敗</string>
     <string name="profile_week_streak">連続</string>
+    <string name="settings_section_appearance">外観</string>
+    <string name="settings_section_plugins">プラグイン</string>
+    <string name="settings_plugins_desc">プラグインは未実装です</string>
+    <string name="settings_plugins">プラグイン（未実装）</string>
 </resources>
+
 
 
 
