@@ -29,6 +29,40 @@ object AutoUrgent {
             .edit().putInt(KEY_DAYS, value.coerceIn(0, MAX_DAYS)).apply()
     }
 
+    /**
+     * 按规则改写象限（可逆）。
+     *
+     * 用户的原始选择记在 baseQuadrant：
+     *   重要·不紧急 → 重要·紧急（立刻做）
+     *   不紧急·不重要 → 紧急·不重要（尽量交给别人）
+     * 如果截止日期被改远、或任务完成，会退回原始象限。
+     */
+    fun normalize(context: Context, tasks: MutableList<TempTask>): Boolean {
+        val days = days(context)
+        val limit = days.toLong() * 24 * 60 * 60 * 1000
+        var changed = false
+
+        for (i in tasks.indices) {
+            val task = tasks[i]
+            val base = task.baseQuadrant.ifEmpty { task.quadrant }
+            val dueSoon = task.dueAt > 0L && !task.done &&
+                (task.dueAt - System.currentTimeMillis()) <= limit
+
+            val target = when {
+                days <= 0 || !dueSoon -> base
+                base == "plan" -> "do"
+                base == "drop" -> "delegate"
+                else -> base
+            }
+
+            if (target != task.quadrant || base != task.baseQuadrant) {
+                tasks[i] = task.copy(quadrant = target, baseQuadrant = base)
+                changed = true
+            }
+        }
+        return changed
+    }
+
     /** 这条任务此刻是否应该被当作"紧急" */
     fun isUrgent(context: Context, task: TempTask): Boolean {
         if (task.done) return false
@@ -41,3 +75,4 @@ object AutoUrgent {
         return left <= days.toLong() * 24 * 60 * 60 * 1000
     }
 }
+

@@ -198,6 +198,10 @@ class EisenhowerActivity : AppCompatActivity() {
 
     private fun refreshAll() {
         val tasks = TempTaskStore.load(this)
+        // 先按"自动紧急"规则改写象限，矩阵里展示的就是改写后的结果
+        if (AutoUrgent.normalize(this, tasks)) {
+            TempTaskStore.save(this, tasks)
+        }
         quadrants.forEach { q -> render(q, tasks.filter { it.quadrant == q.key }) }
     }
 
@@ -286,6 +290,7 @@ class EisenhowerActivity : AppCompatActivity() {
         const val DEFAULT_POINTS = 3.0
     }
 }
+
 
 
 

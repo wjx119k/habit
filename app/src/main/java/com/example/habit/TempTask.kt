@@ -21,6 +21,8 @@ data class TempTask(
     val createdAt: Long = System.currentTimeMillis(),
     /** 归属象限：空 = 普通临时任务；do/plan/delegate/drop = 来自艾森豪威尔矩阵 */
     val quadrant: String = "",
+    /** 用户本来选的象限（自动紧急改写后仍保留，可回退） */
+    val baseQuadrant: String = "",
     /** 提醒时间戳；0 = 不提醒 */
     val remindAt: Long = 0L,
     /** 截止日期时间戳（当天 23:59）；0 = 不设截止 */
@@ -33,6 +35,7 @@ data class TempTask(
         put("done", done)
         put("createdAt", createdAt)
         put("quadrant", quadrant)
+        put("baseQuadrant", baseQuadrant)
         put("remindAt", remindAt)
     }
 
@@ -44,7 +47,9 @@ data class TempTask(
             done = o.optBoolean("done", false),
             createdAt = o.optLong("createdAt"),
             quadrant = o.optString("quadrant"),
-            remindAt = o.optLong("remindAt")
+            baseQuadrant = o.optString("baseQuadrant"),
+            remindAt = o.optLong("remindAt"),
+            dueAt = o.optLong("dueAt")
         )
     }
 }
@@ -89,6 +94,7 @@ object TempTaskStore {
     private fun prefs(context: Context) =
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 }
+
 
 
 

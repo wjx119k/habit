@@ -997,6 +997,11 @@ private fun renderTempTasks() {
         tempTasks.clear()
         tempTasks.addAll(TempTaskStore.load(this))
 
+        // 按"自动紧急"规则改写象限（临近截止 → 紧急），改动写回本地
+        if (AutoUrgent.normalize(this, tempTasks)) {
+            TempTaskStore.save(this, tempTasks)
+        }
+
         // 排序：未完成在前 → 紧急·重要 → 重要 → 紧急 → 都不 → 无属性
         // 排序：未完成在前 → 快到期的靠前（没设截止的排最后）→ 象限 → 创建时间
         tempTasks.sortWith(
@@ -1062,10 +1067,7 @@ private fun renderTempTasks() {
                 dueView.visibility = View.GONE
             }
 
-            // 原本不紧急、但因临近截止被自动判为紧急时，标题后加一个 🔥
-            val autoUrgent = !task.done && AutoUrgent.isUrgent(this, task) &&
-                task.quadrant != "do" && task.quadrant != "delegate"
-            title.text = if (autoUrgent) task.title + "  🔥" else task.title
+            title.text = task.title
             points.text = "+" + Points.format(task.points)
 
             // 紧急 / 重要 属性（来自艾森豪威尔象限）
@@ -1372,6 +1374,7 @@ private fun renderTempTasks() {
         super.onDestroy()
     }
 }
+
 
 
 
