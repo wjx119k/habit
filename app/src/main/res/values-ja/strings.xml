@@ -466,7 +466,11 @@
     <string name="task_remind_past">過去の時刻です。選び直してください</string>
     <string name="task_remind_stop">停止</string>
     <string name="intro_tap_back">タップで戻る</string>
+    <string name="task_due_none">期限：なし</string>
+    <string name="task_due_set">期限：%1$s</string>
+    <string name="task_due_overdue">期限切れ</string>
 </resources>
+
 
 
 

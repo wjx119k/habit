@@ -466,7 +466,11 @@
     <string name="task_remind_past">這個時間已經過去了，請重新選擇</string>
     <string name="task_remind_stop">停止鈴聲</string>
     <string name="intro_tap_back">輕觸螢幕返回</string>
+    <string name="task_due_none">截止日期：不設定</string>
+    <string name="task_due_set">截止日期：%1$s</string>
+    <string name="task_due_overdue">已逾期</string>
 </resources>
+
 
 
 

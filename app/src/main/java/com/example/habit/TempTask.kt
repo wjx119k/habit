@@ -22,7 +22,9 @@ data class TempTask(
     /** 归属象限：空 = 普通临时任务；do/plan/delegate/drop = 来自艾森豪威尔矩阵 */
     val quadrant: String = "",
     /** 提醒时间戳；0 = 不提醒 */
-    val remindAt: Long = 0L
+    val remindAt: Long = 0L,
+    /** 截止日期时间戳（当天 23:59）；0 = 不设截止 */
+    val dueAt: Long = 0L
 ) {
     fun toJson(): JSONObject = JSONObject().apply {
         put("id", id)
@@ -87,5 +89,6 @@ object TempTaskStore {
     private fun prefs(context: Context) =
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 }
+
 
 

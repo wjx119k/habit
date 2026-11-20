@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!-- 一条临时任务：圆圈（未完成）/勾（已完成）+ 标题 + 分值 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -39,8 +39,15 @@
             android:textAppearance="?attr/textAppearanceLabelSmall"
             android:textColor="?attr/colorPrimary"
             android:visibility="gone" />
-    </LinearLayout>
 
+            <TextView
+                android:id="@+id/tvTaskDue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textSize="11sp"
+                android:visibility="gone" />
+        </LinearLayout>
     <TextView
         android:id="@+id/tvTaskPoints"
         android:layout_width="wrap_content"
@@ -50,3 +57,5 @@
         android:textColor="?attr/colorPrimary" />
 
 </LinearLayout>
+
+

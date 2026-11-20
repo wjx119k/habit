@@ -100,6 +100,33 @@ class EisenhowerActivity : AppCompatActivity() {
                 getString(R.string.task_remind_set, fmt.format(java.util.Date(remindAt)))
             }
         }
+        // 截止日期：只选日期，落在当天 23:59
+        val tvDue = content.findViewById<android.widget.TextView>(R.id.tvEisenDue)
+        var dueAt = 0L
+        fun showDueLabel() {
+            tvDue.text = if (dueAt <= 0L) {
+                getString(R.string.task_due_none)
+            } else {
+                val fmt = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())
+                getString(R.string.task_due_set, fmt.format(java.util.Date(dueAt)))
+            }
+        }
+        tvDue.setOnClickListener {
+            val cal = java.util.Calendar.getInstance()
+            android.app.DatePickerDialog(
+                this,
+                { _, y, m, d ->
+                    val c = java.util.Calendar.getInstance()
+                    c.set(y, m, d, 23, 59, 0)
+                    c.set(java.util.Calendar.MILLISECOND, 0)
+                    dueAt = c.timeInMillis
+                    showDueLabel()
+                },
+                cal.get(java.util.Calendar.YEAR),
+                cal.get(java.util.Calendar.MONTH),
+                cal.get(java.util.Calendar.DAY_OF_MONTH)
+            ).show()
+        }
         tvRemind.setOnClickListener {
             val cal = java.util.Calendar.getInstance()
             android.app.DatePickerDialog(
@@ -153,7 +180,8 @@ class EisenhowerActivity : AppCompatActivity() {
                     title = title,
                     points = points,
                     quadrant = q.key,
-                    remindAt = remindAt
+                    remindAt = remindAt,
+                    dueAt = dueAt
                 )
                 tasks.add(task)
                 TempTaskStore.save(this, tasks)
@@ -237,5 +265,6 @@ class EisenhowerActivity : AppCompatActivity() {
         const val DEFAULT_POINTS = 3.0
     }
 }
+
 
 

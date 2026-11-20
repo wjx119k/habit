@@ -1039,6 +1039,27 @@ private fun renderTempTasks() {
             val title = row.findViewById<TextView>(R.id.tvTaskTitle)
             val points = row.findViewById<TextView>(R.id.tvTaskPoints)
             val check = row.findViewById<android.widget.ImageView>(R.id.ivTaskCheck)
+            val dueView = row.findViewById<TextView>(R.id.tvTaskDue)
+
+            // 截止日期：有就显示，逾期未完成标红
+            if (task.dueAt > 0L) {
+                val fmt = java.text.SimpleDateFormat("MM-dd", java.util.Locale.getDefault())
+                val overdue = !task.done && task.dueAt < System.currentTimeMillis()
+                dueView.text = if (overdue) {
+                    getString(R.string.task_due_overdue) + " · " + fmt.format(java.util.Date(task.dueAt))
+                } else {
+                    getString(R.string.task_due_set, fmt.format(java.util.Date(task.dueAt)))
+                }
+                dueView.visibility = View.VISIBLE
+                dueView.setTextColor(
+                    androidx.core.content.ContextCompat.getColor(
+                        this,
+                        if (overdue) R.color.temp_urgent else R.color.verify_hint_color
+                    )
+                )
+            } else {
+                dueView.visibility = View.GONE
+            }
 
             title.text = task.title
             points.text = "+" + Points.format(task.points)
@@ -1347,6 +1368,7 @@ private fun renderTempTasks() {
         super.onDestroy()
     }
 }
+
 
 
 
