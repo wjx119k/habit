@@ -217,7 +217,28 @@ class EisenhowerActivity : AppCompatActivity() {
 
         items.forEach { task ->
             container.addView(TextView(this).apply {
-                text = "· " + task.title
+                // 标题 + 截止日期（逾期用橙色）
+                val base = "· " + task.title
+                if (task.dueAt > 0L) {
+                    val fmt = java.text.SimpleDateFormat("MM-dd", java.util.Locale.getDefault())
+                    val overdue = !task.done && task.dueAt < System.currentTimeMillis()
+                    val suffix = if (overdue) {
+                        "  " + getString(R.string.task_due_overdue) + " " + fmt.format(java.util.Date(task.dueAt))
+                    } else {
+                        "  " + fmt.format(java.util.Date(task.dueAt))
+                    }
+                    val span = android.text.SpannableString(base + suffix)
+                    span.setSpan(
+                        android.text.style.ForegroundColorSpan(
+                            if (overdue) 0xFFE8590C.toInt() else 0xFF8A8F99.toInt()
+                        ),
+                        base.length, span.length,
+                        android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                    text = span
+                } else {
+                    text = base
+                }
                 textSize = 15f
                 setTextColor(themeColor(com.google.android.material.R.attr.colorOnSurface))
                 setPadding(dp(4), dp(8), dp(4), dp(8))
@@ -265,6 +286,7 @@ class EisenhowerActivity : AppCompatActivity() {
         const val DEFAULT_POINTS = 3.0
     }
 }
+
 
 
 

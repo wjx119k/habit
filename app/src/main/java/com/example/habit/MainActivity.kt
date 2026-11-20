@@ -998,8 +998,10 @@ private fun renderTempTasks() {
         tempTasks.addAll(TempTaskStore.load(this))
 
         // 排序：未完成在前 → 紧急·重要 → 重要 → 紧急 → 都不 → 无属性
+        // 排序：未完成在前 → 快到期的靠前（没设截止的排最后）→ 象限 → 创建时间
         tempTasks.sortWith(
             compareBy<TempTask> { it.done }
+                .thenBy { if (it.dueAt > 0L) it.dueAt else Long.MAX_VALUE }
                 .thenBy { quadrantOrder(it.quadrant) }
                 .thenBy { it.createdAt }
         )
@@ -1368,6 +1370,7 @@ private fun renderTempTasks() {
         super.onDestroy()
     }
 }
+
 
 
 
