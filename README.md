@@ -1,4 +1,4 @@
-<div align="center">
+﻿<div align="center">
 
 <img src="docs/icon.png" width="104" alt="Habit 图标" />
 
@@ -31,22 +31,6 @@ Habit 把「坚持」变成看得见的数字：
 
 ---
 
-## 截图
-
-<table>
-  <tr>
-    <td align="center"><img src="docs/screenshots/01-plans.jpg" width="230" /><br/><sub>计划列表</sub></td>
-    <td align="center"><img src="docs/screenshots/02-new-plan.jpg" width="230" /><br/><sub>新建计划</sub></td>
-    <td align="center"><img src="docs/screenshots/03-store.jpg" width="230" /><br/><sub>积分商店</sub></td>
-  </tr>
-  <tr>
-    <td align="center"><img src="docs/screenshots/04-me.jpg" width="230" /><br/><sub>我的</sub></td>
-    <td align="center"><img src="docs/screenshots/05-about.jpg" width="230" /><br/><sub>关于</sub></td>
-    <td align="center"><img src="docs/screenshots/07-winter.jpg" width="230" /><br/><sub>彩蛋：冬天的雪</sub></td>
-  </tr>
-</table>
-
----
 
 ## 功能
 
@@ -162,7 +146,6 @@ Habit/
 │       ├── drawable/                 43 个手写 vector 图标
 │       ├── values/ + 4 套语言         217 条文案 × 5 种语言
 │       └── mipmap-*/                 应用图标（由脚本生成）
-├── docs/screenshots/                 README 截图
 └── habit-release.jks                 ⚠️ 签名密钥（不提交，见下）
 ```
 
