@@ -117,9 +117,9 @@ class MonologueView @JvmOverloads constructor(
         if (flicker) {
             firstWordPulse = 0f
             // 一边渐显、一边闪烁：整体亮度在往上爬，中途明暗交替三次
-            // 一边渐显、一边闪五次：亮度整体往上爬，中途明暗交替
+            // 先快速渐显到全亮（约 0.25 秒），再在原地闪 5 次，最后定格
             ValueAnimator.ofFloat(
-                0f, 0.45f, 0.15f, 0.6f, 0.2f, 0.72f, 0.3f, 0.85f, 0.45f, 0.95f, 0.6f, 1f, 1f
+                0f, 1f, 0.35f, 0.95f, 0.4f, 1f, 0.45f, 1f, 0.5f, 1f, 0.6f, 1f
             ).apply {
                 duration = 2600
                 addUpdateListener {
@@ -261,8 +261,16 @@ class MonologueView @JvmOverloads constructor(
     private fun drawWords(canvas: Canvas, cx: Float, baseY: Float) {
         val words = mainText.split(" ")
         if (words.size <= 1) {
-            mainPaint.alpha = (alphaValue * 255).toInt().coerceIn(0, 255)
-            canvas.drawText(mainText, cx, baseY + rise, mainPaint)
+            // 单句（比如 "Hello"）：闪烁期间要靠 pulse 亮度显示，
+            // 否则 alphaValue 还是 0，字根本画不出来
+            val single = if (flickerActive) {
+                kotlin.math.max(alphaValue, if (reveal < 1f) firstWordPulse * (1f - reveal) else 0f)
+            } else {
+                alphaValue
+            }
+            if (single <= 0.01f) return
+            mainPaint.alpha = (single * 255).toInt().coerceIn(0, 255)
+            canvas.drawText(mainText, cx, baseY, mainPaint)
             return
         }
 
@@ -316,6 +324,8 @@ class MonologueView @JvmOverloads constructor(
         super.onDetachedFromWindow()
     }
 }
+
+
 
 
 

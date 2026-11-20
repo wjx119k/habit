@@ -142,7 +142,8 @@ class DeveloperIntroActivity : AppCompatActivity() {
             .setInterpolator(android.view.animation.LinearInterpolator())
             .start()
 
-        handler.postDelayed({ showNext() }, 700L)
+        // 进来立刻开始：不再等 0.7 秒的空白
+        showNext()
     }
 
     private fun showNext() {
@@ -219,6 +220,7 @@ class DeveloperIntroActivity : AppCompatActivity() {
         super.onDestroy()
     }
 }
+
 
 
 
