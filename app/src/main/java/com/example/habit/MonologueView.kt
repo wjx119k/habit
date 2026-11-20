@@ -116,9 +116,11 @@ class MonologueView @JvmOverloads constructor(
         flickerActive = flicker
         if (flicker) {
             firstWordPulse = 0f
-            // 三次"全灭 → 全亮"，肉眼能清楚看到在闪
-            ValueAnimator.ofFloat(0f, 1f, 0f, 1f, 0f, 1f, 1f).apply {
-                duration = 1400
+            // 一边渐显、一边闪烁：整体亮度在往上爬，中途明暗交替三次
+            ValueAnimator.ofFloat(
+                0f, 0.55f, 0.18f, 0.78f, 0.3f, 0.92f, 0.5f, 1f, 1f
+            ).apply {
+                duration = 1600
                 addUpdateListener {
                     firstWordPulse = it.animatedValue as Float
                     invalidate()
@@ -130,7 +132,7 @@ class MonologueView @JvmOverloads constructor(
         }
 
         animator = ValueAnimator.ofFloat(0f, 1f).apply {
-            startDelay = if (flicker) 1350L else 0L
+            startDelay = if (flicker) 1550L else 0L
             duration = revealMs
             interpolator = DecelerateInterpolator(1.6f)
             addUpdateListener {
@@ -312,6 +314,7 @@ class MonologueView @JvmOverloads constructor(
         super.onDetachedFromWindow()
     }
 }
+
 
 
 
